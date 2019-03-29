@@ -11,7 +11,7 @@ option(RUN_CMAKE_TIDY_ON_BUILD "Run cmake tidy on build" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON ) 
-set(CLANG_TIDY_PARAM "" CACHE STRING "Clang tidy parameters.")
+set(CLANG_TIDY_PARAM "-checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*" CACHE STRING "Clang tidy parameters.")
 set(ADDITIONAL_COMPILE_OPTIONS "-Wall -Wpedantic -Wextra" CACHE STRING "Additional compile options." )
 
 

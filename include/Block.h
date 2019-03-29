@@ -1,3 +1,5 @@
+#pragma once
+
 #include <type_traits>
 
 #include "InvokeExecutor.h"
@@ -9,15 +11,11 @@ template <typename OPERATOR, typename EXECUTOR, typename... INPUT> class Block {
 public:
   using OUTPUT = std::invoke_result_t<OPERATOR, INPUT...>;
 
-  constexpr Block(OPERATOR &op) noexcept : executor_(op){};
+  constexpr Block(OPERATOR &op) noexcept;
 
-  inline OUTPUT operator()(const INPUT &... input) noexcept {
-    return executor_(input...);
-  }
+  constexpr OUTPUT operator()(const INPUT &... input) noexcept;
 
-  inline OUTPUT operator()(INPUT &&... input) noexcept {
-    return executor_(std::forward(input)...);
-  }
+  constexpr OUTPUT operator()(INPUT &&... input) noexcept;
 
 private:
   EXECUTOR executor_;
@@ -27,3 +25,5 @@ template <typename OPERATOR, typename... INPUT>
 using SyncBlock = Block<OPERATOR, InvokeExecutor<OPERATOR, INPUT...>, INPUT...>;
 
 } // namespace df
+
+#include "Block.hpp"
