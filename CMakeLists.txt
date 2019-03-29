@@ -37,6 +37,12 @@ add_executable(
   src/main.cpp
 )
 
+target_include_directories(
+  main
+  PRIVATE
+  include
+)
+
 set_target_properties(
   main 
   PROPERTIES
