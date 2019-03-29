@@ -41,6 +41,7 @@ target_include_directories(
   main
   PRIVATE
   include
+  src
 )
 
 set_target_properties(
