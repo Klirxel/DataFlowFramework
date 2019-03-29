@@ -27,8 +27,8 @@ endif()
 string(REPLACE " " ";" ADDITIONAL_COMPILE_OPTIONS_LIST "${ADDITIONAL_COMPILE_OPTIONS}")
 add_compile_options(${ADDITIONAL_COMPILE_OPTIONS_LIST})
 
-enable_testing()
 
+enable_testing()
 ################################################################################
 #Target
 ################################################################################
@@ -48,6 +48,12 @@ set_target_properties(
   PROPERTIES
   CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
   CXX_STANDARD 17
+)
+
+add_custom_command(
+	TARGET main 
+	POST_BUILD
+        COMMAND cmake -E copy ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}   
 )
 
 
