@@ -11,7 +11,7 @@ void sink(int input) { std::cout << input << '\n'; }
 
 int main() {
 
-	df::Block<decltype(filter), int, int> filterBlock(filter);
+  df::Block<decltype(filter), int, int> filterBlock(filter);
 
   int channel1 = source1();
   int channel2 = source2();
