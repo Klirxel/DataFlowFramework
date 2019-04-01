@@ -2,27 +2,32 @@
 
 #include <type_traits>
 
-#include "InvokeExecutor.h"
+#include "Channel.h"
 
 namespace df {
 
-template <typename OPERATOR, typename EXECUTOR, typename... INPUT> class Block {
+template <typename T_IN, typename OPERATOR, typename T_OUT>
+class NewBlock : public BlockIf {
 
 public:
-  using OUTPUT = std::invoke_result_t<OPERATOR, INPUT...>;
+  NewBlock(Channel<T_IN> &chanIn, OPERATOR &op, Channel<T_OUT> &chanOut)
+      : chanIn_(chanIn), op_(op), chanOut_(chanOut) {
+    chanIn_.attachSinkBlock(this);
+  };
 
-  constexpr Block(OPERATOR &op) noexcept;
+  bool readyForExecution() override { return not chanIn_.empty(); };
 
-  constexpr OUTPUT operator()(const INPUT &... input) noexcept;
-
-  constexpr OUTPUT operator()(INPUT &&... input) noexcept;
+  void execute() override {
+    T_IN input = chanIn_.pop();
+    T_OUT output = op_(std::move(input));
+    chanOut_.push(std::move(output));
+  };
 
 private:
-  EXECUTOR executor_;
+  Channel<T_IN> &chanIn_;
+  OPERATOR &op_;
+  Channel<T_OUT> &chanOut_;
 };
-
-template <typename OPERATOR, typename... INPUT>
-using SyncBlock = Block<OPERATOR, InvokeExecutor<OPERATOR, INPUT...>, INPUT...>;
 
 } // namespace df
 

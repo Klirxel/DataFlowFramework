@@ -1,22 +1,30 @@
 #include <iostream>
-
 #include "Block.h"
 
 int source1() { return 1; }
 int source2() { return 2; }
 
 int filter(int input1, int input2) { return input1 + input2; }
+int addOne(int input) { return input + 1; }
 void sink(int input) { std::cout << input << '\n'; }
-
 
 int main() {
 
-  df::SyncBlock<decltype(filter), int, int> filterBlock(filter);
+//New Block
+  df::Channel<int> channel1;
+  df::Channel<int> channel2;
+  df::Channel<int> channel3;
+  df::Channel<int> channel4;
 
-  int channel1 = source1();
-  int channel2 = source2();
-  int channel3 = filterBlock(channel1, channel2);
-  sink(channel3);
+  df::NewBlock block1(channel1, addOne, channel2);
+  df::NewBlock block2(channel2, addOne, channel3);
+  df::NewBlock block3(channel3, addOne, channel4);
+
+  channel1.push(0);
+  
+  if(not channel4.empty()){
+	  std::cout << channel4.pop() << '\n';
+  };
 
   return 0;
 }
