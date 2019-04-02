@@ -7,21 +7,14 @@
 namespace df {
 
 template <typename T_IN, typename OPERATOR, typename T_OUT>
-class NewBlock : public BlockIf {
+class Block : public BlockIf {
 
 public:
-  NewBlock(Channel<T_IN> &chanIn, OPERATOR &op, Channel<T_OUT> &chanOut)
-      : chanIn_(chanIn), op_(op), chanOut_(chanOut) {
-    chanIn_.attachSinkBlock(this);
-  };
+  Block(Channel<T_IN> &chanIn, OPERATOR &op, Channel<T_OUT> &chanOut);
 
-  bool readyForExecution() override { return not chanIn_.empty(); };
+  bool readyForExecution() override;
 
-  void execute() override {
-    T_IN input = chanIn_.pop();
-    T_OUT output = op_(std::move(input));
-    chanOut_.push(std::move(output));
-  };
+  void execute() override;
 
 private:
   Channel<T_IN> &chanIn_;

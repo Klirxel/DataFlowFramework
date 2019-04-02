@@ -16,9 +16,9 @@ int main() {
   df::Channel<int> channel3;
   df::Channel<int> channel4;
 
-  df::NewBlock block1(channel1, addOne, channel2);
-  df::NewBlock block2(channel2, addOne, channel3);
-  df::NewBlock block3(channel3, addOne, channel4);
+  df::Block block1(channel1, addOne, channel2);
+  df::Block block2(channel2, addOne, channel3);
+  df::Block block3(channel3, addOne, channel4);
 
   channel1.push(0);
   
