@@ -6,19 +6,17 @@
 #include <utility>
 
 #include "BlockIf.h"
+#include "ChannelIf.h"
 
 namespace df {
 
-template <typename T> class Channel {
-
-  static_assert(std::is_move_constructible_v<T>,
-                "T has to be move constructible");
+template <typename T> class Channel : public ChannelIf<T> {
 
 public:
-  void attachSinkBlock(BlockIf *);
-  T pop();
-  void push(T &&);
-  bool empty() const;
+  void attachSinkBlock(BlockIf *) override;
+  T pop() override;
+  void push(T &&) override;
+  bool empty() const override;
 
 private:
   BlockIf *outputBlock_{};

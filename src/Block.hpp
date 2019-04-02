@@ -3,8 +3,8 @@
 namespace df {
 
   template <typename T_IN, typename OPERATOR, typename T_OUT>
-  Block<T_IN, OPERATOR, T_OUT>::Block(Channel<T_IN> & chanIn, OPERATOR & op,
-                                      Channel<T_OUT> & chanOut)
+  Block<T_IN, OPERATOR, T_OUT>::Block(ChannelIf<T_IN> & chanIn, OPERATOR & op,
+                                      ChannelIf<T_OUT> & chanOut)
       : chanIn_(chanIn), op_(op), chanOut_(chanOut) {
     chanIn_.attachSinkBlock(this);
   }
