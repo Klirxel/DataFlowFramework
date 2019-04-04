@@ -14,9 +14,9 @@ template <typename T>
 class Channel : public ChannelIf<T> {
 
 public:
-    void attachSinkBlock(BlockIf*) override;
+    void attachSinkBlock(BlockIf* /*block*/) override;
     T pop() override;
-    void push(T&&) override;
+    void push(T&& /*data*/) override;
     bool empty() const override;
 
 private:
