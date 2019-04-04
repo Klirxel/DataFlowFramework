@@ -29,19 +29,23 @@ add_compile_options(${ADDITIONAL_COMPILE_OPTIONS_LIST})
 
 
 enable_testing()
+
 ################################################################################
-#Target
+#Subdirectories
+################################################################################
+add_subdirectory(src/base)
+
+################################################################################
+#Target main
 ################################################################################
 add_executable(
   main
   src/main.cpp
 )
 
-target_include_directories(
+target_link_libraries(
   main
-  PRIVATE
-  include
-  src
+  df_base  
 )
 
 set_target_properties(
@@ -51,10 +55,13 @@ set_target_properties(
   CXX_STANDARD 17
 )
 
+################################################################################
+#Target copy_compile_commands.json 
+################################################################################
 add_custom_command(
-	TARGET main 
-	POST_BUILD
-        COMMAND cmake -E copy ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}   
+  TARGET main 
+  POST_BUILD
+  COMMAND cmake -E copy ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}   
 )
 
 
