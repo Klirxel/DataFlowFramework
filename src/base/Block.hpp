@@ -33,19 +33,12 @@ void Block<ChannelBundle<T_IN...>,
 {
     auto operatingSequence  = [&]() {
         std::tuple<T_IN...> input = inputChannels_.pop();
-        std::tuple<T_OUT...> output = operateImpl(std::move(input), std::index_sequence_for<T_IN...>());
+        std::tuple<T_OUT...> output = std::apply(op_, move(input));
         outputChannels_.push(std::move(output));
     };
 
     executor_.execute(operatingSequence);
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-template <size_t... Is>
-std::tuple<T_OUT...> Block<ChannelBundle<T_IN...>,
-    OPERATOR, ChannelBundle<T_OUT...>>::operateImpl(std::tuple<T_IN...> input, std::index_sequence<Is...> /*unused*/)
-{
-    return op_(std::move(std::get<Is>(input))...);
-}
 
 } // namespace df

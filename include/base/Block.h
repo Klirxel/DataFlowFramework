@@ -28,9 +28,6 @@ private:
     template <size_t... Is>
     bool readyForExecutionImpl(std::index_sequence<Is...> /*unused*/) const;
 
-    template <size_t... Is>
-    std::tuple<T_OUT...> operateImpl(std::tuple<T_IN...> /*input*/, std::index_sequence<Is...> /*unused*/);
-
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;
