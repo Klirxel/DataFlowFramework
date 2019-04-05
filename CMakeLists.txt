@@ -21,6 +21,8 @@ if(BUILD_UNIT_TESTS)
   find_package(Boost COMPONENTS REQUIRED unit_test_framework)
 endif()
 
+#set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_package(Threads REQUIRED)
 ################################################################################
 #Includes
 ################################################################################

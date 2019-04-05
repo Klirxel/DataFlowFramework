@@ -7,14 +7,10 @@ ExecutorAsync::ExecutorAsync(std::launch policy)
 {
 }
 
-void ExecutorAsync::execute(BlockIf& block)
+void ExecutorAsync::execute(std::function<void()> func)
 {
-    auto executeBlock = [](BlockIf* block) {
-        block->execute();
-    };
-
     std::future<void>
-        executionHandle = std::async(policy_, executeBlock, &block);
+        executionHandle = std::async(policy_, func);
 
     executionHandle.wait();
 }

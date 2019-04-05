@@ -4,10 +4,11 @@ namespace df::base {
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
 Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op,
-    ChannelBundle<T_OUT...> outputChannels)
+    ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor)
     : inputChannels_(std::move(inputChannels))
     , op_(op)
     , outputChannels_(std::move(outputChannels))
+    , executor_(executor)
 {
     inputChannels_.attachSinkBlock(this);
 }
@@ -30,9 +31,13 @@ template <typename... T_IN, typename OPERATOR, typename... T_OUT>
 void Block<ChannelBundle<T_IN...>,
     OPERATOR, ChannelBundle<T_OUT...>>::execute()
 {
-    std::tuple<T_IN...> input = inputChannels_.pop();
-    std::tuple<T_OUT...> output = operateImpl(std::move(input), std::index_sequence_for<T_IN...>());
-    outputChannels_.push(std::move(output));
+    auto operatingSequence  = [&]() {
+        std::tuple<T_IN...> input = inputChannels_.pop();
+        std::tuple<T_OUT...> output = operateImpl(std::move(input), std::index_sequence_for<T_IN...>());
+        outputChannels_.push(std::move(output));
+    };
+
+    executor_.execute(operatingSequence);
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>

@@ -13,6 +13,11 @@ target_include_directories(
   ${CMAKE_SOURCE_DIR}/src/base 
 )
 
+target_link_libraries(
+  df_base
+  PRIVATE	
+  Threads::Threads	
+)
 
 set_target_properties(
   df_base 
