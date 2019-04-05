@@ -1,30 +1,28 @@
 #include <iostream>
+
 #include "Block.h"
+#include "Channel.h"
 
-int source1() { return 1; }
-int source2() { return 2; }
+using namespace df::base;
 
-int filter(int input1, int input2) { return input1 + input2; }
-int addOne(int input) { return input + 1; }
-void sink(int input) { std::cout << input << '\n'; }
+constexpr int add(int input1, int input2) noexcept { return input1 + input2; }
 
-int main() {
+int main()
+{
 
-//New Block
-  df::Channel<int> channel1;
-  df::Channel<int> channel2;
-  df::Channel<int> channel3;
-  df::Channel<int> channel4;
+    //New Block
+    Channel<int> channel1;
+    Channel<int> channel2;
+    Channel<int> channel3;
 
-  df::Block block1(channel1, addOne, channel2);
-  df::Block block2(channel2, addOne, channel3);
-  df::Block block3(channel3, addOne, channel4);
+    Block block1(ChannelBundle(channel1, channel2), add, ChannelBundle(channel3));
 
-  channel1.push(0);
-  
-  if(not channel4.empty()){
-	  std::cout << channel4.pop() << '\n';
-  };
+    channel1.push(1);
+    channel2.push(2);
 
-  return 0;
+    if (not channel3.empty()) {
+        std::cout << channel3.pop() << '\n';
+    };
+
+    return 0;
 }

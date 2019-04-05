@@ -1,4 +1,3 @@
-
 macro(add_cmake_tidy_support) 
 	
   find_program(
@@ -11,8 +10,8 @@ macro(add_cmake_tidy_support)
     message(STATUS "clang-tidy not found.")
   else()
     message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-    set(DO_CLANG_TIDY ${CLANG_TIDY_EXE} ${CLANG_TIDY_PARAM})
-    message(STATUS "clang-tidy options: ${CLANG_TIDY_PARAM}")
+    set(DO_CLANG_TIDY ${CLANG_TIDY_EXE} ${CLANG_TIDY_ADDITIONAL_OPTIONS})
+    message(STATUS "clang-tidy additional options: ${CLANG_TIDY_ADDITIONAL_OPTIONS}")
   endif()
 
 endmacro()

@@ -3,23 +3,32 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 
 PROJECT(DataFlowFramework)
 
-
 ################################################################################
 #Options
 ################################################################################
 option(RUN_CMAKE_TIDY_ON_BUILD "Run cmake tidy on build" ON)
+option(BUILD_UNIT_TESTS "Build unit tests" ON)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON ) 
-set(CLANG_TIDY_PARAM "-checks=bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*" CACHE STRING "Clang tidy parameters.")
+set(CLANG_TIDY_ADDITIONAL_OPTIONS "-fix" CACHE STRING "Clang tidy additional options. Base configuration see config-file .clang-tidy.")
 set(ADDITIONAL_COMPILE_OPTIONS "-Wall -Wpedantic -Wextra" CACHE STRING "Additional compile options." )
 
+################################################################################
+#Packages
+################################################################################
+if(BUILD_UNIT_TESTS)
+  find_package(Boost COMPONENTS REQUIRED unit_test_framework)
+endif()
 
+################################################################################
+#Includes
+################################################################################
+include(add_cmake_tidy_support) 
 
 ################################################################################
 #Setup environment
 ################################################################################
-include(add_cmake_tidy_support)
 if(RUN_CMAKE_TIDY_ON_BUILD) 
   add_cmake_tidy_support()
 endif()
@@ -27,21 +36,29 @@ endif()
 string(REPLACE " " ";" ADDITIONAL_COMPILE_OPTIONS_LIST "${ADDITIONAL_COMPILE_OPTIONS}")
 add_compile_options(${ADDITIONAL_COMPILE_OPTIONS_LIST})
 
-
-enable_testing()
+if(BUILD_UNIT_TESTS)
+  enable_testing()
+endif()
 ################################################################################
-#Target
+#Subdirectories
+################################################################################
+add_subdirectory(src/base)
+
+if(BUILD_UNIT_TESTS)
+  add_subdirectory(test)
+endif()
+
+################################################################################
+#Target main
 ################################################################################
 add_executable(
   main
   src/main.cpp
 )
 
-target_include_directories(
+target_link_libraries(
   main
-  PRIVATE
-  include
-  src
+  df_base  
 )
 
 set_target_properties(
@@ -51,10 +68,13 @@ set_target_properties(
   CXX_STANDARD 17
 )
 
+################################################################################
+#Target copy_compile_commands.json 
+################################################################################
 add_custom_command(
-	TARGET main 
-	POST_BUILD
-        COMMAND cmake -E copy ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}   
+  TARGET main 
+  POST_BUILD
+  COMMAND cmake -E copy ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}   
 )
 
 
