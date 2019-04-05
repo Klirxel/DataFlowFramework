@@ -1,4 +1,3 @@
-
 macro(add_cmake_tidy_support) 
 	
   find_program(
