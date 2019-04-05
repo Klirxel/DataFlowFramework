@@ -2,7 +2,7 @@
 
 #include "ChannelBundle.h"
 
-namespace df {
+namespace df::base {
 
 template <typename... T>
 constexpr ChannelBundle<T...>::ChannelBundle(

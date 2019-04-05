@@ -2,7 +2,7 @@
 
 #include "ChannelIf.h"
 
-namespace df {
+namespace df::base {
 
 template <typename... T>
 class ChannelBundle {

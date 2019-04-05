@@ -1,6 +1,6 @@
 #include "Channel.h"
 
-namespace df {
+namespace df::base {
 
 template <typename T>
 void Channel<T>::attachSinkBlock(BlockIf* block)

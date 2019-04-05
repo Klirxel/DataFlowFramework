@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE testBlock
+#define BOOST_TEST_MODULE testBaseBlock
 
 #include <iostream>
 
@@ -7,7 +7,7 @@
 #include "Block.h"
 #include "Channel.h"
 
-using namespace df;
+using namespace df::base;
 
 constexpr int add(int input1, int input2) noexcept { return input1 + input2; }
 

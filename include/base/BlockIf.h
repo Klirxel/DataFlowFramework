@@ -1,6 +1,6 @@
 #pragma once
 
-namespace df {
+namespace df::base {
 
 class BlockIf {
 public:

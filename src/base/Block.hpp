@@ -1,6 +1,6 @@
 #include "Block.h"
 
-namespace df {
+namespace df::base {
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
 Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op,

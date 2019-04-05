@@ -4,7 +4,7 @@
 
 #include "BlockIf.h"
 
-namespace df {
+namespace df::base {
 
 template <typename T>
 class ChannelIf {

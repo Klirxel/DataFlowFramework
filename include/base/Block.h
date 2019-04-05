@@ -4,7 +4,7 @@
 
 #include "ChannelBundle.h"
 
-namespace df {
+namespace df::base {
 
 template <typename CHAN_BUNDLE_IN, typename OPERATOR, typename CHAN_BUNDLE_OUT>
 class Block {
