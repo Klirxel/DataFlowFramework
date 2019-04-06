@@ -6,6 +6,7 @@
 
 #include "Block.h"
 #include "Channel.h"
+#include "ExecutorAsync.h"
 
 using namespace df::base;
 
@@ -17,7 +18,9 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Channel<int> input2;
     Channel<int> result;
 
-    Block block(ChannelBundle(input1, input2), add, ChannelBundle(result));
+    ExecutorAsync execAsync{};
+
+    Block block(ChannelBundle(input1, input2), add, ChannelBundle(result), execAsync);
 
     input1.push(1);
     input2.push(2);
