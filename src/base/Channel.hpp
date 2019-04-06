@@ -29,4 +29,7 @@ void Channel<T>::push(T&& data)
 template <typename T>
 bool Channel<T>::empty() const { return data_.empty(); }
 
+template <typename T>
+size_t Channel<T>::size() const { return data_.size(); }
+
 } // namespace df

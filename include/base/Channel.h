@@ -18,6 +18,7 @@ public:
     T pop() override;
     void push(T&& /*data*/) override;
     bool empty() const override;
+    size_t size() const override;
 
 private:
     BlockIf* outputBlock_ {};
