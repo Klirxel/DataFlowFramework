@@ -21,14 +21,19 @@ template <typename... T_IN, typename OPERATOR>
 template <size_t... Is>
 bool SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::readyForExecutionImpl(std::index_sequence<Is...> /*unused*/) const
 {
-    const bool chanInHasEmptyElem = (inputChannels_.template at<Is>().empty() || ...);
-    return not chanInHasEmptyElem;
+    const bool allInputDataAvailable = (inputChannels_.template at<Is>().dataAvailable() && ...);
+    return allInputDataAvailable;
 }
 
 template <typename... T_IN, typename OPERATOR>
 void SinkBlock<ChannelBundle<T_IN...>,
     OPERATOR>::execute()
 {
+
+    if (not readyForExecution()) {
+        return;
+    }
+
     auto operatingSequence = [&]() {
         std::tuple<T_IN...> input = inputChannels_.pop();
         std::apply(op_, move(input));

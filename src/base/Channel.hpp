@@ -33,10 +33,16 @@ void Channel<T>::push(T&& data)
 }
 
 template <typename T>
-bool Channel<T>::empty() const { return data_.empty(); }
+bool Channel<T>::dataAvailable() const
+{
+    return not data_.empty();
+}
 
 template <typename T>
-size_t Channel<T>::size() const { return data_.size(); }
+bool Channel<T>::dataAssignable() const
+{
+    return true;
+}
 
 inline void notify(BlockIf* block)
 {

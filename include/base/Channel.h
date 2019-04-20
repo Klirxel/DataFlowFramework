@@ -18,8 +18,8 @@ public:
     void attachSourceBlock(BlockIf* /*block*/) noexcept override;
     T pop() override;
     void push(T&& /*data*/) override;
-    bool empty() const override;
-    size_t size() const override;
+    bool dataAvailable() const override;
+    bool dataAssignable() const override;
 
 private:
     BlockIf* sinkBlock_ {};
@@ -27,9 +27,7 @@ private:
     std::queue<T> data_;
 };
 
-inline notify(BlockIf*);
-
-
+inline void notify(BlockIf* /*block*/);
 
 } // namespace df
 

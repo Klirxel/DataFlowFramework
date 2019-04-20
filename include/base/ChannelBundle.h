@@ -13,10 +13,9 @@ public:
 
     template <size_t I>
     using ChannelType = ChannelIf<ChannelValueType<I>>;
-
     constexpr ChannelBundle(ChannelIf<T>&... channels) noexcept;
-
     void attachSinkBlock(BlockIf* /*block*/);
+    void attachSourceBlock(BlockIf* /*block*/);
 
     template <size_t I>
     constexpr ChannelType<I>& at() noexcept;
@@ -30,6 +29,9 @@ public:
 private:
     template <size_t... Is>
     void attachSinkBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/);
+
+    template <size_t... Is>
+    void attachSourceBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/);
 
     template <size_t... Is>
     std::tuple<T...> popImpl(std::index_sequence<Is...> /*unused*/);

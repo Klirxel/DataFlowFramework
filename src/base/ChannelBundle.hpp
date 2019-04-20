@@ -18,10 +18,23 @@ void ChannelBundle<T...>::attachSinkBlock(BlockIf* block)
 }
 
 template <typename... T>
+void ChannelBundle<T...>::attachSourceBlock(BlockIf* block)
+{
+    attachSourceBlockImpl(block, std::index_sequence_for<T...>());
+}
+
+template <typename... T>
 template <size_t... Is>
 void ChannelBundle<T...>::attachSinkBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/)
 {
     (at<Is>().attachSinkBlock(block), ...);
+}
+
+template <typename... T>
+template <size_t... Is>
+void ChannelBundle<T...>::attachSourceBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/)
+{
+    (at<Is>().attachSourceBlock(block), ...);
 }
 
 template <typename... T>

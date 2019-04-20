@@ -25,8 +25,13 @@ public:
     void execute() override;
 
 private:
+    bool allInputChannelsHaveData() const;
+    bool allOutputChannelsCanTakeData() const;
+
     template <size_t... Is>
-    bool readyForExecutionImpl(std::index_sequence<Is...> /*unused*/) const;
+    bool allInputChannelsHaveDataImpl(std::index_sequence<Is...> /*unused*/) const;
+    template <size_t... Is>
+    bool allOutputChannelsCanTakeDataImpl(std::index_sequence<Is...> /*unused*/) const;
 
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
