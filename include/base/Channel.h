@@ -14,16 +14,22 @@ template <typename T>
 class Channel : public ChannelIf<T> {
 
 public:
-    void attachSinkBlock(BlockIf* /*block*/) override;
+    void attachSinkBlock(BlockIf* /*block*/) noexcept override;
+    void attachSourceBlock(BlockIf* /*block*/) noexcept override;
     T pop() override;
     void push(T&& /*data*/) override;
     bool empty() const override;
     size_t size() const override;
 
 private:
-    BlockIf* outputBlock_ {};
+    BlockIf* sinkBlock_ {};
+    BlockIf* sourceBlock_ {};
     std::queue<T> data_;
 };
+
+inline notify(BlockIf*);
+
+
 
 } // namespace df
 

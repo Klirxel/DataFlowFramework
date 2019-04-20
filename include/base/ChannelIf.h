@@ -16,6 +16,7 @@ public:
     using ValueType = T;
 
     virtual void attachSinkBlock(BlockIf*) = 0;
+    virtual void attachSourceBlock(BlockIf*) = 0;
     virtual T pop() = 0;
     virtual void push(T&&) = 0;
     virtual bool empty() const = 0;
