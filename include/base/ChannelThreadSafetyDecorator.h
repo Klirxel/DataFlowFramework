@@ -8,12 +8,13 @@
 
 namespace df::base {
 
-template <typename T>
-class ChannelLocker : public ChannelIf<T> {
+template <typename T, template <typename> class CHANNEL>
+class ChannelThreadSafetyDecorator : public ChannelIf<T> {
+
+    static_assert(std::is_base_of_v<ChannelIf<T>, CHANNEL<T>>, "CHANNER<T> is not derived from ChannelIf<T>");
+    static_assert(std::is_default_constructible_v<CHANNEL<T>>, "CHANNEl<T> is not default constructible.");
 
 public:
-    constexpr ChannelLocker(ChannelIf<T>& /*chan*/) noexcept;
-
     void attachSinkBlock(BlockIf* /*block*/) override;
     void attachSourceBlock(BlockIf* /*block*/) override;
 
@@ -24,9 +25,9 @@ public:
 
 private:
     mutable std::mutex mutex_;
-    ChannelIf<T>& chan_;
+    CHANNEL<T> chan_;
 };
 
 } // namespace df
 
-#include "ChannelLocker.hpp"
+#include "ChannelThreadSafetyDecorator.hpp"
