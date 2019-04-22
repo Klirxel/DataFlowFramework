@@ -1,6 +1,5 @@
 #pragma once
 
-#include <mutex>
 #include <type_traits>
 
 #include "BlockIf.h"

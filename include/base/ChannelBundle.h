@@ -1,5 +1,8 @@
 #pragma once
 
+#include <tuple>
+
+#include "BlockIf.h"
 #include "ChannelIf.h"
 
 namespace df::base {
