@@ -9,15 +9,16 @@ namespace df::base {
 class ExecutorAsync : public ExecutorIf {
 
 public:
-    ExecutorAsync(std::launch policy = std::launch::deferred);
+    constexpr ExecutorAsync(std::launch policy = std::launch::deferred) noexcept;
 
-    void execute(std::function<void(void)> /*func*/) override;
-    void start() override;
-    void stop() override;
+    inline void execute(std::function<void(void)> /*func*/) override;
+    inline void start() noexcept override;
+    inline void stop() noexcept override;
 
 private:
     std::launch policy_;
 };
 
-}
-// namespace «namespace»
+} //ns
+
+#include "ExecutorAsync.hpp"
