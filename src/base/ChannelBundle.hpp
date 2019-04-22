@@ -12,27 +12,27 @@ constexpr ChannelBundle<T...>::ChannelBundle(
 }
 
 template <typename... T>
-void ChannelBundle<T...>::attachSinkBlock(BlockIf* block)
+constexpr void ChannelBundle<T...>::attachSinkBlock(BlockIf* block) noexcept
 {
     attachSinkBlockImpl(block, std::index_sequence_for<T...>());
 }
 
 template <typename... T>
-void ChannelBundle<T...>::attachSourceBlock(BlockIf* block)
+constexpr void ChannelBundle<T...>::attachSourceBlock(BlockIf* block) noexcept
 {
     attachSourceBlockImpl(block, std::index_sequence_for<T...>());
 }
 
 template <typename... T>
 template <size_t... Is>
-void ChannelBundle<T...>::attachSinkBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/)
+constexpr void ChannelBundle<T...>::attachSinkBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/) noexcept
 {
     (at<Is>().attachSinkBlock(block), ...);
 }
 
 template <typename... T>
 template <size_t... Is>
-void ChannelBundle<T...>::attachSourceBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/)
+constexpr void ChannelBundle<T...>::attachSourceBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/) noexcept
 {
     (at<Is>().attachSourceBlock(block), ...);
 }

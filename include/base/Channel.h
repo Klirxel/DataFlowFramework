@@ -11,8 +11,8 @@ template <typename T>
 class Channel : public ChannelIf<T> {
 
 public:
-    void attachSinkBlock(BlockIf* /*block*/) noexcept override;
-    void attachSourceBlock(BlockIf* /*block*/) noexcept override;
+    constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
+    constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
     T pop() override;
     void push(T&& /*data*/) override;
     bool dataAvailable() const override;

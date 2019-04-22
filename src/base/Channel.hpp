@@ -3,13 +3,13 @@
 namespace df::base {
 
 template <typename T>
-void Channel<T>::attachSinkBlock(BlockIf* block) noexcept
+constexpr void Channel<T>::attachSinkBlock(BlockIf* block) noexcept
 {
     sinkBlock_ = block;
 }
 
 template <typename T>
-void Channel<T>::attachSourceBlock(BlockIf* block) noexcept
+constexpr void Channel<T>::attachSourceBlock(BlockIf* block) noexcept
 {
     sourceBlock_ = block;
 }
