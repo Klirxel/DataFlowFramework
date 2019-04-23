@@ -30,11 +30,13 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 
     input1.push(1);
     input2.push(2);
+    execAsync.wait();
 
     BOOST_CHECK_EQUAL(adder.resultBuf.at(0), 3);
 
     input1.push(2);
     input2.push(2);
+    execAsync.wait();
 
     BOOST_CHECK_EQUAL(adder.resultBuf.at(1), 4);
 }
