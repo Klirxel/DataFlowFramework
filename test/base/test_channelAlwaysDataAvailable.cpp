@@ -6,7 +6,7 @@
 
 #include "Block.h"
 #include "Channels.h"
-#include "ExecutorAsync.h"
+#include "Executor.h"
 
 using namespace df::base;
 
@@ -22,8 +22,8 @@ BOOST_AUTO_TEST_CASE(Test_channelAlwaysDataAvailable)
     Channel<int> chan;
     Channel<int> chanRes;
 
-    ExecutorAsync execAsync {};
-    Block addBlock(ChannelBundle(chanAd, chan), operatorAdd, ChannelBundle(chanRes), execAsync);
+    Executor executor {};
+    Block addBlock(ChannelBundle(chanAd, chan), operatorAdd, ChannelBundle(chanRes), executor);
 
     //No data
     BOOST_CHECK_EQUAL(chanAd.dataAvailable(), true);
@@ -31,15 +31,12 @@ BOOST_AUTO_TEST_CASE(Test_channelAlwaysDataAvailable)
 
     //Insert data (default construction on chanDa);
     chan.push(2);
-    execAsync.wait();
     BOOST_CHECK_EQUAL(chanRes.pop(), 2);
 
     //Insert data (no default construction if data is available)
     chanAd.push(3);
-    execAsync.wait();
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
     chan.push(3);
-    execAsync.wait();
     BOOST_CHECK_EQUAL(chanRes.pop(), 6);
 }
 
@@ -49,8 +46,8 @@ BOOST_AUTO_TEST_CASE(Test_channelAdTs)
     Channel<int> chan;
     Channel<int> chanRes;
 
-    ExecutorAsync execAsync {};
-    Block addBlock(ChannelBundle(chanAdTs, chan), operatorAdd, ChannelBundle(chanRes), execAsync);
+    Executor executor {};
+    Block addBlock(ChannelBundle(chanAdTs, chan), operatorAdd, ChannelBundle(chanRes), executor);
 
     //No data
     BOOST_CHECK_EQUAL(chanAdTs.dataAvailable(), true);
@@ -58,14 +55,12 @@ BOOST_AUTO_TEST_CASE(Test_channelAdTs)
 
     //Insert data (default construction on chanDa);
     chan.push(2);
-    execAsync.wait();
     BOOST_CHECK_EQUAL(chanRes.pop(), 2);
 
     //Insert data (no default construction if data is available)
     chanAdTs.push(3);
-    execAsync.wait();
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
+
     chan.push(3);
-    execAsync.wait();
     BOOST_CHECK_EQUAL(chanRes.pop(), 6);
 }

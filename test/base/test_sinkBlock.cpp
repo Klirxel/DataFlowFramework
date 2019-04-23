@@ -6,7 +6,7 @@
 #include <boost/test/included/unit_test.hpp>
 
 #include "Channel.h"
-#include "ExecutorAsync.h"
+#include "Executor.h"
 #include "SinkBlock.h"
 
 using namespace df::base;
@@ -24,19 +24,17 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Channel<int> input2;
     Adder adder;
 
-    ExecutorAsync execAsync {};
+    Executor executor {};
 
-    SinkBlock sinkBlock(ChannelBundle(input1, input2), adder, execAsync);
+    SinkBlock sinkBlock(ChannelBundle(input1, input2), adder, executor);
 
     input1.push(1);
     input2.push(2);
-    execAsync.wait();
 
     BOOST_CHECK_EQUAL(adder.resultBuf.at(0), 3);
 
     input1.push(2);
     input2.push(2);
-    execAsync.wait();
 
     BOOST_CHECK_EQUAL(adder.resultBuf.at(1), 4);
 }
