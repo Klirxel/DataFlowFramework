@@ -1,3 +1,4 @@
 build/
+html/
 *.swp
 compile_commands.json

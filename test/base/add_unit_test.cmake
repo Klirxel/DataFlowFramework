@@ -14,6 +14,7 @@ function (add_unit_test name)
     ${name} 
     PROPERTIES
     CXX_STANDARD 17
+    CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
   )
 
   add_test(${name} ${name})

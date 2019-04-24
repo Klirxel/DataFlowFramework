@@ -1,0 +1,20 @@
+/** \mainpage DataFlow - A dataflow library 
+ *
+ *
+ * \section intro_sec Description
+ * 
+ * \section Documents
+ *
+ * \section repstruct Structure of the repository
+ * -  <a href="..">Repository Root</a>
+ *   - <a href="../doxyfiles">doxyfiles</a>  \n
+ *     Doxygen documentation files.
+ *   - <a href="../html">html</a>            \n
+ *     Doxygen html documentation.
+ *   - <a href="../include">include</a>      \n
+ *      Include files.
+ *   - <a href="../src">src</a>              \n
+ *     Source files.
+ *   - <a href="../test">test</a>            \n
+ *     Test files.
+ */
