@@ -4,16 +4,18 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 PROJECT(DataFlowFramework)
 
 ################################################################################
-#Options
+#Options and global variables
 ################################################################################
-option(RUN_CMAKE_TIDY_ON_BUILD "Run cmake tidy on build" ON)
 option(BUILD_UNIT_TESTS "Build unit tests" ON)
+option(RUN_CMAKE_TIDY_ON_BUILD "Run cmake tidy on build" ON)
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON ) 
-set(CLANG_TIDY_ADDITIONAL_OPTIONS "-fix" CACHE STRING "Clang tidy additional options. Base configuration see config-file .clang-tidy.")
 set(ADDITIONAL_COMPILE_OPTIONS "-Wall -Wpedantic -Wextra" CACHE STRING "Additional compile options." )
+set(CLANG_TIDY_ADDITIONAL_OPTIONS "-fix" CACHE STRING "Clang tidy additional options. Base configuration see config-file .clang-tidy.")
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON ) 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+
+set(COMPILE_COMMANDS_JSON_INST_DIR ${CMAKE_SOURCE_DIR} CACHE STRING "Install dir of compile_commands.json.")
 ################################################################################
 #Add additional compile options
 ################################################################################
@@ -54,27 +56,7 @@ if(BUILD_UNIT_TESTS)
 endif()
 
 ################################################################################
-#Target main
-################################################################################
-add_executable(
-  main
-  src/main.cpp
-)
-
-target_link_libraries(
-  main
-  df_base  
-)
-
-set_target_properties(
-  main 
-  PROPERTIES
-  CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
-  CXX_STANDARD 17
-)
-
-################################################################################
-#Target copy_compile_commands.json 
+#Install compile_commands.json 
 ################################################################################
 install(
   FILES
