@@ -1,0 +1,8 @@
+---
+#note: cppcoreguidelines-pro-type-varar not compatible with boost::test
+Checks: 'bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-type-vararg'
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*'
+AnalyzeTemporaryDtors: false
+FormatStyle: WebKit     
+...

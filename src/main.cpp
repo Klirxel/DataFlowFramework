@@ -1,3 +1,12 @@
+#include <iostream>
 
+#include "Block.h"
+#include "Channel.h"
 
-int main() { return 0; };
+using namespace df::base;
+
+constexpr int add(int input1, int input2) noexcept { return input1 + input2; }
+
+int main()
+{
+}
