@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Channel.h"
-#include "ChannelThreadSafetyDecorator.h"
 #include "ChannelAlwaysDataAvailableDecorator.h"
+#include "ChannelThreadSafetyDecorator.h"
 
 namespace df::base {
 
