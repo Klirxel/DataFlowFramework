@@ -29,6 +29,13 @@ find_package(Threads REQUIRED)
 include(add_cmake_tidy_support) 
 
 ################################################################################
+#Add format target
+################################################################################
+include(add_format_target) 
+set(dirs_to_format "include src")
+add_format_target(${dirs_to_format}) 
+
+################################################################################
 #Setup environment
 ################################################################################
 if(RUN_CMAKE_TIDY_ON_BUILD) 
