@@ -1,8 +1,8 @@
 #define BOOST_TEST_MODULE testLockingChannel
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
 #include <vector>
-
-#include <boost/test/included/unit_test.hpp>
 
 #include "Block.h"
 #include "Channels.h"

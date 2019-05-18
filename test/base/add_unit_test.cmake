@@ -1,3 +1,5 @@
+find_package(Boost REQUIRED unit_test_framework) 
+
 function (add_unit_test name)
 
   add_executable(
@@ -8,6 +10,7 @@ function (add_unit_test name)
   target_link_libraries(
     ${name}	
     df_base
+    ${Boost_LIBRARIES} 
   )
 
   set_target_properties(

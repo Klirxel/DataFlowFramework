@@ -1,9 +1,9 @@
 #define BOOST_TEST_MODULE testBaseBlock
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
 #include <iostream>
 #include <vector>
-
-#include <boost/test/included/unit_test.hpp>
 
 #include "Channel.h"
 #include "Executor.h"
