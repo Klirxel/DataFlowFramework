@@ -1,3 +1,6 @@
+find_package(Threads REQUIRED)
+#set(THREADS_PREFER_PTHREAD_FLAG ON)
+
 add_library(
   df_base	
   dummy.cpp	

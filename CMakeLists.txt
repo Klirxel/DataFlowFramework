@@ -15,18 +15,27 @@ set(CLANG_TIDY_ADDITIONAL_OPTIONS "-fix" CACHE STRING "Clang tidy additional opt
 set(ADDITIONAL_COMPILE_OPTIONS "-Wall -Wpedantic -Wextra" CACHE STRING "Additional compile options." )
 
 ################################################################################
-#Packages
+#Add additional compile options
+################################################################################
+string(REPLACE " " ";" ADDITIONAL_COMPILE_OPTIONS_LIST "${ADDITIONAL_COMPILE_OPTIONS}")
+add_compile_options(${ADDITIONAL_COMPILE_OPTIONS_LIST})
+
+################################################################################
+#Add testing
 ################################################################################
 if(BUILD_UNIT_TESTS)
   find_package(Boost COMPONENTS REQUIRED unit_test_framework)
+  enable_testing()
 endif()
 
-#set(THREADS_PREFER_PTHREAD_FLAG ON)
-find_package(Threads REQUIRED)
 ################################################################################
-#Includes
+#Add clang-tidy support
 ################################################################################
 include(add_cmake_tidy_support) 
+
+if(RUN_CMAKE_TIDY_ON_BUILD) 
+  add_cmake_tidy_support()
+endif()
 
 ################################################################################
 #Add format target
@@ -36,20 +45,7 @@ set(dirs_to_format "include src")
 add_format_target(${dirs_to_format}) 
 
 ################################################################################
-#Setup environment
-################################################################################
-if(RUN_CMAKE_TIDY_ON_BUILD) 
-  add_cmake_tidy_support()
-endif()
-
-string(REPLACE " " ";" ADDITIONAL_COMPILE_OPTIONS_LIST "${ADDITIONAL_COMPILE_OPTIONS}")
-add_compile_options(${ADDITIONAL_COMPILE_OPTIONS_LIST})
-
-if(BUILD_UNIT_TESTS)
-  enable_testing()
-endif()
-################################################################################
-#Subdirectories
+#Add subdirectories
 ################################################################################
 add_subdirectory(src/base)
 
@@ -80,10 +76,11 @@ set_target_properties(
 ################################################################################
 #Target copy_compile_commands.json 
 ################################################################################
-add_custom_command(
-  TARGET main 
-  POST_BUILD
-  COMMAND cmake -E copy ${CMAKE_BINARY_DIR}/compile_commands.json ${CMAKE_SOURCE_DIR}   
+install(
+  FILES
+    ${CMAKE_BINARY_DIR}/compile_commands.json
+  DESTINATION 
+    ${COMPILE_COMMANDS_JSON_INST_DIR}
 )
 
 
