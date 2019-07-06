@@ -11,4 +11,11 @@
   * cd ./html
   * <browser> index.html
 
+#3rd party libraries used
+  * https://www.boost.org/ 
+    * Boost test for (/test) 
+  * http://github.com/bilke/cmake-modules
+    * for cmake/Coverage.cmake
+    * BSD License
+
   

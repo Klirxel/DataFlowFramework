@@ -8,6 +8,7 @@ PROJECT(DataFlowFramework)
 ################################################################################
 option(BUILD_UNIT_TESTS "Build unit tests" ON)
 option(RUN_CMAKE_TIDY_ON_BUILD "Run cmake tidy on build" ON)
+option(ENABLE_CODE_COVERAGE "Enable code coverage analysis." ON) 
 
 set(ADDITIONAL_COMPILE_OPTIONS "-Wall -Wpedantic -Wextra" CACHE STRING "Additional compile options." )
 set(CLANG_TIDY_ADDITIONAL_OPTIONS "-fix" CACHE STRING "Clang tidy additional options. Base configuration see config-file .clang-tidy.")
@@ -45,6 +46,15 @@ endif()
 include(add_format_target) 
 set(dirs_to_format "include src")
 add_format_target(${dirs_to_format}) 
+
+################################################################################
+#Add code coverage support 
+################################################################################
+include(add_code_coverage_support) 
+
+if(ENABLE_CODE_COVERAGE)
+  add_code_coverage_support()
+endif()
 
 ################################################################################
 #Add subdirectories
