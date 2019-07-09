@@ -6,6 +6,7 @@ add_unit_test(test_channelThreadSafe)
 add_unit_test(test_channelAlwaysDataAvailable)
 add_unit_test(ptest_transmissionAnalyses)
 add_unit_test(test_transmissionAnalyser)
+add_unit_test(test_taskBuffer)
 
 
 
