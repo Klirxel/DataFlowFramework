@@ -2,22 +2,11 @@
 
 namespace df::base {
 
-inline TaskBuffer::TaskBuffer(size_t maxNrOfTasks)
-    : maxNrOfTasks_(maxNrOfTasks)
-{
-}
-
-inline bool TaskBuffer::addTask(std::function<void(void)>&& task)
+inline void TaskBuffer::addTask(std::function<void(void)>&& task)
 {
     std::lock_guard<std::mutex> lock { mutex_ };
-    bool taskAdded { false };
 
-    if (not full()) {
-        tasks_.push(std::move(task));
-        taskAdded = true;
-    }
-
-    return taskAdded;
+    tasks_.push(std::move(task));
 }
 
 std::function<void()> TaskBuffer::getTask()
@@ -38,14 +27,9 @@ std::function<void()> TaskBuffer::getTask()
     return tasks_.empty();
 }
 
-[[nodiscard]] inline bool TaskBuffer::full() const
+[[nodiscard]] inline size_t TaskBuffer::size() const
 {
-    return tasks_.size() >= maxNrOfTasks_;
-}
-
-constexpr void TaskBuffer::setMaxNrOfTasks(size_t maxNrOfTasks) noexcept
-{
-    maxNrOfTasks_ = maxNrOfTasks;
+    return tasks_.size();
 }
 
 } //ns
