@@ -13,6 +13,7 @@ public:
     inline void addTask(std::function<void(void)>&& task);
 
     inline std::function<void()> getTask();
+    inline bool executeTask();
 
     [[nodiscard]] inline bool empty() const;
     [[nodiscard]] inline size_t size() const;

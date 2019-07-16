@@ -12,8 +12,10 @@ inline void ThreadWorker::run_()
     while (enabled_) {
         processAvailableTasks();
 
-        std::unique_lock<std::mutex> alarm(wakeUpMutex_);
-        wakeUpCall_.wait(alarm);
+        if (enabled_) {
+            std::unique_lock<std::mutex> alarm(wakeUpMutex_);
+            wakeUpCall_.wait(alarm);
+        }
     };
 }
 
@@ -28,9 +30,7 @@ inline void ThreadWorker::run_()
 
 inline void ThreadWorker::processAvailableTasks()
 {
-    while (not taskBuffer_.empty()) {
-        auto task = taskBuffer_.getTask();
-        task();
+    while (taskBuffer_.executeTask()) {
     };
 }
 
@@ -42,13 +42,13 @@ inline void ThreadWorker::addTask(std::function<void(void)>&& task)
 
 inline void ThreadWorker::triggerExecution() noexcept
 {
-    wakeUpCall_.notify_all();
+    wakeUpCall_.notify_one();
 }
 
 inline void ThreadWorker::stopExecution() noexcept
 {
     enabled_ = false;
-    triggerExecution();
+    wakeUpCall_.notify_all();
 }
 
 inline void ThreadWorker::startExecution() noexcept

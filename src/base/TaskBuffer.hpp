@@ -22,6 +22,20 @@ std::function<void()> TaskBuffer::getTask()
     return task;
 }
 
+bool TaskBuffer::executeTask()
+{
+    auto task = getTask();
+
+    bool taskExecuted = false;
+
+    if (task) {
+        task();
+        taskExecuted = true;
+    }
+
+    return taskExecuted;
+}
+
 [[nodiscard]] inline bool TaskBuffer::empty() const
 {
     return tasks_.empty();
