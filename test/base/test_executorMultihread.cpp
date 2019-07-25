@@ -57,8 +57,11 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Block block { ChannelBundle { chan1, chan2 }, add, ChannelBundle { chanRes }, execMultihread };
     SinkBlock dataStorageBlock { ChannelBundle { chanRes }, dataStorage, execMultihread };
 
-    inputGenerator1.start(10ms, 0ms, 6);
-    inputGenerator2.start(10ms, 0ms, 6);
+    const size_t cycles = 1000;
+    const auto period = 1ms;
+    const auto offset = 0ms;
+    inputGenerator1.start(period, offset, cycles);
+    inputGenerator2.start(period, offset, cycles);
 
     inputGenerator1.wait();
     inputGenerator2.wait();
@@ -66,12 +69,9 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     BOOST_CHECK_EQUAL(chan1.dataAvailable(), false);
     BOOST_CHECK_EQUAL(chan2.dataAvailable(), false);
 
-    BOOST_CHECK_EQUAL(dataStorage.data.at(0), 0);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(1), 2);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(2), 4);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(3), 6);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(4), 8);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(5), 10);
+    for (size_t cycle = 0; cycle < cycles; ++cycle) {
+        BOOST_CHECK_EQUAL(dataStorage.data.at(cycle), 2 * cycle);
+    }
 
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
 
