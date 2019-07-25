@@ -35,6 +35,9 @@ void SinkBlock<ChannelBundle<T_IN...>,
     }
 
     auto operatingSequence = [&]() {
+        if (not readyForExecution()) {
+            return;
+        }
         std::tuple<T_IN...> input = inputChannels_.pop();
         std::apply(op_, move(input));
     };
