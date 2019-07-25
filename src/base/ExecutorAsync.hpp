@@ -12,15 +12,15 @@ inline ExecutorAsync::ExecutorAsync(std::launch policy) noexcept
 {
 }
 
-inline void ExecutorAsync::execute(std::function<void()> task, std::mutex& taskLock)
+inline void ExecutorAsync::execute(std::function<void()>&& task, std::mutex& taskLock)
 {
     if (stop_) {
         return;
     };
 
-    auto taskWithLock = [&taskLock, task]() {
+    auto taskWithLock = [task_ = std::move(task), &taskLock]() {
         std::lock_guard lock { taskLock };
-        task();
+        task_();
     };
 
     store(std::async(policy_, std::move(taskWithLock)));

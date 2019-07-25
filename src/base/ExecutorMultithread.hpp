@@ -10,11 +10,11 @@ inline ExecutorMultithread::ExecutorMultithread(size_t threads)
     }
 }
 
-inline void ExecutorMultithread::execute(std::function<void(void)> task, std::mutex& taskLock)
+inline void ExecutorMultithread::execute(std::function<void(void)>&& task, std::mutex& taskLock)
 {
-    auto taskWithLock = [task, &taskLock] {
+    auto taskWithLock = [task_ = std::move(task), &taskLock] {
         std::lock_guard lock { taskLock };
-        task();
+        task_();
     };
 
     threadWorker_.addTask(std::move(taskWithLock));

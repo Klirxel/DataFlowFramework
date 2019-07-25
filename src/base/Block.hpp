@@ -68,7 +68,7 @@ void Block<ChannelBundle<T_IN...>,
         outputChannels_.push(std::move(output));
     };
 
-    executor_.execute(task, taskLock_);
+    executor_.execute(std::move(task), taskLock_);
 }
 
 } // namespace df
