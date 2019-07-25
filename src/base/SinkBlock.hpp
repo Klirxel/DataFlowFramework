@@ -34,12 +34,15 @@ void SinkBlock<ChannelBundle<T_IN...>,
         return;
     }
 
-    auto operatingSequence = [&]() {
+    auto task = [&]() {
+        if (not readyForExecution()) {
+            return;
+        }
         std::tuple<T_IN...> input = inputChannels_.pop();
         std::apply(op_, move(input));
     };
 
-    executor_.execute(operatingSequence);
+    executor_.execute(task, taskLock_);
 }
 
 } // namespace df

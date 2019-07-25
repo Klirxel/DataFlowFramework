@@ -2,9 +2,10 @@
 
 namespace df::base {
 
-inline void Executor::execute(std::function<void()> func)
+inline void Executor::execute(std::function<void()> task, std::mutex &taskLock)
 {
-    func();
+    std::lock_guard lock{taskLock};
+    task();
 }
 
 } //ns

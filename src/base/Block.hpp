@@ -57,13 +57,18 @@ void Block<ChannelBundle<T_IN...>,
         return;
     }
 
-    auto operatingSequence = [&]() {
+    auto task = [&]() {
+
+        if (not readyForExecution()) {
+            return;
+        }
+
         std::tuple<T_IN...> input = inputChannels_.pop();
         std::tuple<T_OUT...> output = std::apply(op_, move(input));
         outputChannels_.push(std::move(output));
     };
 
-    executor_.execute(operatingSequence);
+    executor_.execute(task, taskLock_);
 }
 
 } // namespace df

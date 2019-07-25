@@ -7,7 +7,7 @@ namespace df::base {
 class Executor : public ExecutorIf {
 
 public:
-    inline void execute(std::function<void(void)> /*func*/) override;
+    inline void execute(std::function<void(void)> task, std::mutex& taskLock) override;
 };
 
 } //ns
