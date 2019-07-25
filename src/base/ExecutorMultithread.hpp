@@ -10,9 +10,14 @@ inline ExecutorMultithread::ExecutorMultithread(size_t threads)
     }
 }
 
-inline void ExecutorMultithread::execute(std::function<void(void)> task)
+inline void ExecutorMultithread::execute(std::function<void(void)> task, std::mutex& taskLock)
 {
-    threadWorker_.addTask(std::move(task));
+    auto taskWithLock = [task, &taskLock] {
+        std::lock_guard lock { taskLock };
+        task();
+    };
+
+    threadWorker_.addTask(std::move(taskWithLock));
 }
 
 inline void ExecutorMultithread::start()
@@ -26,7 +31,7 @@ inline void ExecutorMultithread::stop()
 
     for (auto& thread : threadPool_) {
         if (thread.joinable()) {
-          std::cout << "joined thread!" << std::endl;
+            std::cout << "joined thread!" << std::endl;
             thread.join();
         }
     };

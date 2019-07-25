@@ -14,24 +14,20 @@ struct Counter {
 
     int operator()() noexcept
     {
-        std::lock_guard<std::mutex> lock { mutex };
         return count++;
     };
 
     int count { 0 };
-    std::mutex mutex;
 };
 
 struct DataStorage {
 
     void operator()(int value)
     {
-        std::lock_guard<std::mutex> lock { mutex };
         data.push_back(value);
     };
 
     std::vector<int> data;
-    std::mutex mutex;
 };
 
 constexpr int

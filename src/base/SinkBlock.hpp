@@ -34,7 +34,7 @@ void SinkBlock<ChannelBundle<T_IN...>,
         return;
     }
 
-    auto operatingSequence = [&]() {
+    auto task = [&]() {
         if (not readyForExecution()) {
             return;
         }
@@ -42,7 +42,7 @@ void SinkBlock<ChannelBundle<T_IN...>,
         std::apply(op_, move(input));
     };
 
-    executor_.execute(operatingSequence);
+    executor_.execute(task, taskLock_);
 }
 
 } // namespace df

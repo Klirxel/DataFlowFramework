@@ -11,7 +11,7 @@ class ExecutorMultithread : public ExecutorIf {
 
 public:
     inline ExecutorMultithread(size_t threads = 1);
-    inline void execute(std::function<void(void)> task) override;
+    inline void execute(std::function<void(void)> task, std::mutex &taskLock) override;
     inline void start();
     inline void stop();
 

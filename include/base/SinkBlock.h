@@ -31,6 +31,8 @@ private:
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ExecutorIf& executor_;
+
+    std::mutex taskLock_;
 };
 
 } // namespace df
