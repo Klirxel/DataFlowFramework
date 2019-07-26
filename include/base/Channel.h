@@ -19,12 +19,12 @@ public:
     [[nodiscard]] bool dataAssignable() const override;
 
 private:
+    inline void notify(BlockIf* /*block*/);
+
     BlockIf* sinkBlock_ {};
     BlockIf* sourceBlock_ {};
     std::queue<T> data_;
 };
-
-inline void notify(BlockIf* /*block*/);
 
 } // namespace df
 

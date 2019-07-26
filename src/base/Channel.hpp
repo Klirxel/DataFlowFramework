@@ -44,7 +44,8 @@ bool Channel<T>::dataAssignable() const
     return true;
 }
 
-inline void notify(BlockIf* block)
+template <typename T>
+void Channel<T>::notify(BlockIf* block)
 {
     if (block != nullptr && block->readyForExecution()) {
         block->execute();
