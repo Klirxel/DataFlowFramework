@@ -1,6 +1,7 @@
 #pragma once
 
 #include <queue>
+#include <vector>
 
 #include "BlockIf.h"
 #include "ChannelIf.h"
@@ -19,10 +20,11 @@ public:
     [[nodiscard]] bool dataAssignable() const override;
 
 private:
-    inline void notify(BlockIf* /*block*/);
+    template <typename InputIter>
+    void notify(InputIter blockListBegin, InputIter blockListEnd);
 
-    BlockIf* sinkBlock_ {};
-    BlockIf* sourceBlock_ {};
+    std::vector<BlockIf*> sinkBlockList_ {};
+    std::vector<BlockIf*> sourceBlockList_ {};
     std::queue<T> data_;
 };
 
