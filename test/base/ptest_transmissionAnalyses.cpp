@@ -22,14 +22,14 @@ BOOST_AUTO_TEST_CASE(AnalyseDataMoveCount)
 
     inputChan.push(TransmissionAnalyser {});
 
-    const TransmissionAnalyser ta = outputChan.pop();
+    const TransmissionAnalyser ta = outputChan.pop().value();
 
     BOOST_CHECK_EQUAL(ta.callsCopyCtor, 0);
-    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 7);
+    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 9);
     BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0);
     BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0);
     BOOST_CHECK_EQUAL(ta.callsMoveAssOp, 0);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 7);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 9);
 }
 
 inline TransmissionAnalyser copyThrough(const TransmissionAnalyser& ta) noexcept { return ta; }
@@ -45,12 +45,12 @@ BOOST_AUTO_TEST_CASE(AnalyseDataCopyCount)
 
     inputChan.push(TransmissionAnalyser {});
 
-    const TransmissionAnalyser ta = outputChan.pop();
+    const TransmissionAnalyser ta = outputChan.pop().value();
 
     BOOST_CHECK_EQUAL(ta.callsCopyCtor, 1);
-    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 6);
+    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 8);
     BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0);
     BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0);
     BOOST_CHECK_EQUAL(ta.callsMoveAssOp, 0);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 15);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 19);
 }

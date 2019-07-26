@@ -30,13 +30,12 @@ void Block<ChannelBundle<T_IN...>,
     }
 
     auto task = [&]() {
-        if (not readyForExecution()) {
-            return;
-        }
+        std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
 
-        std::tuple<T_IN...> input = inputChannels_.pop();
-        std::tuple<T_OUT...> output = std::apply(op_, move(input));
-        outputChannels_.push(std::move(output));
+        if (input.has_value()) {
+            std::tuple<T_OUT...> output = std::apply(op_, move(input).value());
+            outputChannels_.push(std::move(output));
+        }
     };
 
     executor_.execute(std::move(task), taskLock_);

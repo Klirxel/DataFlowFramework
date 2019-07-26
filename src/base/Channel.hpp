@@ -17,14 +17,18 @@ constexpr void Channel<T>::attachSourceBlock(BlockIf* sourceBlock) noexcept
 }
 
 template <typename T>
-T Channel<T>::pop()
+std::optional<T> Channel<T>::pop()
 {
-    T elem = std::move(data_.front());
-    data_.pop();
+    std::optional<T> data;
 
-    notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
+    if(not data_.empty())
+    {
+       data = std::move(data_.front()); 
+       data_.pop();
+       notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
+    }  
 
-    return elem;
+    return data;
 }
 
 template <typename T>

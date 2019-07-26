@@ -15,9 +15,9 @@ void ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::attachSourceBlock(BlockIf*
 }
 
 template <typename T, template <typename> class CHANNEL>
-T ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::pop()
+std::optional<T> ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::pop()
 {
-    return chan_.dataAvailable() ? chan_.pop() : T {};
+    return chan_.dataAvailable() ? chan_.pop() : std::optional<T> { T {} };
 }
 
 template <typename T, template <typename> class CHANNEL>

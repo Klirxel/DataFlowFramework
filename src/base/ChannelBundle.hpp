@@ -38,16 +38,20 @@ constexpr void ChannelBundle<T...>::attachSourceBlockImpl(BlockIf* block, std::i
 }
 
 template <typename... T>
-std::tuple<T...> ChannelBundle<T...>::pop()
+std::optional<std::tuple<T...>> ChannelBundle<T...>::pop()
 {
     return popImpl(std::index_sequence_for<T...>());
 }
 
 template <typename... T>
 template <size_t... Is>
-std::tuple<T...> ChannelBundle<T...>::popImpl(std::index_sequence<Is...> /*unused*/)
+std::optional<std::tuple<T...>> ChannelBundle<T...>::popImpl(std::index_sequence<Is...> /*unused*/)
 {
-    return std::tuple<T...> { std::get<Is>(channels_).pop()... };
+    if (dataAvailable()) {
+        return std::optional<std::tuple<T...>>{ std::tuple<T...>{std::move(std::get<Is>(channels_).pop()).value()...} };
+    }
+
+    return std::optional<std::tuple<T...>> {};
 }
 
 template <typename... T>

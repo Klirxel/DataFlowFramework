@@ -25,7 +25,7 @@ template <size_t index>
 int multiply2(int input) noexcept
 {
     std::cout << "multiply2Unit-" << index << ": 2 * " << input << std::endl;
-    std::this_thread::sleep_for(1s);
+    std::this_thread::sleep_for(4ms);
     return 2 * input;
 }
 
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 
     GeneratorBlock inputGenerator { counter, ChannelBundle { inputChan } };
 
-    const size_t threads = 1;
+    const size_t threads = 4;
     ExecutorMultithread execMultihread { threads };
 
     Block multiplyBlock1 { ChannelBundle { inputChan }, multiply2<1>, ChannelBundle { chanRes }, execMultihread };
@@ -59,8 +59,8 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Block multiplyBlock4 { ChannelBundle { inputChan }, multiply2<4>, ChannelBundle { chanRes }, execMultihread };
     SinkBlock dataStorageBlock { ChannelBundle { chanRes }, dataStorage, execMultihread };
 
-    const size_t cycles = 10;
-    const auto period = 500ms;
+    const size_t cycles = 1000;
+    const auto period = 1ms;
     const auto offset = 0ms;
     inputGenerator.start(period, offset, cycles);
 

@@ -35,11 +35,10 @@ void SinkBlock<ChannelBundle<T_IN...>,
     }
 
     auto task = [&]() {
-        if (not readyForExecution()) {
-            return;
+        std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
+        if (input.has_value()) {
+            std::apply(op_, move(input).value());
         }
-        std::tuple<T_IN...> input = inputChannels_.pop();
-        std::apply(op_, move(input));
     };
 
     executor_.execute(task, taskLock_);

@@ -15,7 +15,7 @@ void ChannelThreadSafetyDecorator<T, CHANNEL>::attachSourceBlock(BlockIf* block)
 }
 
 template <typename T, template <typename> class CHANNEL>
-T ChannelThreadSafetyDecorator<T, CHANNEL>::pop()
+std::optional<T> ChannelThreadSafetyDecorator<T, CHANNEL>::pop()
 {
     std::lock_guard<std::mutex> { mutex_ };
     return chan_.pop();

@@ -14,7 +14,7 @@ class Channel : public ChannelIf<T> {
 public:
     constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
     constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
-    T pop() override;
+    std::optional<T> pop() override;
     void push(T&& /*data*/) override;
     [[nodiscard]] bool dataAvailable() const override;
     [[nodiscard]] bool dataAssignable() const override;
