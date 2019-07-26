@@ -57,6 +57,18 @@ void ChannelBundle<T...>::push(std::tuple<T...>&& data)
 }
 
 template <typename... T>
+[[nodiscard]] bool ChannelBundle<T...>::dataAvailable() const
+{
+    return dataAvailableImpl(std::index_sequence_for<T...> {});
+}
+
+template <typename... T>
+[[nodiscard]] bool ChannelBundle<T...>::dataAssignable() const
+{
+    return dataAssignableImpl(std::index_sequence_for<T...> {});
+}
+
+template <typename... T>
 template <size_t... Is>
 void ChannelBundle<T...>::pushImpl(std::tuple<T...>&& data, std::index_sequence<Is...> /*unused*/)
 {
@@ -77,6 +89,22 @@ constexpr const typename ChannelBundle<T...>::template ChannelType<I>&
 ChannelBundle<T...>::at() const noexcept
 {
     return std::get<I>(channels_);
+}
+
+template <typename... T>
+template <size_t... Is>
+[[nodiscard]] bool ChannelBundle<T...>::dataAvailableImpl(std::index_sequence<Is...> /*unused*/) const
+{
+    const bool allChannelsAvailable = (at<Is>().dataAvailable() && ...);
+    return allChannelsAvailable;
+}
+
+template <typename... T>
+template <size_t... Is>
+[[nodiscard]] bool ChannelBundle<T...>::dataAssignableImpl(std::index_sequence<Is...> /*unused*/) const
+{
+    const bool allChannelsAssignable = (at<Is>().dataAssignable() && ...);
+    return allChannelsAssignable;
 }
 
 } // namespace df

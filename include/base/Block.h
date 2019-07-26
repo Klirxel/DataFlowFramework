@@ -20,19 +20,11 @@ class Block<ChannelBundle<T_IN...>,
 public:
     Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op, ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor);
 
-    bool readyForExecution() const override;
+    [[nodiscard]] bool readyForExecution() const override;
 
     void execute() override;
 
 private:
-    bool allInputChannelsHaveData() const;
-    bool allOutputChannelsCanTakeData() const;
-
-    template <size_t... Is>
-    bool allInputChannelsHaveDataImpl(std::index_sequence<Is...> /*unused*/) const;
-    template <size_t... Is>
-    bool allOutputChannelsCanTakeDataImpl(std::index_sequence<Is...> /*unused*/) const;
-
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;

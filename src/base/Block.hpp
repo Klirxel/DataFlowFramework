@@ -15,37 +15,9 @@ Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelB
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
 {
-    return allInputChannelsHaveData() && allOutputChannelsCanTakeData();
-}
-
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allInputChannelsHaveData() const
-{
-    return allInputChannelsHaveDataImpl(std::index_sequence_for<T_IN...> {});
-}
-
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allOutputChannelsCanTakeData() const
-{
-    return allOutputChannelsCanTakeDataImpl(std::index_sequence_for<T_OUT...> {});
-}
-
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-template <size_t... Is>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allInputChannelsHaveDataImpl(std::index_sequence<Is...> /*unused*/) const
-{
-    const bool allInputDataAvailable = (inputChannels_.template at<Is>().dataAvailable() && ...);
-    return allInputDataAvailable;
-}
-
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-template <size_t... Is>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allOutputChannelsCanTakeDataImpl(std::index_sequence<Is...> /*unused*/) const
-{
-    const bool allOutputDataAssignable = (outputChannels_.template at<Is>().dataAssignable() && ...);
-    return allOutputDataAssignable;
+    return inputChannels_.dataAvailable() && outputChannels_.dataAssignable();
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
@@ -58,7 +30,6 @@ void Block<ChannelBundle<T_IN...>,
     }
 
     auto task = [&]() {
-
         if (not readyForExecution()) {
             return;
         }

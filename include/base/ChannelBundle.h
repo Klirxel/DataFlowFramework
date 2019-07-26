@@ -29,6 +29,9 @@ public:
     std::tuple<T...> pop();
     void push(std::tuple<T...>&& /*data*/);
 
+    [[nodiscard]] bool dataAvailable() const;
+    [[nodiscard]] bool dataAssignable() const;
+
 private:
     template <size_t... Is>
     constexpr void attachSinkBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/) noexcept;
@@ -41,6 +44,12 @@ private:
 
     template <size_t... Is>
     void pushImpl(std::tuple<T...>&& /*data*/, std::index_sequence<Is...> /*unused*/);
+
+    template <size_t... Is>
+    [[nodiscard]] bool dataAvailableImpl(std::index_sequence<Is...> /*unused*/) const;
+
+    template <size_t... Is>
+    [[nodiscard]] bool dataAssignableImpl(std::index_sequence<Is...> /*unused*/) const;
 
     std::tuple<ChannelIf<T>&...> channels_;
 };
