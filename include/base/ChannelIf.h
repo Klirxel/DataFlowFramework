@@ -19,8 +19,8 @@ public:
     virtual void attachSourceBlock(BlockIf*) = 0;
     virtual T pop() = 0;
     virtual void push(T&&) = 0;
-    virtual bool dataAvailable() const = 0;
-    virtual bool dataAssignable() const = 0;
+    [[nodiscard]] virtual bool dataAvailable() const = 0;
+    [[nodiscard]] virtual bool dataAssignable() const = 0;
 };
 
 } // namespace df

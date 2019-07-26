@@ -20,8 +20,8 @@ public:
 
     T pop() override;
     void push(T&& /*data*/) override;
-    bool dataAvailable() const override;
-    bool dataAssignable() const override;
+    [[nodiscard]] bool dataAvailable() const override;
+    [[nodiscard]] bool dataAssignable() const override;
 
 private:
     mutable std::mutex mutex_;

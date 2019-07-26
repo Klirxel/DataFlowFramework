@@ -15,8 +15,8 @@ public:
     constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
     T pop() override;
     void push(T&& /*data*/) override;
-    bool dataAvailable() const override;
-    bool dataAssignable() const override;
+    [[nodiscard]] bool dataAvailable() const override;
+    [[nodiscard]] bool dataAssignable() const override;
 
 private:
     BlockIf* sinkBlock_ {};

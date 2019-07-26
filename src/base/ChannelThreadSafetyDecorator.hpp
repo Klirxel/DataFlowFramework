@@ -29,14 +29,14 @@ void ChannelThreadSafetyDecorator<T, CHANNEL>::push(T&& data)
 }
 
 template <typename T, template <typename> class CHANNEL>
-bool ChannelThreadSafetyDecorator<T, CHANNEL>::dataAvailable() const
+[[nodiscard]] bool ChannelThreadSafetyDecorator<T, CHANNEL>::dataAvailable() const
 {
     std::lock_guard<std::mutex> { mutex_ };
     return chan_.dataAvailable();
 }
 
 template <typename T, template <typename> class CHANNEL>
-bool ChannelThreadSafetyDecorator<T, CHANNEL>::dataAssignable() const
+[[nodiscard]] bool ChannelThreadSafetyDecorator<T, CHANNEL>::dataAssignable() const
 {
     std::lock_guard<std::mutex> { mutex_ };
     return chan_.dataAssignable();
