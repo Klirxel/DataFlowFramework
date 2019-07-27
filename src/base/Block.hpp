@@ -17,7 +17,10 @@ Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelB
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
 [[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
 {
-    return inputChannels_.dataAvailable() && outputChannels_.dataAssignable();
+    const auto nrOfElemsToProcess = inputChannels_.size() - tasksCurrentlyQueued_;
+    const bool elemsLeftForProcessing = nrOfElemsToProcess > 0 ? true : false;
+
+    return elemsLeftForProcessing && outputChannels_.dataAssignable();
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
@@ -36,9 +39,11 @@ void Block<ChannelBundle<T_IN...>,
             std::tuple<T_OUT...> output = std::apply(op_, move(input).value());
             outputChannels_.push(std::move(output));
         }
+
+        --tasksCurrentlyQueued_;
     };
 
+    ++tasksCurrentlyQueued_;
     executor_.execute(std::move(task), taskLock_);
 }
-
 } // namespace df

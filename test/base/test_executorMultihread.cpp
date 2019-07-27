@@ -57,7 +57,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 
     GeneratorBlock inputGenerator { counter, ChannelBundle { inputChan } };
 
-    const size_t threads = 8;
+    const size_t threads = 9;
     ExecutorMultithread execMultihread { threads };
 
     Block multiplyBlock1 { ChannelBundle { inputChan }, multiply2<1>, ChannelBundle { chanRes }, execMultihread };

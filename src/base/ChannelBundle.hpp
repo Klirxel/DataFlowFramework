@@ -124,9 +124,13 @@ template <typename... T>
 template <size_t... Is>
 [[nodiscard]] size_t ChannelBundle<T...>::sizeImpl(std::index_sequence<Is...> /*unused*/) const
 {
-    const std::size_t size = std::min(at<Is>().size()...);
-    return size;
+    if constexpr (sizeof...(Is) > 1)
+        return std::min(at<Is>().size()...);
+    
+    if constexpr (sizeof...(Is) == 1)
+        return at<0>().size();
+
+    return 0;
 }
 
 } // namespace df
-// namespace «namespace»

@@ -30,6 +30,7 @@ private:
     ChannelBundle<T_OUT...> outputChannels_;
     ExecutorIf& executor_;
 
+    std::size_t tasksCurrentlyQueued_{0};
     std::mutex taskLock_;
 };
 
