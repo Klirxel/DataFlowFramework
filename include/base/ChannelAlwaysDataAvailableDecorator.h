@@ -23,6 +23,7 @@ public:
     [[nodiscard]] bool dataAvailable() const override;
     [[nodiscard]] bool dataAssignable() const override;
     [[nodiscard]] constexpr std::size_t size() const override;
+    [[nodiscard]] constexpr std::size_t max_size() const override;
 
 private:
     CHANNEL<T> chan_;

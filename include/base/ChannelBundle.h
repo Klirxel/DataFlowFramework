@@ -32,6 +32,7 @@ public:
     [[nodiscard]] bool dataAvailable() const;
     [[nodiscard]] bool dataAssignable() const;
     [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t max_size() const;
 
 private:
     template <size_t... Is>
@@ -54,6 +55,9 @@ private:
     
     template <size_t... Is>
     [[nodiscard]] std::size_t sizeImpl(std::index_sequence<Is...> /*unused*/) const;
+    
+    template <size_t... Is>
+    [[nodiscard]] std::size_t max_sizeImpl(std::index_sequence<Is...> /*unused*/) const;
 
     std::tuple<ChannelIf<T>&...> channels_;
 };

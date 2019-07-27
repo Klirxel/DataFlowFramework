@@ -47,4 +47,10 @@ template <typename T, template <typename> class CHANNEL>
     return std::numeric_limits<size_t>::max();
 }
 
+template <typename T, template <typename> class CHANNEL>
+[[nodiscard]] constexpr size_t ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::max_size() const
+{
+    return std::numeric_limits<size_t>::max();
+}
+
 } // namespace df

@@ -56,6 +56,12 @@ std::size_t Channel<T>::size() const
 }
 
 template <typename T>
+std::size_t Channel<T>::max_size() const
+{
+    return std::numeric_limits<size_t>::max();
+}
+
+template <typename T>
 template <typename InputIter>
 void Channel<T>::notify(InputIter blockListBegin, InputIter blockListEnd)
 {

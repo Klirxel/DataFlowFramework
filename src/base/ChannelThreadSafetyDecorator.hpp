@@ -49,4 +49,11 @@ std::size_t ChannelThreadSafetyDecorator<T, CHANNEL>::size() const
     return chan_.size();
 }
 
+template <typename T, template <typename> class CHANNEL>
+std::size_t ChannelThreadSafetyDecorator<T, CHANNEL>::max_size() const
+{
+    std::lock_guard<std::mutex> { mutex_ };
+    return chan_.max_size();
+}
+
 } // namespace df
