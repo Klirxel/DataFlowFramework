@@ -15,37 +15,37 @@ Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelB
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
 {
-    return allInputChannelsHaveData() && allOutputChannelsCanTakeData();
+    return freeSourceCapacity() && freeSinkCapacity();
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allInputChannelsHaveData() const
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::freeSourceCapacity() const
 {
-    return allInputChannelsHaveDataImpl(std::index_sequence_for<T_IN...> {});
+    const bool freeSourceCapacity = sourceCapacity() > 0 ? true : false;
+    return freeSourceCapacity;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allOutputChannelsCanTakeData() const
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::freeSinkCapacity() const
 {
-    return allOutputChannelsCanTakeDataImpl(std::index_sequence_for<T_OUT...> {});
+    const bool freeSinkCapacity = sinkCapacity() > 0 ? true : false;
+    return freeSinkCapacity;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-template <size_t... Is>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allInputChannelsHaveDataImpl(std::index_sequence<Is...> /*unused*/) const
+[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::sourceCapacity() const
 {
-    const bool allInputDataAvailable = (inputChannels_.template at<Is>().dataAvailable() && ...);
-    return allInputDataAvailable;
+    const std::size_t sourceCapacity = inputChannels_.size() - tasksCurrentlyQueued_;
+    return sourceCapacity;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-template <size_t... Is>
-bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::allOutputChannelsCanTakeDataImpl(std::index_sequence<Is...> /*unused*/) const
+[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::sinkCapacity() const
 {
-    const bool allOutputDataAssignable = (outputChannels_.template at<Is>().dataAssignable() && ...);
-    return allOutputDataAssignable;
+    const std::size_t sinkCapacity = outputChannels_.max_size() - tasksCurrentlyQueued_;
+    return sinkCapacity;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
@@ -58,17 +58,17 @@ void Block<ChannelBundle<T_IN...>,
     }
 
     auto task = [&]() {
+        std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
 
-        if (not readyForExecution()) {
-            return;
+        if (input.has_value()) {
+            std::tuple<T_OUT...> output = std::apply(op_, move(input).value());
+            outputChannels_.push(std::move(output));
         }
 
-        std::tuple<T_IN...> input = inputChannels_.pop();
-        std::tuple<T_OUT...> output = std::apply(op_, move(input));
-        outputChannels_.push(std::move(output));
+        --tasksCurrentlyQueued_;
     };
 
+    ++tasksCurrentlyQueued_;
     executor_.execute(std::move(task), taskLock_);
 }
-
 } // namespace df

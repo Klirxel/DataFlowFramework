@@ -1,35 +1,40 @@
+#include <algorithm>
+
 #include "Channel.h"
 
 namespace df::base {
 
 template <typename T>
-constexpr void Channel<T>::attachSinkBlock(BlockIf* block) noexcept
+constexpr void Channel<T>::attachSinkBlock(BlockIf* sinkBlock) noexcept
 {
-    sinkBlock_ = block;
+    sinkBlockList_.push_back(sinkBlock);
 }
 
 template <typename T>
-constexpr void Channel<T>::attachSourceBlock(BlockIf* block) noexcept
+constexpr void Channel<T>::attachSourceBlock(BlockIf* sourceBlock) noexcept
 {
-    sourceBlock_ = block;
+    sourceBlockList_.push_back(sourceBlock);
 }
 
 template <typename T>
-T Channel<T>::pop()
+std::optional<T> Channel<T>::pop()
 {
-    T elem = std::move(data_.front());
-    data_.pop();
+    std::optional<T> data;
 
-    notify(sourceBlock_); //readyToTakeData
+    if (not data_.empty()) {
+        data = std::move(data_.front());
+        data_.pop();
+        notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
+    }
 
-    return elem;
+    return data;
 }
 
 template <typename T>
 void Channel<T>::push(T&& data)
 {
     data_.push(std::forward<T>(data));
-    notify(sinkBlock_); //readyToDeliverData
+    notify(sinkBlockList_.begin(), sinkBlockList_.end()); //readyToDeliverData
 }
 
 template <typename T>
@@ -44,11 +49,30 @@ bool Channel<T>::dataAssignable() const
     return true;
 }
 
-inline void notify(BlockIf* block)
+template <typename T>
+std::size_t Channel<T>::size() const
 {
-    if (block != nullptr && block->readyForExecution()) {
-        block->execute();
+    return data_.size();
+}
+
+template <typename T>
+std::size_t Channel<T>::max_size() const
+{
+    return std::numeric_limits<size_t>::max();
+}
+
+template <typename T>
+template <typename InputIter>
+void Channel<T>::notify(InputIter blockListBegin, InputIter blockListEnd)
+{
+    auto notifyBlockIfReady = [](BlockIf* block) {
+        if (block->readyForExecution()) {
+            block->execute();
+        };
     };
+
+    //note: inform all block strategy. Perhaps there is a more elegant way.
+    std::for_each(blockListBegin, blockListEnd, notifyBlockIfReady);
 }
 
 } // namespace df

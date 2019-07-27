@@ -27,9 +27,9 @@ BOOST_AUTO_TEST_CASE(GenerateWait)
     genBlock.start(period, offset, count);
     genBlock.wait();
 
-    BOOST_CHECK_EQUAL(output.pop(), 1);
-    BOOST_CHECK_EQUAL(output.pop(), 1);
-    BOOST_CHECK_EQUAL(output.pop(), 1);
+    BOOST_CHECK_EQUAL(output.pop().value(), 1);
+    BOOST_CHECK_EQUAL(output.pop().value(), 1);
+    BOOST_CHECK_EQUAL(output.pop().value(), 1);
     BOOST_CHECK(not output.dataAvailable());
 }
 
@@ -47,10 +47,10 @@ BOOST_AUTO_TEST_CASE(GenerateStop)
     std::this_thread::sleep_for(450ms);
     genBlock.stop();
 
-    BOOST_CHECK_EQUAL(output.pop(), kernel());
-    BOOST_CHECK_EQUAL(output.pop(), kernel());
-    BOOST_CHECK_EQUAL(output.pop(), kernel());
-    BOOST_CHECK_EQUAL(output.pop(), kernel());
-    BOOST_CHECK_EQUAL(output.pop(), kernel());
+    BOOST_CHECK_EQUAL(output.pop().value(), kernel());
+    BOOST_CHECK_EQUAL(output.pop().value(), kernel());
+    BOOST_CHECK_EQUAL(output.pop().value(), kernel());
+    BOOST_CHECK_EQUAL(output.pop().value(), kernel());
+    BOOST_CHECK_EQUAL(output.pop().value(), kernel());
     BOOST_CHECK(not output.dataAvailable());
 }

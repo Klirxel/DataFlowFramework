@@ -1,4 +1,7 @@
+#include <limits>
+
 #include "ChannelAlwaysDataAvailableDecorator.h"
+
 
 namespace df::base {
 
@@ -15,9 +18,9 @@ void ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::attachSourceBlock(BlockIf*
 }
 
 template <typename T, template <typename> class CHANNEL>
-T ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::pop()
+std::optional<T> ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::pop()
 {
-    return chan_.dataAvailable() ? chan_.pop() : T {};
+    return chan_.dataAvailable() ? chan_.pop() : std::optional<T> { T {} };
 }
 
 template <typename T, template <typename> class CHANNEL>
@@ -36,6 +39,18 @@ template <typename T, template <typename> class CHANNEL>
 bool ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::dataAssignable() const
 {
     return chan_.dataAssignable();
+}
+
+template <typename T, template <typename> class CHANNEL>
+[[nodiscard]] constexpr size_t ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::size() const
+{
+    return std::numeric_limits<size_t>::max();
+}
+
+template <typename T, template <typename> class CHANNEL>
+[[nodiscard]] constexpr size_t ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::max_size() const
+{
+    return std::numeric_limits<size_t>::max();
 }
 
 } // namespace df

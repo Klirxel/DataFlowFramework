@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+#include <optional>
 #include <type_traits>
 
 #include "BlockIf.h"
@@ -17,10 +19,15 @@ public:
 
     virtual void attachSinkBlock(BlockIf*) = 0;
     virtual void attachSourceBlock(BlockIf*) = 0;
-    virtual T pop() = 0;
+    virtual std::optional<T> pop() = 0;
     virtual void push(T&&) = 0;
-    virtual bool dataAvailable() const = 0;
-    virtual bool dataAssignable() const = 0;
+    [[nodiscard]] virtual bool dataAvailable() const = 0;
+    [[nodiscard]] virtual bool dataAssignable() const = 0;
+    [[nodiscard]] virtual std::size_t size() const = 0;
+    [[nodiscard]] virtual std::size_t max_size() const = 0;
+    
+
+    std::mutex lock;
 };
 
 } // namespace df

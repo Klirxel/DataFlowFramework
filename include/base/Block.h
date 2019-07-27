@@ -20,24 +20,23 @@ class Block<ChannelBundle<T_IN...>,
 public:
     Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op, ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor);
 
-    bool readyForExecution() const override;
+    [[nodiscard]] bool readyForExecution() const override;
 
     void execute() override;
 
 private:
-    bool allInputChannelsHaveData() const;
-    bool allOutputChannelsCanTakeData() const;
 
-    template <size_t... Is>
-    bool allInputChannelsHaveDataImpl(std::index_sequence<Is...> /*unused*/) const;
-    template <size_t... Is>
-    bool allOutputChannelsCanTakeDataImpl(std::index_sequence<Is...> /*unused*/) const;
+    [[nodiscard]] bool freeSourceCapacity() const;
+    [[nodiscard]] bool freeSinkCapacity() const;
+    [[nodiscard]] std::size_t sourceCapacity() const;
+    [[nodiscard]] std::size_t sinkCapacity() const;
 
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;
     ExecutorIf& executor_;
 
+    std::size_t tasksCurrentlyQueued_{0};
     std::mutex taskLock_;
 };
 

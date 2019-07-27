@@ -26,8 +26,13 @@ public:
     template <size_t I>
     constexpr const ChannelType<I>& at() const noexcept;
 
-    std::tuple<T...> pop();
+    std::optional<std::tuple<T...>> pop();
     void push(std::tuple<T...>&& /*data*/);
+
+    [[nodiscard]] bool dataAvailable() const;
+    [[nodiscard]] bool dataAssignable() const;
+    [[nodiscard]] std::size_t size() const;
+    [[nodiscard]] std::size_t max_size() const;
 
 private:
     template <size_t... Is>
@@ -37,10 +42,22 @@ private:
     constexpr void attachSourceBlockImpl(BlockIf* block, std::index_sequence<Is...> /*unused*/) noexcept;
 
     template <size_t... Is>
-    std::tuple<T...> popImpl(std::index_sequence<Is...> /*unused*/);
+    std::optional<std::tuple<T...>> popImpl(std::index_sequence<Is...> /*unused*/);
 
     template <size_t... Is>
     void pushImpl(std::tuple<T...>&& /*data*/, std::index_sequence<Is...> /*unused*/);
+
+    template <size_t... Is>
+    [[nodiscard]] bool dataAvailableImpl(std::index_sequence<Is...> /*unused*/) const;
+
+    template <size_t... Is>
+    [[nodiscard]] bool dataAssignableImpl(std::index_sequence<Is...> /*unused*/) const;
+    
+    template <size_t... Is>
+    [[nodiscard]] std::size_t sizeImpl(std::index_sequence<Is...> /*unused*/) const;
+    
+    template <size_t... Is>
+    [[nodiscard]] std::size_t max_sizeImpl(std::index_sequence<Is...> /*unused*/) const;
 
     std::tuple<ChannelIf<T>&...> channels_;
 };

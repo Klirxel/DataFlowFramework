@@ -27,17 +27,18 @@ BOOST_AUTO_TEST_CASE(Test_channelAlwaysDataAvailable)
 
     //No data
     BOOST_CHECK_EQUAL(chanAd.dataAvailable(), true);
-    BOOST_CHECK_EQUAL(chanAd.pop(), 0);
+    BOOST_CHECK_EQUAL(chanAd.size(), std::numeric_limits<size_t>::max());
+    BOOST_CHECK_EQUAL(chanAd.pop().value(), 0);
 
     //Insert data (default construction on chanDa);
     chan.push(2);
-    BOOST_CHECK_EQUAL(chanRes.pop(), 2);
+    BOOST_CHECK_EQUAL(chanRes.pop().value(), 2);
 
     //Insert data (no default construction if data is available)
     chanAd.push(3);
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
     chan.push(3);
-    BOOST_CHECK_EQUAL(chanRes.pop(), 6);
+    BOOST_CHECK_EQUAL(chanRes.pop().value(), 6);
 }
 
 BOOST_AUTO_TEST_CASE(Test_channelAdTs)
@@ -51,16 +52,16 @@ BOOST_AUTO_TEST_CASE(Test_channelAdTs)
 
     //No data
     BOOST_CHECK_EQUAL(chanAdTs.dataAvailable(), true);
-    BOOST_CHECK_EQUAL(chanAdTs.pop(), 0);
+    BOOST_CHECK_EQUAL(chanAdTs.pop().value(), 0);
 
     //Insert data (default construction on chanDa);
     chan.push(2);
-    BOOST_CHECK_EQUAL(chanRes.pop(), 2);
+    BOOST_CHECK_EQUAL(chanRes.pop().value(), 2);
 
     //Insert data (no default construction if data is available)
     chanAdTs.push(3);
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
 
     chan.push(3);
-    BOOST_CHECK_EQUAL(chanRes.pop(), 6);
+    BOOST_CHECK_EQUAL(chanRes.pop().value(), 6);
 }

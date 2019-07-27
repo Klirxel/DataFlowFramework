@@ -63,7 +63,9 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     inputGenerator2.wait();
 
     BOOST_CHECK_EQUAL(chan1.dataAvailable(), false);
+    BOOST_CHECK_EQUAL(chan1.size(), 0);
     BOOST_CHECK_EQUAL(chan2.dataAvailable(), false);
+    BOOST_CHECK_EQUAL(chan2.size(), 0);
 
     BOOST_CHECK_EQUAL(dataStorage.data.at(0), 0);
     BOOST_CHECK_EQUAL(dataStorage.data.at(1), 2);

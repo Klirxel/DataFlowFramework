@@ -1,6 +1,7 @@
 #pragma once
 
 #include <queue>
+#include <vector>
 
 #include "BlockIf.h"
 #include "ChannelIf.h"
@@ -13,18 +14,21 @@ class Channel : public ChannelIf<T> {
 public:
     constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
     constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
-    T pop() override;
+    std::optional<T> pop() override;
     void push(T&& /*data*/) override;
-    bool dataAvailable() const override;
-    bool dataAssignable() const override;
+    [[nodiscard]] bool dataAvailable() const override;
+    [[nodiscard]] bool dataAssignable() const override;
+    [[nodiscard]] std::size_t size() const override;
+    [[nodiscard]] std::size_t max_size() const override;
 
 private:
-    BlockIf* sinkBlock_ {};
-    BlockIf* sourceBlock_ {};
+    template <typename InputIter>
+    void notify(InputIter blockListBegin, InputIter blockListEnd);
+
+    std::vector<BlockIf*> sinkBlockList_ {};
+    std::vector<BlockIf*> sourceBlockList_ {};
     std::queue<T> data_;
 };
-
-inline void notify(BlockIf* /*block*/);
 
 } // namespace df
 
