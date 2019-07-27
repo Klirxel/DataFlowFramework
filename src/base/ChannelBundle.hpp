@@ -76,6 +76,12 @@ template <typename... T>
 }
 
 template <typename... T>
+[[nodiscard]] size_t ChannelBundle<T...>::size() const
+{
+    return sizeImpl(std::index_sequence_for<T...> {});
+}
+
+template <typename... T>
 template <size_t... Is>
 void ChannelBundle<T...>::pushImpl(std::tuple<T...>&& data, std::index_sequence<Is...> /*unused*/)
 {
@@ -112,6 +118,14 @@ template <size_t... Is>
 {
     const bool allChannelsAssignable = (at<Is>().dataAssignable() && ...);
     return allChannelsAssignable;
+}
+
+template <typename... T>
+template <size_t... Is>
+[[nodiscard]] size_t ChannelBundle<T...>::sizeImpl(std::index_sequence<Is...> /*unused*/) const
+{
+    const std::size_t size = std::min(at<Is>().size()...);
+    return size;
 }
 
 } // namespace df
