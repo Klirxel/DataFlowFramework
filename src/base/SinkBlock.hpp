@@ -14,15 +14,7 @@ SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::SinkBlock(ChannelBundle<T_IN...> in
 template <typename... T_IN, typename OPERATOR>
 bool SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::readyForExecution() const
 {
-    return readyForExecutionImpl(std::index_sequence_for<T_IN...>());
-}
-
-template <typename... T_IN, typename OPERATOR>
-template <size_t... Is>
-bool SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::readyForExecutionImpl(std::index_sequence<Is...> /*unused*/) const
-{
-    const bool allInputDataAvailable = (inputChannels_.template at<Is>().dataAvailable() && ...);
-    return allInputDataAvailable;
+    return freeSourceCapacity();
 }
 
 template <typename... T_IN, typename OPERATOR>
@@ -36,12 +28,31 @@ void SinkBlock<ChannelBundle<T_IN...>,
 
     auto task = [&]() {
         std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
+
         if (input.has_value()) {
             std::apply(op_, move(input).value());
         }
+        
+        --tasksCurrentlyQueued_;
+
     };
 
     executor_.execute(task, taskLock_);
+    ++tasksCurrentlyQueued_;
+}
+
+template <typename... T_IN, typename OPERATOR>
+[[nodiscard]] bool SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::freeSourceCapacity() const
+{
+    const bool freeSourceCapacity = sourceCapacity() > 0 ? true : false;
+    return freeSourceCapacity;
+}
+
+template <typename... T_IN, typename OPERATOR>
+[[nodiscard]] size_t SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::sourceCapacity() const
+{
+    const std::size_t sourceCapacity = inputChannels_.size() - tasksCurrentlyQueued_;
+    return sourceCapacity;
 }
 
 } // namespace df

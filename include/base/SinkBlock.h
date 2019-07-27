@@ -25,13 +25,14 @@ public:
     void execute() override;
 
 private:
-    template <size_t... Is>
-    bool readyForExecutionImpl(std::index_sequence<Is...> /*unused*/) const;
+    [[nodiscard]] bool freeSourceCapacity() const;
+    [[nodiscard]] std::size_t sourceCapacity() const;
 
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ExecutorIf& executor_;
 
+    std::size_t tasksCurrentlyQueued_ { 0 };
     std::mutex taskLock_;
 };
 

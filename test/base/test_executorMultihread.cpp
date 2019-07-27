@@ -24,7 +24,7 @@ struct Counter {
     int count { 0 };
 };
 
-const auto multiply2Delay = 1000ms;
+const auto multiply2Delay = 750ms;
 
 template <size_t index>
 int multiply2(int input) noexcept
@@ -40,7 +40,6 @@ struct DataStorage {
 
     void operator()(int value)
     {
-        //std::cout << "DataStorage: Receive data: " << value << std::endl;
         data.push_back(value);
     };
 
@@ -52,8 +51,8 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Counter counter;
     DataStorage dataStorage;
 
-    ChannelThreadSafe<int> inputChan;
-    ChannelThreadSafe<int> chanRes;
+    ChannelCircleBufThreadSafe<int, 8> inputChan;
+    ChannelCircleBufThreadSafe<int,4 > chanRes;
 
     GeneratorBlock inputGenerator { counter, ChannelBundle { inputChan } };
 
@@ -73,7 +72,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 
     const auto starttime = std::chrono::system_clock::now();
     const size_t cycles = 32;
-    const auto period = 1ms;
+    const auto period = 100ms;
     const auto offset = 0ms;
     inputGenerator.start(period, offset, cycles);
 
@@ -93,10 +92,14 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
         resultsUnordered.insert(2 * cycle);
     }
 
-    for (size_t cycle = 0; cycle < cycles; ++cycle) {
-        const size_t resultOfCycle = dataStorage.data.at(cycle);
+    for (size_t cycle = 0; cycle < dataStorage.data.size(); ++cycle) {
+        size_t resultOfCycle = dataStorage.data.at(cycle);
         BOOST_CHECK_EQUAL(resultsUnordered.count(resultOfCycle), 1);
         resultsUnordered.erase(resultOfCycle);
+    }
+
+    for (auto missedElem : resultsUnordered) {
+        std::cout << "MissedElem" << missedElem << '\n';
     }
 
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
