@@ -10,7 +10,7 @@ template <typename T>
 using ChannelThreadSafe = ChannelThreadSafetyDecorator<T, Channel>;
 
 template <typename T>
-using ChannelAlwaysDataAvailable = ChannelAlwaysDataAvailableDecorator<T, Channel>;
+using ChannelAlwaysDataAvailable = ChannelAlwaysDataAvailableDecorator<Channel<T>>;
 
 template <typename T>
 using ChannelAdTs = ChannelThreadSafetyDecorator<T, ChannelAlwaysDataAvailable>;
