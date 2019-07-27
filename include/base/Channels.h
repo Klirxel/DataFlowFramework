@@ -7,12 +7,12 @@
 namespace df::base {
 
 template <typename T>
-using ChannelThreadSafe = ChannelThreadSafetyDecorator<T, Channel>;
+using ChannelThreadSafe = ChannelThreadSafetyDecorator<Channel<T>>;
 
 template <typename T>
 using ChannelAlwaysDataAvailable = ChannelAlwaysDataAvailableDecorator<Channel<T>>;
 
 template <typename T>
-using ChannelAdTs = ChannelThreadSafetyDecorator<T, ChannelAlwaysDataAvailable>;
+using ChannelAdTs = ChannelThreadSafetyDecorator<ChannelAlwaysDataAvailable<T>>;
 
 } // namespace df

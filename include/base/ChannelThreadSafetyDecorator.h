@@ -8,18 +8,20 @@
 
 namespace df::base {
 
-template <typename T, template <typename> class CHANNEL>
-class ChannelThreadSafetyDecorator : public ChannelIf<T> {
+template <class CHANNEL>
+class ChannelThreadSafetyDecorator : public ChannelIf<typename CHANNEL::ValueType> {
 
-    static_assert(std::is_base_of_v<ChannelIf<T>, CHANNEL<T>>, "CHANNER<T> is not derived from ChannelIf<T>");
-    static_assert(std::is_default_constructible_v<CHANNEL<T>>, "CHANNEl<T> is not default constructible.");
+    using ValueType = typename CHANNEL::ValueType;
+
+    static_assert(std::is_base_of_v<ChannelIf<ValueType>, CHANNEL>, "CHANNEL is not derived from ChannelIf<T>");
+    static_assert(std::is_default_constructible_v<CHANNEL>, "CHANNEL is not default constructible.");
 
 public:
     void attachSinkBlock(BlockIf* /*block*/) override;
     void attachSourceBlock(BlockIf* /*block*/) override;
 
-    std::optional<T> pop() override;
-    void push(T&& /*data*/) override;
+    std::optional<ValueType> pop() override;
+    void push(ValueType&& /*data*/) override;
     [[nodiscard]] bool dataAvailable() const override;
     [[nodiscard]] bool dataAssignable() const override;
     [[nodiscard]] std::size_t size() const override;
@@ -27,7 +29,7 @@ public:
 
 private:
     mutable std::mutex mutex_;
-    CHANNEL<T> chan_;
+    CHANNEL chan_;
 };
 
 } // namespace df
