@@ -1,5 +1,6 @@
 #pragma once
 
+#include <mutex>
 #include <optional>
 #include <type_traits>
 
@@ -22,6 +23,8 @@ public:
     virtual void push(T&&) = 0;
     [[nodiscard]] virtual bool dataAvailable() const = 0;
     [[nodiscard]] virtual bool dataAssignable() const = 0;
+
+    std::mutex lock;
 };
 
 } // namespace df
