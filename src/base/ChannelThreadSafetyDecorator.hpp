@@ -42,4 +42,11 @@ template <typename T, template <typename> class CHANNEL>
     return chan_.dataAssignable();
 }
 
+template <typename T, template <typename> class CHANNEL>
+std::size_t ChannelThreadSafetyDecorator<T, CHANNEL>::size() const
+{
+    std::lock_guard<std::mutex> { mutex_ };
+    return chan_.size();
+}
+
 } // namespace df

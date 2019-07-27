@@ -24,6 +24,8 @@ public:
     [[nodiscard]] virtual bool dataAvailable() const = 0;
     [[nodiscard]] virtual bool dataAssignable() const = 0;
 
+    [[nodiscard]] virtual std::size_t size() const = 0;
+
     std::mutex lock;
 };
 

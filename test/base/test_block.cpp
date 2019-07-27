@@ -25,5 +25,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     input1.push(1);
     input2.push(2);
 
+    BOOST_CHECK_EQUAL(result.dataAvailable(), true);
+    BOOST_CHECK_EQUAL(result.size(), 1);
     BOOST_CHECK_EQUAL(result.pop().value(), 3);
 }

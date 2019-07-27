@@ -22,6 +22,7 @@ public:
     void push(T&& /*data*/) override;
     [[nodiscard]] bool dataAvailable() const override;
     [[nodiscard]] bool dataAssignable() const override;
+    [[nodiscard]] std::size_t size() const override;
 
 private:
     mutable std::mutex mutex_;

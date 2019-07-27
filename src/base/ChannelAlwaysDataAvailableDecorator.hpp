@@ -1,4 +1,7 @@
+#include <limits>
+
 #include "ChannelAlwaysDataAvailableDecorator.h"
+
 
 namespace df::base {
 
@@ -36,6 +39,12 @@ template <typename T, template <typename> class CHANNEL>
 bool ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::dataAssignable() const
 {
     return chan_.dataAssignable();
+}
+
+template <typename T, template <typename> class CHANNEL>
+[[nodiscard]] constexpr size_t ChannelAlwaysDataAvailableDecorator<T, CHANNEL>::size() const
+{
+    return std::numeric_limits<size_t>::max();
 }
 
 } // namespace df

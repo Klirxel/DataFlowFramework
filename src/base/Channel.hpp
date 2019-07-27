@@ -21,12 +21,11 @@ std::optional<T> Channel<T>::pop()
 {
     std::optional<T> data;
 
-    if(not data_.empty())
-    {
-       data = std::move(data_.front()); 
-       data_.pop();
-       notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
-    }  
+    if (not data_.empty()) {
+        data = std::move(data_.front());
+        data_.pop();
+        notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
+    }
 
     return data;
 }
@@ -51,6 +50,12 @@ bool Channel<T>::dataAssignable() const
 }
 
 template <typename T>
+std::size_t Channel<T>::size() const
+{
+    return data_.size();
+}
+
+template <typename T>
 template <typename InputIter>
 void Channel<T>::notify(InputIter blockListBegin, InputIter blockListEnd)
 {
@@ -59,7 +64,7 @@ void Channel<T>::notify(InputIter blockListBegin, InputIter blockListEnd)
             block->execute();
         };
     };
-    
+
     //note: inform all block strategy. Perhaps there is a more elegant way.
     std::for_each(blockListBegin, blockListEnd, notifyBlockIfReady);
 }

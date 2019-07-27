@@ -27,6 +27,7 @@ BOOST_AUTO_TEST_CASE(Test_channelAlwaysDataAvailable)
 
     //No data
     BOOST_CHECK_EQUAL(chanAd.dataAvailable(), true);
+    BOOST_CHECK_EQUAL(chanAd.size(), std::numeric_limits<size_t>::max());
     BOOST_CHECK_EQUAL(chanAd.pop().value(), 0);
 
     //Insert data (default construction on chanDa);
