@@ -17,13 +17,35 @@ Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelB
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
 [[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
 {
-    const auto nrOfElemsToProcess = inputChannels_.size() - tasksCurrentlyQueued_;
-    const bool elemsLeftForProcessing = nrOfElemsToProcess > 0 ? true : false;
+    return freeSourceCapacity() && freeSinkCapacity();
+}
 
-    const auto nrOfElemsToPutTheResult = outputChannels_.max_size() - tasksCurrentlyQueued_;
-    const bool elemsLeftToPutTheResult = nrOfElemsToPutTheResult > 0 ? true : false;
+template <typename... T_IN, typename OPERATOR, typename... T_OUT>
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::freeSourceCapacity() const
+{
+    const bool freeSourceCapacity = sourceCapacity() > 0 ? true : false;
+    return freeSourceCapacity;
+}
 
-    return elemsLeftForProcessing && elemsLeftToPutTheResult;
+template <typename... T_IN, typename OPERATOR, typename... T_OUT>
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::freeSinkCapacity() const
+{
+    const bool freeSinkCapacity = sinkCapacity() > 0 ? true : false;
+    return freeSinkCapacity;
+}
+
+template <typename... T_IN, typename OPERATOR, typename... T_OUT>
+[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::sourceCapacity() const
+{
+    const std::size_t sourceCapacity = inputChannels_.size() - tasksCurrentlyQueued_;
+    return sourceCapacity;
+}
+
+template <typename... T_IN, typename OPERATOR, typename... T_OUT>
+[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::sinkCapacity() const
+{
+    const std::size_t sinkCapacity = outputChannels_.max_size() - tasksCurrentlyQueued_;
+    return sinkCapacity;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>

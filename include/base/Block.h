@@ -25,6 +25,12 @@ public:
     void execute() override;
 
 private:
+
+    [[nodiscard]] bool freeSourceCapacity() const;
+    [[nodiscard]] bool freeSinkCapacity() const;
+    [[nodiscard]] std::size_t sourceCapacity() const;
+    [[nodiscard]] std::size_t sinkCapacity() const;
+
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;
