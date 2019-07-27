@@ -9,8 +9,10 @@
 
 namespace df::base {
 
-template <typename ValueType>
+template <typename ValueType_>
 struct ChannelDataContainerIf {
+
+    using ValueType = ValueType_;
 
     virtual std::optional<ValueType> pop() = 0;
     virtual void push(ValueType&& /*data*/) = 0;
@@ -18,12 +20,15 @@ struct ChannelDataContainerIf {
     [[nodiscard]] virtual std::size_t max_size() const = 0;
 };
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-class ChannelBase : public ChannelIf<ValueType> {
+template <class ChannelDataContainer>
+class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
-    static_assert(std::is_base_of_v<ChannelDataContainerIf<ValueType>, ChannelDataContainer<ValueType>>);
+    static_assert(std::is_base_of_v<ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
+        "ChannelDataContainer has to be derived form ChannelDataContainerIf");
 
 public:
+    using ValueType = typename ChannelDataContainer::ValueType;
+
     constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
     constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
     std::optional<ValueType> pop() override;
@@ -39,7 +44,7 @@ private:
 
     std::vector<BlockIf*> sinkBlockList_ {};
     std::vector<BlockIf*> sourceBlockList_ {};
-    ChannelDataContainer<ValueType> dataContainer_;
+    ChannelDataContainer dataContainer_;
 };
 
 } // namespace df

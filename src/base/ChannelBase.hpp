@@ -4,20 +4,20 @@
 
 namespace df::base {
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-constexpr void ChannelBase<ChannelDataContainer, ValueType>::attachSinkBlock(BlockIf* sinkBlock) noexcept
+template <class ChannelDataContainer>
+constexpr void ChannelBase<ChannelDataContainer>::attachSinkBlock(BlockIf* sinkBlock) noexcept
 {
     sinkBlockList_.push_back(sinkBlock);
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-constexpr void ChannelBase<ChannelDataContainer, ValueType>::attachSourceBlock(BlockIf* sourceBlock) noexcept
+template <class ChannelDataContainer>
+constexpr void ChannelBase<ChannelDataContainer>::attachSourceBlock(BlockIf* sourceBlock) noexcept
 {
     sourceBlockList_.push_back(sourceBlock);
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-std::optional<ValueType> ChannelBase<ChannelDataContainer, ValueType>::pop()
+template <class ChannelDataContainer>
+std::optional<typename ChannelDataContainer::ValueType> ChannelBase<ChannelDataContainer>::pop()
 {
     std::optional<ValueType> value = dataContainer_.pop();
 
@@ -28,42 +28,42 @@ std::optional<ValueType> ChannelBase<ChannelDataContainer, ValueType>::pop()
     return value;
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-void ChannelBase<ChannelDataContainer, ValueType>::push(ValueType&& data)
+template <class ChannelDataContainer>
+void ChannelBase<ChannelDataContainer>::push(ValueType&& data)
 {
     dataContainer_.push(std::forward<ValueType>(data));
     notify(sinkBlockList_.begin(), sinkBlockList_.end()); //readyToDeliverData
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-bool ChannelBase<ChannelDataContainer, ValueType>::dataAvailable() const
+template <class ChannelDataContainer>
+bool ChannelBase<ChannelDataContainer>::dataAvailable() const
 {
     const bool dataAvailable = dataContainer_.size() > 0;
     return dataAvailable;
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-bool ChannelBase<ChannelDataContainer, ValueType>::dataAssignable() const
+template <class ChannelDataContainer>
+bool ChannelBase<ChannelDataContainer>::dataAssignable() const
 {
     const bool dataAssignable = dataContainer_.size() < dataContainer_.max_size();
     return dataAssignable;
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-std::size_t ChannelBase<ChannelDataContainer, ValueType>::size() const
+template <class ChannelDataContainer>
+std::size_t ChannelBase<ChannelDataContainer>::size() const
 {
     return dataContainer_.size();
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
-std::size_t ChannelBase<ChannelDataContainer, ValueType>::max_size() const
+template <class ChannelDataContainer>
+std::size_t ChannelBase<ChannelDataContainer>::max_size() const
 {
     return dataContainer_.max_size();
 }
 
-template <template <typename> class ChannelDataContainer, typename ValueType>
+template <class ChannelDataContainer>
 template <typename InputIter>
-void ChannelBase<ChannelDataContainer, ValueType>::notify(InputIter blockListBegin, InputIter blockListEnd)
+void ChannelBase<ChannelDataContainer>::notify(InputIter blockListBegin, InputIter blockListEnd)
 {
     auto notifyBlockIfReady = [](BlockIf* block) {
         if (block->readyForExecution()) {

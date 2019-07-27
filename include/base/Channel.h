@@ -1,34 +1,26 @@
 #pragma once
 
 #include <queue>
-#include <vector>
 
-#include "BlockIf.h"
-#include "ChannelIf.h"
+#include "ChannelBase.h"
 
 namespace df::base {
 
-template <typename T>
-class Channel : public ChannelIf<T> {
+template <typename ValueType>
+class ChannelDataContainer : public ChannelDataContainerIf<ValueType> {
 
 public:
-    constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
-    constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
-    std::optional<T> pop() override;
-    void push(T&& /*data*/) override;
-    [[nodiscard]] bool dataAvailable() const override;
-    [[nodiscard]] bool dataAssignable() const override;
+    std::optional<ValueType> pop() override;
+    void push(ValueType&& /*data*/) override;
     [[nodiscard]] std::size_t size() const override;
     [[nodiscard]] std::size_t max_size() const override;
 
 private:
-    template <typename InputIter>
-    void notify(InputIter blockListBegin, InputIter blockListEnd);
-
-    std::vector<BlockIf*> sinkBlockList_ {};
-    std::vector<BlockIf*> sourceBlockList_ {};
-    std::queue<T> data_;
+    std::queue<ValueType> data_;
 };
+
+template <typename ValueType>
+using Channel = ChannelBase<ChannelDataContainer<ValueType>>;
 
 } // namespace df
 
