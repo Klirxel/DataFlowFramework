@@ -20,7 +20,10 @@ template <typename... T_IN, typename OPERATOR, typename... T_OUT>
     const auto nrOfElemsToProcess = inputChannels_.size() - tasksCurrentlyQueued_;
     const bool elemsLeftForProcessing = nrOfElemsToProcess > 0 ? true : false;
 
-    return elemsLeftForProcessing && outputChannels_.dataAssignable();
+    const auto nrOfElemsToPutTheResult = outputChannels_.max_size() - tasksCurrentlyQueued_;
+    const bool elemsLeftToPutTheResult = nrOfElemsToPutTheResult > 0 ? true : false;
+
+    return elemsLeftForProcessing && elemsLeftToPutTheResult;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
