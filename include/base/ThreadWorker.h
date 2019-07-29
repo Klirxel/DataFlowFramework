@@ -14,7 +14,7 @@ class ThreadWorker {
 public:
     inline ThreadWorker(bool enable = true) noexcept;
 
-    inline void addTask(std::function<void(void)>&& task);
+    inline void addTask(std::function<void(void)>&& task, std::mutex* taskLock_);
     inline void triggerExecution() noexcept;
     inline void stopExecution() noexcept;
     inline void startExecution() noexcept;

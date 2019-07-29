@@ -33,16 +33,17 @@ BOOST_AUTO_TEST_CASE(DefaultCtor)
 BOOST_AUTO_TEST_CASE(ThreadWorkerSyncScenario)
 {
     const bool enable = false;
+    std::mutex taskLock;
     ThreadWorker threadWorker { enable };
     ExampleTask exampleTask1;
     ExampleTask exampleTask2;
 
     //AddTask 1
-    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask1));
+    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask1, &taskLock));
     BOOST_CHECK_EQUAL(threadWorker.tasksWaitingForExecution(), 1);
 
     //AddTask 2
-    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask2));
+    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask2, &taskLock));
     BOOST_CHECK_EQUAL(threadWorker.tasksWaitingForExecution(), 2);
 
     //RunTasks
@@ -57,6 +58,7 @@ BOOST_AUTO_TEST_CASE(ThreadWorkerSyncScenario)
 BOOST_AUTO_TEST_CASE(ThreadWorkerAsyncScenario)
 {
     const bool enable = false;
+    std::mutex taskLock;
     ThreadWorker threadWorker { enable };
 
     auto future = std::async(std::launch::async, threadWorker.getExecutionHandle());
@@ -65,11 +67,11 @@ BOOST_AUTO_TEST_CASE(ThreadWorkerAsyncScenario)
     ExampleTask exampleTask2;
 
     //AddTask 1
-    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask1));
+    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask1, &taskLock));
     BOOST_CHECK_EQUAL(threadWorker.tasksWaitingForExecution(), 1);
 
     //AddTask 2
-    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask2));
+    BOOST_CHECK_NO_THROW(threadWorker.addTask(exampleTask2, &taskLock));
     BOOST_CHECK_EQUAL(threadWorker.tasksWaitingForExecution(), 2);
 
     //RunTasks

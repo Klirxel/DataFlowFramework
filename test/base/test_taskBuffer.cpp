@@ -24,19 +24,20 @@ BOOST_AUTO_TEST_CASE(AddTask)
 {
     TaskBuffer taskBuffer {};
     auto task = [] {};
+    std::mutex task_lock;
 
-    BOOST_CHECK_NO_THROW(taskBuffer.addTask(task));
+    BOOST_CHECK_NO_THROW(taskBuffer.addTask(task, &task_lock));
 
     BOOST_CHECK_EQUAL(taskBuffer.empty(), false);
     BOOST_CHECK_EQUAL(taskBuffer.size(), 1);
 }
-
 BOOST_AUTO_TEST_CASE(GetTask)
 {
     TaskBuffer taskBuffer {};
+    std::mutex task_lock;
     int taskCalls = 0;
     auto inputTask = [&taskCalls] { ++taskCalls; };
-    taskBuffer.addTask(inputTask);
+    taskBuffer.addTask(inputTask, &task_lock);
 
     std::function<void()> outputTask;
     BOOST_CHECK_NO_THROW(outputTask = taskBuffer.getTask());
@@ -48,14 +49,16 @@ BOOST_AUTO_TEST_CASE(GetTask)
 BOOST_AUTO_TEST_CASE(GetSetMultipleTasks)
 {
     TaskBuffer taskBuffer {};
+    std::mutex task_lock;
+
     int task1Calls = 0;
     int task2Calls = 0;
     auto inputTask1 = [&task1Calls] { ++task1Calls; };
     auto inputTask2 = [&task2Calls] { ++task2Calls; };
 
     //Test 1: put in two values
-    BOOST_CHECK_NO_THROW(taskBuffer.addTask(inputTask1));
-    BOOST_CHECK_NO_THROW(taskBuffer.addTask(inputTask2));
+    BOOST_CHECK_NO_THROW(taskBuffer.addTask(inputTask1, &task_lock));
+    BOOST_CHECK_NO_THROW(taskBuffer.addTask(inputTask2, &task_lock));
 
     BOOST_CHECK_EQUAL(taskBuffer.empty(), false);
     BOOST_CHECK_EQUAL(taskBuffer.size(), 2);
