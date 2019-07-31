@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     SinkBlock dataStorageBlock { ChannelBundle { chanRes }, dataStorage, execMultihread };
 
     const auto starttime = std::chrono::system_clock::now();
-    const size_t cycles = 5000;
+    const size_t cycles = 1000;
     const auto period = 1ms;
     const auto offset = 0ms;
     inputGenerator.start(period, offset, cycles);
@@ -92,8 +92,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
         resultsUnordered.insert(2 * cycle);
     }
 
-    for (size_t cycle = 0; cycle < dataStorage.data.size(); ++cycle) {
-        size_t resultOfCycle = dataStorage.data.at(cycle);
+    for (const auto& resultOfCycle : dataStorage.data) {
         BOOST_CHECK_EQUAL(resultsUnordered.count(resultOfCycle), 1);
         resultsUnordered.erase(resultOfCycle);
     }
