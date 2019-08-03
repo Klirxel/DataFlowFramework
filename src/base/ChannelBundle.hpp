@@ -130,11 +130,13 @@ template <typename... T>
 template <size_t... Is>
 [[nodiscard]] size_t ChannelBundle<T...>::sizeImpl(std::index_sequence<Is...> /*unused*/) const
 {
-    if constexpr (sizeof...(Is) > 1)
+    if constexpr (sizeof...(Is) > 1) {
         return std::min(at<Is>().size()...);
+    }
 
-    if constexpr (sizeof...(Is) == 1)
+    if constexpr (sizeof...(Is) == 1) {
         return at<0>().size();
+    }
 
     return 0;
 }
@@ -143,11 +145,13 @@ template <typename... T>
 template <size_t... Is>
 [[nodiscard]] size_t ChannelBundle<T...>::max_sizeImpl(std::index_sequence<Is...> /*unused*/) const
 {
-    if constexpr (sizeof...(Is) > 1)
+    if constexpr (sizeof...(Is) > 1) {
         return std::min(at<Is>().max_size()...);
+    }
 
-    if constexpr (sizeof...(Is) == 1)
+    if constexpr (sizeof...(Is) == 1) {
         return at<0>().max_size();
+    }
 
     return 0;
 }
