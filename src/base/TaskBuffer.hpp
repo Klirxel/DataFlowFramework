@@ -29,7 +29,7 @@ TaskWithLock TaskBuffer::getNextReadyTask()
     TaskWithLock taskWl {};
 
     auto lockTaskIfPossible = [](TaskWithLock& twl) {
-        return twl.task_lock ? twl.task_lock->try_lock() : true;
+        return twl.task_lock != nullptr ? twl.task_lock->try_lock() : true;
     };
     auto iter = std::find_if(tasks_.begin(), tasks_.end(), lockTaskIfPossible);
 
