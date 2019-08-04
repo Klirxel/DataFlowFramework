@@ -25,6 +25,11 @@ std::optional<typename ChannelDataContainer::ValueType> ChannelBase<ChannelDataC
         notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
     }
 
+    if(size() > 0)
+    {
+        notify(sinkBlockList_.begin(), sinkBlockList_.end()); //readyToDeliverData
+    };  
+
     return value;
 }
 

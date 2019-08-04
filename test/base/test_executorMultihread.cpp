@@ -17,14 +17,14 @@ struct Counter {
 
     int operator()() noexcept
     {
-        //std::cout << "Counter: Input data " << count << std::endl;
+        ////std::cout << "Counter: Input data " << count << std::endl;
         return count++;
     };
 
     int count { 0 };
 };
 
-const auto multiply2Delay = 750ms;
+const auto multiply2Delay = 8ms;
 
 template <size_t index>
 int multiply2(int input) noexcept
@@ -51,8 +51,8 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Counter counter;
     DataStorage dataStorage;
 
-    ChannelCircleBufThreadSafe<int, 8> inputChan;
-    ChannelCircleBufThreadSafe<int,4 > chanRes;
+    ChannelThreadSafe<int> inputChan;
+    ChannelThreadSafe<int> chanRes;
 
     GeneratorBlock inputGenerator { counter, ChannelBundle { inputChan } };
 
@@ -71,16 +71,16 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     SinkBlock dataStorageBlock { ChannelBundle { chanRes }, dataStorage, execMultihread };
 
     const auto starttime = std::chrono::system_clock::now();
-    const size_t cycles = 32;
-    const auto period = 100ms;
+    const size_t cycles = 1000;
+    const auto period = 1ms;
     const auto offset = 0ms;
     inputGenerator.start(period, offset, cycles);
-
     inputGenerator.wait();
     execMultihread.stop();
 
     const auto stoptime = std::chrono::system_clock::now();
     const auto processingDuration = stoptime - starttime;
+
     std::cout << "ProcessingTime: " << std::chrono::duration_cast<std::chrono::milliseconds>(processingDuration).count() << "ms \n";
     std::cout << "ProcessingTime (singleThread): " << cycles * multiply2Delay.count() << " ms \n";
     std::cout << "ProcessingTime (multiThread ideal): " << cycles * multiply2Delay.count() / threads << " ms \n";
@@ -92,8 +92,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
         resultsUnordered.insert(2 * cycle);
     }
 
-    for (size_t cycle = 0; cycle < dataStorage.data.size(); ++cycle) {
-        size_t resultOfCycle = dataStorage.data.at(cycle);
+    for (const auto& resultOfCycle : dataStorage.data) {
         BOOST_CHECK_EQUAL(resultsUnordered.count(resultOfCycle), 1);
         resultsUnordered.erase(resultOfCycle);
     }

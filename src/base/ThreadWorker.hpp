@@ -30,13 +30,13 @@ inline void ThreadWorker::run_()
 
 inline void ThreadWorker::processAvailableTasks()
 {
-    while (taskBuffer_.executeTask()) {
+    while (taskBuffer_.executeNextReadyTask()) {
     };
 }
 
-inline void ThreadWorker::addTask(std::function<void(void)>&& task)
+inline void ThreadWorker::addTask(std::function<void(void)>&& task, std::mutex* taskLock_)
 {
-    taskBuffer_.addTask(std::move(task));
+    taskBuffer_.addTask(std::move(task), taskLock_);
     triggerExecution();
 }
 
