@@ -8,7 +8,10 @@ add_library(
 target_include_directories(
   df_base
   INTERFACE
-  ${CMAKE_SOURCE_DIR}/include/base
+  ${CMAKE_SOURCE_DIR}/include/base/blocks
+  ${CMAKE_SOURCE_DIR}/include/base/channels
+  ${CMAKE_SOURCE_DIR}/include/base/executors
+  ${CMAKE_SOURCE_DIR}/include/base/tools
   #for .hpp files.
   ${CMAKE_SOURCE_DIR}/src/base 
 )
