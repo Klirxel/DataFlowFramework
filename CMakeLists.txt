@@ -64,15 +64,3 @@ add_subdirectory(src/base)
 if(BUILD_UNIT_TESTS)
   add_subdirectory(test)
 endif()
-
-################################################################################
-#Install compile_commands.json 
-################################################################################
-install(
-  FILES
-    ${CMAKE_BINARY_DIR}/compile_commands.json
-  DESTINATION 
-    ${COMPILE_COMMANDS_JSON_INST_DIR}
-)
-
-
