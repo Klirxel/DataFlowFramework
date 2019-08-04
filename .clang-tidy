@@ -1,9 +1,12 @@
 ---
-#note: cppcoreguidelines-pro-type-varar not compatible with boost::test
-Checks: 'bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument'
+#note:
+#cppcoreguidelines-pro-type-varar: various warnings compatible with boost::test.
+#unused-command-line-argument: warnings with --coverage option.
+#bugprone-suspicious-semiclolon: warnings when using if constexpr.
+#readablity-braces-around-statements: warnings when using if constexpr.
+Checks: 'bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements'
 WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
-ExtraArg: -std=c++17
 FormatStyle: WebKit     
 ...
