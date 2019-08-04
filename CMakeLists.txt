@@ -8,7 +8,7 @@ PROJECT(DataFlowFramework)
 ################################################################################
 option(BUILD_UNIT_TESTS "Build unit tests" ON)
 option(RUN_CMAKE_TIDY_ON_BUILD "Run cmake tidy on build" ON)
-option(ENABLE_CODE_COVERAGE "Enable code coverage analysis." ON) 
+option(ENABLE_CODE_COVERAGE "Enable code coverage analysis. [Recommend: CMAKE_BUILD_TYPE=Debug]" OFF) 
 
 set(ADDITIONAL_COMPILE_OPTIONS "-Wall -Wpedantic -Wextra" CACHE STRING "Additional compile options." )
 set(CLANG_TIDY_ADDITIONAL_OPTIONS "-fix" CACHE STRING "Clang tidy additional options. Base configuration see config-file .clang-tidy.")
