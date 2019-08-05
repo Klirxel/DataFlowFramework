@@ -1,29 +1,23 @@
 find_package(Threads REQUIRED)
-#set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 add_library(
-  df_base	
-  dummy.cpp	
- )
-
+  df_base
+  INTERFACE  
+) 
 
 target_include_directories(
   df_base
-  PUBLIC
-  ${CMAKE_SOURCE_DIR}/include/base
+  INTERFACE
+  ${CMAKE_SOURCE_DIR}/include/base/blocks
+  ${CMAKE_SOURCE_DIR}/include/base/channels
+  ${CMAKE_SOURCE_DIR}/include/base/executors
+  ${CMAKE_SOURCE_DIR}/include/base/tools
   #for .hpp files.
   ${CMAKE_SOURCE_DIR}/src/base 
 )
 
 target_link_libraries(
   df_base
-  PRIVATE	
+  INTERFACE
   Threads::Threads	
 )
-
-set_target_properties(
-  df_base 
-  PROPERTIES
-  CXX_CLANG_TIDY "${DO_CLANG_TIDY}"
-  CXX_STANDARD 17
-) 
