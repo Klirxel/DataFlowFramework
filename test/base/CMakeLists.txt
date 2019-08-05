@@ -9,7 +9,7 @@ add_unit_test(ptest_transmissionAnalyses)
 add_unit_test(test_transmissionAnalyser)
 add_unit_test(test_taskBuffer)
 add_unit_test(test_threadWorker)
-add_unit_test(test_executorMultihread)
+add_unit_test(test_executorMultihread_1)
 
 
 
