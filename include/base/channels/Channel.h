@@ -19,8 +19,11 @@ private:
     std::queue<ValueType> data_;
 };
 
-template <typename ValueType>
-using Channel = ChannelBase<ChannelDataContainer<ValueType>>;
+template <typename ValueType,
+    TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
+    TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
+    typename IgnorePredicate = IgnoreNothing<ValueType>>
+using Channel = ChannelBase<ChannelDataContainer<ValueType>, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>;
 
 } // namespace df
 
