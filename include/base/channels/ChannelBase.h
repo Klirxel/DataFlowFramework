@@ -20,7 +20,26 @@ struct ChannelDataContainerIf {
     [[nodiscard]] virtual std::size_t max_size() const = 0;
 };
 
-template <class ChannelDataContainer>
+enum class TriggerPolicy {
+    triggerSink,
+    triggerSource,
+    triggerAll,
+    triggerNone
+};
+
+template <typename ValueType>
+struct IgnoreNothing {
+
+    [[nodiscard]] constexpr bool operator()([[maybe_unused]] const ValueType& val) const noexcept
+    {
+        return false;
+    };
+};
+
+template <class ChannelDataContainer,
+    TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
+    TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
+    typename IgnorePredicate = IgnoreNothing<typename ChannelDataContainer::ValueType>>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
     static_assert(std::is_base_of_v<ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
@@ -39,11 +58,12 @@ public:
     [[nodiscard]] std::size_t max_size() const override;
 
 private:
-    template <typename InputIter>
-    void notify(InputIter blockListBegin, InputIter blockListEnd);
+    void notify(std::vector<BlockIf*>& blockList);
+    void notifySourceBlockList();
+    void notifySinkBlockList();
 
-    std::vector<BlockIf*> sinkBlockList_ {};
-    std::vector<BlockIf*> sourceBlockList_ {};
+    std::vector<BlockIf*> sinkBlockList_;
+    std::vector<BlockIf*> sourceBlockList_;
     ChannelDataContainer dataContainer_;
 };
 
