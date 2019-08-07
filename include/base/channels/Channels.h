@@ -11,7 +11,16 @@ template <typename T>
 using ChannelThreadSafe = ChannelThreadSafetyDecorator<Channel<T>>;
 
 template <typename T>
+using ChannelThreadSafeNoTrigger = ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
+
+template <typename T>
+using ChannelThreadSafeIgnoreDefaults = ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, IgnoreDefaults<T>>>;
+
+template <typename T>
 using ChannelAlwaysDataAvailable = ChannelAlwaysDataAvailableDecorator<Channel<T>>;
+
+template <typename T>
+using ChannelAlwaysDataAvailableNoTrigger = ChannelAlwaysDataAvailableDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
 
 template <typename T>
 using ChannelAdTs = ChannelThreadSafetyDecorator<ChannelAlwaysDataAvailable<T>>;
