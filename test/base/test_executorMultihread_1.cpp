@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE testExecutorMultihread
+#define BOOST_TEST_MODULE testExecutorMultihread_1
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
