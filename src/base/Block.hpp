@@ -2,55 +2,64 @@
 
 namespace df::base {
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op,
-    ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor)
+template <typename... T>
+[[nodiscard]] constexpr std::array<bool, sizeof...(T)> OutputAll<T...>::operator()([[maybe_unused]] const T&... /*unused*/ /*unused*/ /*unused*/) const
+{
+    auto array = std::array<bool, sizeof...(T)> {};
+    array.fill(true);
+    return array;
+}
+
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op,
+    ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor, OUTPUT_PREDICATE<T_OUT...> outputPredicate)
     : inputChannels_(std::move(inputChannels))
     , op_(op)
     , outputChannels_(std::move(outputChannels))
     , executor_(executor)
+    , outputPredicate_(outputPredicate)
 {
     inputChannels_.attachSinkBlock(this);
     outputChannels_.attachSourceBlock(this);
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::readyForExecution() const
 {
     return freeSourceCapacity() && freeSinkCapacity();
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::freeSourceCapacity() const
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::freeSourceCapacity() const
 {
     const bool freeSourceCapacity = sourceCapacity() > 0 ? true : false;
     return freeSourceCapacity;
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::freeSinkCapacity() const
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+[[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::freeSinkCapacity() const
 {
     const bool freeSinkCapacity = sinkCapacity() > 0 ? true : false;
     return freeSinkCapacity;
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::sourceCapacity() const
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::sourceCapacity() const
 {
     const std::size_t sourceCapacity = inputChannels_.size() - tasksCurrentlyQueued_;
     return sourceCapacity;
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>>::sinkCapacity() const
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+[[nodiscard]] size_t Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::sinkCapacity() const
 {
     const std::size_t sinkCapacity = outputChannels_.max_size() - tasksCurrentlyQueued_;
     return sinkCapacity;
 }
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT>
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
 void Block<ChannelBundle<T_IN...>,
-    OPERATOR, ChannelBundle<T_OUT...>>::execute()
+    OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::execute()
 {
 
     if (not readyForExecution()) {
@@ -62,12 +71,10 @@ void Block<ChannelBundle<T_IN...>,
 
         if (input.has_value()) {
 
-            //const std::array<bool,sizeof...(T_OUT)> outputCtrl = OutputPredicate{}(input.value());
-
             std::tuple<T_OUT...> output = std::apply(op_, move(input).value());
 
-            //outputChannels_.push(std::move(output), outputCtrl);
-            outputChannels_.push(std::move(output));
+            const std::array<bool, sizeof...(T_OUT)> outputPredicate = outputPredicateImpl(output, std::index_sequence_for<T_OUT...>{});
+            outputChannels_.push(std::move(output), outputPredicate);
         }
 
         --tasksCurrentlyQueued_;
@@ -76,4 +83,13 @@ void Block<ChannelBundle<T_IN...>,
     ++tasksCurrentlyQueued_;
     executor_.execute(std::move(task), taskLock_);
 }
+
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+template <size_t... Is>
+std::array<bool, sizeof...(T_OUT)> Block<ChannelBundle<T_IN...>,
+    OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::outputPredicateImpl(const std::tuple<T_OUT...>& output, std::index_sequence<Is...> /*unused*/)
+{
+  return outputPredicate_(std::get<Is>(output)...);
+}
+
 } // namespace df
