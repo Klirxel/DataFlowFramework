@@ -61,7 +61,12 @@ void Block<ChannelBundle<T_IN...>,
         std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
 
         if (input.has_value()) {
+
+            //const std::array<bool,sizeof...(T_OUT)> outputCtrl = OutputPredicate{}(input.value());
+
             std::tuple<T_OUT...> output = std::apply(op_, move(input).value());
+
+            //outputChannels_.push(std::move(output), outputCtrl);
             outputChannels_.push(std::move(output));
         }
 

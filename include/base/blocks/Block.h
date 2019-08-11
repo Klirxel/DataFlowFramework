@@ -7,6 +7,16 @@
 
 namespace df::base {
 
+template <typename... T>
+struct OutputAll {
+    [[nodiscard]] constexpr std::array<bool, sizeof...(T)> operator()([[maybe_unused]] const std::tuple<T...>& outputs) const
+    {
+        auto array = std::array<bool, sizeof...(T)> {};
+        array.fill(true);
+        return array;
+    };
+};
+
 template <typename CHAN_BUNDLE_IN, typename OPERATOR, typename CHAN_BUNDLE_OUT>
 class Block {
 public:
@@ -14,10 +24,15 @@ public:
 };
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT>
-class Block<ChannelBundle<T_IN...>,
-    OPERATOR, ChannelBundle<T_OUT...>> : public BlockIf {
+class Block<
+    ChannelBundle<T_IN...>,
+    OPERATOR,
+    ChannelBundle<T_OUT...>
+    > : public BlockIf {
 
 public:
+    
+    //template<typename OUTPUT_PREDICATE>
     Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op, ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor);
 
     [[nodiscard]] bool readyForExecution() const override;
@@ -25,7 +40,6 @@ public:
     void execute() override;
 
 private:
-
     [[nodiscard]] bool freeSourceCapacity() const;
     [[nodiscard]] bool freeSinkCapacity() const;
     [[nodiscard]] std::size_t sourceCapacity() const;
@@ -36,7 +50,7 @@ private:
     ChannelBundle<T_OUT...> outputChannels_;
     ExecutorIf& executor_;
 
-    std::atomic_size_t tasksCurrentlyQueued_{0};
+    std::atomic_size_t tasksCurrentlyQueued_ { 0 };
     std::mutex taskLock_;
 };
 
