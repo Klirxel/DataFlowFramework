@@ -4,80 +4,119 @@
 
 namespace df::base {
 
-template <class ChannelDataContainer>
-constexpr void ChannelBase<ChannelDataContainer>::attachSinkBlock(BlockIf* sinkBlock) noexcept
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+constexpr void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::attachSinkBlock(BlockIf* sinkBlock) noexcept
 {
     sinkBlockList_.push_back(sinkBlock);
 }
 
-template <class ChannelDataContainer>
-constexpr void ChannelBase<ChannelDataContainer>::attachSourceBlock(BlockIf* sourceBlock) noexcept
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+constexpr void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::attachSourceBlock(BlockIf* sourceBlock) noexcept
 {
     sourceBlockList_.push_back(sourceBlock);
 }
 
-template <class ChannelDataContainer>
-std::optional<typename ChannelDataContainer::ValueType> ChannelBase<ChannelDataContainer>::pop()
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+std::optional<typename ChannelDataContainer::ValueType> ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::pop()
 {
     std::optional<ValueType> value = dataContainer_.pop();
 
-    if (value) {
-        notify(sourceBlockList_.begin(), sourceBlockList_.end()); //readyToTakeData
+    constexpr bool triggerSourceBlock = triggerPolicyPop == TriggerPolicy::triggerSource || triggerPolicyPop == TriggerPolicy::triggerAll;
+
+    if (triggerSourceBlock && value) {
+        notify(sourceBlockList_);
     }
 
-    if(size() > 0)
-    {
-        notify(sinkBlockList_.begin(), sinkBlockList_.end()); //readyToDeliverData
-    };  
+    constexpr bool triggerSinkBlock = triggerPolicyPop == TriggerPolicy::triggerSink || triggerPolicyPop == TriggerPolicy::triggerAll;
+
+    if (triggerSinkBlock && size() > 0) {
+        notify(sinkBlockList_);
+    }
 
     return value;
 }
 
-template <class ChannelDataContainer>
-void ChannelBase<ChannelDataContainer>::push(ValueType&& data)
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::push(ValueType&& data)
 {
+    if (IgnorePredicate {}(data)) {
+        return;
+    }
+
     dataContainer_.push(std::forward<ValueType>(data));
-    notify(sinkBlockList_.begin(), sinkBlockList_.end()); //readyToDeliverData
+
+    //Usage unclear yet.
+    constexpr bool triggerSourceBlock = triggerPolicyPush == TriggerPolicy::triggerSource || triggerPolicyPush == TriggerPolicy::triggerAll;
+
+    if (triggerSourceBlock && size() < max_size()) {
+        notify(sourceBlockList_);
+    }
+
+    //I have still data
+    constexpr bool triggerSinkBlock = triggerPolicyPush == TriggerPolicy::triggerSink || triggerPolicyPush == TriggerPolicy::triggerAll;
+
+    if (triggerSinkBlock && size() > 0) {
+        notify(sinkBlockList_);
+    }
 }
 
-template <class ChannelDataContainer>
-bool ChannelBase<ChannelDataContainer>::dataAvailable() const
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+bool ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::dataAvailable() const
 {
     const bool dataAvailable = dataContainer_.size() > 0;
     return dataAvailable;
 }
 
-template <class ChannelDataContainer>
-bool ChannelBase<ChannelDataContainer>::dataAssignable() const
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+bool ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::dataAssignable() const
 {
     const bool dataAssignable = dataContainer_.size() < dataContainer_.max_size();
     return dataAssignable;
 }
 
-template <class ChannelDataContainer>
-std::size_t ChannelBase<ChannelDataContainer>::size() const
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+std::size_t ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::size() const
 {
     return dataContainer_.size();
 }
 
-template <class ChannelDataContainer>
-std::size_t ChannelBase<ChannelDataContainer>::max_size() const
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+std::size_t ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::max_size() const
 {
     return dataContainer_.max_size();
 }
 
-template <class ChannelDataContainer>
-template <typename InputIter>
-void ChannelBase<ChannelDataContainer>::notify(InputIter blockListBegin, InputIter blockListEnd)
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notify(std::vector<BlockIf*>& blockList)
 {
     auto notifyBlockIfReady = [](BlockIf* block) {
         if (block->readyForExecution()) {
             block->execute();
-        };
+        }
     };
 
     //note: inform all block strategy. Perhaps there is a more elegant way.
-    std::for_each(blockListBegin, blockListEnd, notifyBlockIfReady);
+    std::for_each(blockList.begin(), blockList.end(), notifyBlockIfReady);
+}
+
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notifySourceBlockList()
+{
+    constexpr bool triggerSourceBlock = triggerPolicyPop == TriggerPolicy::triggerSource || triggerPolicyPop == TriggerPolicy::triggerAll;
+
+    if constexpr (triggerSourceBlock) {
+        notify(sourceBlockList_);
+    }
+}
+
+template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
+void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notifySinkBlockList()
+{
+    constexpr bool triggerSinkBlock = triggerPolicyPop == TriggerPolicy::triggerSink || triggerPolicyPop == TriggerPolicy::triggerAll;
+
+    if constexpr (triggerSinkBlock) {
+        notify(sinkBlockList_);
+    }
 }
 
 } // namespace df
