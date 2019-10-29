@@ -11,6 +11,7 @@ add_unit_test(test_taskBuffer)
 add_unit_test(test_threadWorker)
 add_unit_test(test_executorMultihread_1)
 add_unit_test(test_executorMultihread_2)
+add_unit_test(test_block_output_predicate)
 
 
 
