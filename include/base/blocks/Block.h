@@ -7,22 +7,21 @@
 
 namespace df::base {
 
-template <typename... T>
 struct OutputAll {
+    template <typename... T>
     [[nodiscard]] constexpr std::array<bool, sizeof...(T)> operator()([[maybe_unused]] const T&... /*unused*/) const;
 };
 
 template <typename CHAN_BUNDLE_IN, typename OPERATOR, typename CHAN_BUNDLE_OUT,
-    template <typename...> typename OUTPUT_PREDICATE = OutputAll>
+    typename OUTPUT_PREDICATE = OutputAll>
 class Block {
 public:
     Block(CHAN_BUNDLE_IN /*unused*/, OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/, ExecutorIf&);
 
-    template <typename... T_OUT>
-    Block(CHAN_BUNDLE_IN /*unused*/, OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/, ExecutorIf&, OUTPUT_PREDICATE<T_OUT...>);
+    Block(CHAN_BUNDLE_IN /*unused*/, OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/, ExecutorIf&, OUTPUT_PREDICATE);
 };
 
-template <typename... T_IN, typename OPERATOR, typename... T_OUT, template <typename...> typename OUTPUT_PREDICATE>
+template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 class Block<
     ChannelBundle<T_IN...>,
     OPERATOR,
@@ -34,7 +33,7 @@ public:
         OPERATOR& op,
         ChannelBundle<T_OUT...> outputChannels,
         ExecutorIf& executor,
-        OUTPUT_PREDICATE<T_OUT...> outputPredicate = OutputAll<T_OUT...> {});
+        OUTPUT_PREDICATE outputPredicate = OutputAll{});
 
     [[nodiscard]] bool readyForExecution() const override;
 
@@ -52,7 +51,7 @@ private:
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;
     ExecutorIf& executor_;
-    OUTPUT_PREDICATE<T_OUT...> outputPredicate_;
+    OUTPUT_PREDICATE outputPredicate_;
 
     std::atomic_size_t tasksCurrentlyQueued_ { 0 };
     std::mutex taskLock_;

@@ -8,13 +8,14 @@
 
 using namespace df::base;
 
-template <typename... T>
 struct OutputOnlyEven {
+
+    template <typename... T>
     constexpr std::array<bool, sizeof...(T)> operator()(const T&... inputPack) const
     {
         auto isEven = [](const auto& number) { return number % 2 == 0; };
         return { isEven(inputPack)... };
-    };
+    }
 };
 
 constexpr std::tuple<int> passThrough(int val) noexcept
@@ -33,7 +34,7 @@ BOOST_AUTO_TEST_CASE(BasicOutputPredicate)
         passThrough,
         ChannelBundle { chanOut },
         executor,
-        OutputOnlyEven<int> {}
+        OutputOnlyEven{}
     };
 
     const size_t cycles = 101;
