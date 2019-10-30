@@ -1,5 +1,6 @@
 #pragma once
 
+#include <atomic>
 #include <type_traits>
 
 #include "ChannelBundle.h"
@@ -32,7 +33,7 @@ private:
     OPERATOR& op_;
     ExecutorIf& executor_;
 
-    std::size_t tasksCurrentlyQueued_ { 0 };
+    std::atomic_size_t tasksCurrentlyQueued_ { 0 };
     std::mutex taskLock_;
 };
 
