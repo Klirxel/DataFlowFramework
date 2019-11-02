@@ -22,19 +22,14 @@ void SinkBlock<ChannelBundle<T_IN...>,
     OPERATOR>::execute()
 {
 
-    if (not readyForExecution()) {
-        return;
-    }
-
     auto task = [&]() {
         std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
 
         if (input.has_value()) {
             std::apply(op_, move(input).value());
         }
-        
-        --tasksCurrentlyQueued_;
 
+        --tasksCurrentlyQueued_;
     };
 
     executor_.execute(task, taskLock_);

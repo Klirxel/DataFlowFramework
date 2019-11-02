@@ -61,11 +61,6 @@ template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPU
 void Block<ChannelBundle<T_IN...>,
     OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::execute()
 {
-
-    if (not readyForExecution()) {
-        return;
-    }
-
     auto task = [&]() {
         std::optional<std::tuple<T_IN...>> input = inputChannels_.pop();
 
