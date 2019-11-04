@@ -20,7 +20,7 @@ private:
 };
 
 template <typename ValueType,
-    TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
+    TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerNone,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
     typename IgnorePredicate = IgnoreNothing<ValueType>>
 using Channel = ChannelBase<ChannelDataContainer<ValueType>, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>;

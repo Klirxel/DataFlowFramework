@@ -89,14 +89,12 @@ std::size_t ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPus
 template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
 void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notify(std::vector<BlockIf*>& blockList)
 {
-    auto notifyBlockIfReady = [](BlockIf* block) {
-        if (block->readyForExecution()) {
+    auto notifyBlock = [](BlockIf* block) {
             block->execute();
-        }
     };
 
     //note: inform all block strategy. Perhaps there is a more elegant way.
-    std::for_each(blockList.begin(), blockList.end(), notifyBlockIfReady);
+    std::for_each(blockList.begin(), blockList.end(), notifyBlock);
 }
 
 template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
