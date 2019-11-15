@@ -4,6 +4,15 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.13)
 PROJECT(DataFlowFramework)
 
 ################################################################################
+#Versions information
+################################################################################
+set(DATA_FLOW_FRAMEWORK_MAJOR 0 CACHE STRING "major version" FORCE)
+set(DATA_FLOW_FRAMEWORK_MINOR 1 CACHE STRING "minor version" FORCE)
+set(DATA_FLOW_FRAMEWORK ${DATA_FLOW_FRAMEWORK_MAJOR}.${DATA_FLOW_FRAMEWORK_MINOR} CACHE STRING "version" FORCE)
+
+
+
+################################################################################
 #Options and global variables
 ################################################################################
 option(BUILD_UNIT_TESTS "Build unit tests" ON)
