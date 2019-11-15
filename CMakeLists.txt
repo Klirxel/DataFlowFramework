@@ -8,9 +8,22 @@ PROJECT(DataFlowFramework)
 ################################################################################
 set(DATA_FLOW_FRAMEWORK_MAJOR 0 CACHE STRING "major version" FORCE)
 set(DATA_FLOW_FRAMEWORK_MINOR 1 CACHE STRING "minor version" FORCE)
-set(DATA_FLOW_FRAMEWORK ${DATA_FLOW_FRAMEWORK_MAJOR}.${DATA_FLOW_FRAMEWORK_MINOR} CACHE STRING "version" FORCE)
+set(DATA_FLOW_FRAMEWORK_VERSION ${DATA_FLOW_FRAMEWORK_MAJOR}.${DATA_FLOW_FRAMEWORK_MINOR} CACHE STRING "version" FORCE)
 
+################################################################################
+#Installation 
+################################################################################
+set(install_path_runtime "bin/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
+set(install_path_library "lib/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
+set(install_path_archive "lib/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
+set(install_path_public_header "include/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
+set(install_path_private_header "include/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
+set(install_path_cmake_config "lib/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}/cmake")
 
+################################################################################
+#Packaging
+################################################################################
+include(CPack)
 
 ################################################################################
 #Options and global variables
