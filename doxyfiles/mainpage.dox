@@ -1,9 +1,36 @@
 /** \mainpage DataFlow - A dataflow library 
  *
  *
- * \section intro_sec Description
+ * \section sec_intro Description
+ * - This library aims to implement programs in a **block diagram style**.
+ * - **Programs** are a **composite** of functional components called **blocks**, which
+ *   are connected via **channels** (This is similar to electric circuits containing
+ *   electric components connected with wires.).
+ * - A **block** is an entity defined through and input and output channel connectors and
+ *   an functional core. 
+ * - When the data is available at the input channel the functional core of a block is
+ *   executed, reading the data from the channel, doing execution, and then writing the
+ *   data to the output channels.
+ * - Famous tool having a similar design approach are 
+ *   like \ref https://en.wikipedia.org/wiki/Simulink or
+ *   \ref https://en.wikipedia.org/wiki/LabVIEW..
  * 
- * \section Documents
+ * \section sec_target Aim
+ * - Enable the building of programs by using data flow diagram modeling.
+ * - Simplify high level program structuring. 
+ * - Allow implementation of (complex) data flow models.
+ * - Simplify parallelization of programs.
+ * - Enable usability within C++ environments.
+ * - High performance.
+ *
+ * \section sec_features Features
+ * - Pure C++17 library (no code generators or macro hell).
+ * - Automatic data-flow propagation and task execution handling.
+ * - General C++-style programming interface to user code. 
+ * - Easy usability of user libraries.
+ * - No framework entanglement in functional components. 
+ * - Three layer approach: 
+ *   User libraries - Framework Adapter - Framework data-flow model => Program 
  *
  * \section repstruct Structure of the repository
  * -  <a href="..">Repository Root</a>
