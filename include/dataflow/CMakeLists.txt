@@ -7,31 +7,27 @@ find_package(Threads REQUIRED)
 #Add library 
 ################################################################################
 add_library(
-  df_base
+  dataflow
   INTERFACE  
 ) 
 
-set(headers_path_public
+set(header_paths
   ${CMAKE_SOURCE_DIR}/include/dataflow/blocks
   ${CMAKE_SOURCE_DIR}/include/dataflow/channels
   ${CMAKE_SOURCE_DIR}/include/dataflow/executors
   ${CMAKE_SOURCE_DIR}/include/dataflow/tools
 )
 
-set(headers_path_private
-  ${CMAKE_SOURCE_DIR}/src/base 
-)
-
-foreach(header_path ${headers_path_public} ${headers_path_private})
+foreach(header_path ${header_paths})
   target_include_directories(
-  df_base
+  dataflow
   INTERFACE
   $<BUILD_INTERFACE:${header_path}>
   )
 endforeach()
 
 target_link_libraries(
-  df_base
+  dataflow
   INTERFACE
   Threads::Threads	
 )
@@ -40,40 +36,28 @@ target_link_libraries(
 #Install library 
 ################################################################################
 install(
-  TARGETS df_base
-  EXPORT  dataFlowFramework
+  TARGETS dataflow 
+  EXPORT  dataflow
   ARCHIVE  DESTINATION ${install_path_archive}
   LIBRARY  DESTINATION ${install_path_library}
   RUNTIME  DESTINATION ${install_path_runtime}
-  INCLUDES DESTINATION ${install_path_public_header} 
-  INCLUDES DESTINATION ${install_path_private_header} 
+  INCLUDES DESTINATION ${install_path_header} 
   )
 
 list(
-  TRANSFORM headers_path_public
+  TRANSFORM header_paths
   APPEND "/"
   )
 
 install(
-  DIRECTORY  ${headers_path_public}
-  DESTINATION ${install_path_public_header}
+  DIRECTORY  ${header_paths}
+  DESTINATION ${install_path_header}
   FILES_MATCHING
   PATTERN "*.h"
-  )
-
-list(
-  TRANSFORM headers_path_private
-  APPEND "/"
-  )
-
-install(
-  DIRECTORY ${headers_path_private}
-  DESTINATION ${install_path_private_header}
-  FILES_MATCHING
   PATTERN "*.hpp"
   )
 
 install(
-  EXPORT dataFlowFramework
+  EXPORT dataflow
   DESTINATION ${install_path_cmake_config}
   )

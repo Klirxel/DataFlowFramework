@@ -9,7 +9,7 @@ function (add_unit_test name)
 
   target_link_libraries(
     ${name}	
-    df_base
+    dataflow
     ${Boost_LIBRARIES} 
   )
 

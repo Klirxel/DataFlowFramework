@@ -16,8 +16,7 @@ set(DATA_FLOW_FRAMEWORK_VERSION ${DATA_FLOW_FRAMEWORK_MAJOR}.${DATA_FLOW_FRAMEWO
 set(install_path_runtime "bin/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
 set(install_path_library "lib/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
 set(install_path_archive "lib/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
-set(install_path_public_header "include/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
-set(install_path_private_header "include/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
+set(install_path_header "include/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}")
 set(install_path_cmake_config "lib/dataFlowFramework-${DATA_FLOW_FRAMEWORK_VERSION}/cmake")
 
 ################################################################################
@@ -81,7 +80,7 @@ endif()
 ################################################################################
 #Add subdirectories
 ################################################################################
-add_subdirectory(src)
+add_subdirectory(include/dataflow)
 
 if(BUILD_UNIT_TESTS)
   add_subdirectory(test)
