@@ -4,7 +4,7 @@
 
 #include "TransmissionAnalyser.h"
 
-using namespace df::base;
+using namespace dataflow::tools;
 
 BOOST_AUTO_TEST_CASE(DefaultCtorCall)
 {

@@ -2,7 +2,7 @@
 
 #include "ChannelBase.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
 constexpr void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::attachSinkBlock(BlockIf* sinkBlock) noexcept

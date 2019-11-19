@@ -2,10 +2,12 @@
 
 #include <type_traits>
 
-#include "BlockIf.h"
+#include "../blocks/BlockIf.h"
 #include "ChannelIf.h"
 
-namespace df::base {
+using namespace dataflow::blocks;
+
+namespace dataflow::channels {
 
 template <class CHANNEL>
 class ChannelAlwaysDataAvailableDecorator : public ChannelIf<typename CHANNEL::ValueType> {

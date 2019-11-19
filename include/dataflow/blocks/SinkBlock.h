@@ -3,10 +3,13 @@
 #include <atomic>
 #include <type_traits>
 
-#include "ChannelBundle.h"
-#include "ExecutorAsync.h"
+#include "../channels/ChannelBundle.h"
+#include "../executors/ExecutorAsync.h"
 
-namespace df::base {
+using namespace dataflow::channels;
+using namespace dataflow::executors;
+
+namespace dataflow::blocks {
 
 template <typename CHAN_BUNDLE_IN, typename OPERATOR>
 class SinkBlock {

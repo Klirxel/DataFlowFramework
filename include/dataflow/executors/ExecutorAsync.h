@@ -7,7 +7,7 @@
 
 #include "ExecutorIf.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 class ExecutorAsync : public ExecutorIf {
 

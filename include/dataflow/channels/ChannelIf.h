@@ -4,9 +4,11 @@
 #include <optional>
 #include <type_traits>
 
-#include "BlockIf.h"
+#include "../blocks/BlockIf.h"
 
-namespace df::base {
+using namespace dataflow::blocks;
+
+namespace dataflow::channels {
 
 template <typename T>
 class ChannelIf {
@@ -25,7 +27,6 @@ public:
     [[nodiscard]] virtual bool dataAssignable() const = 0;
     [[nodiscard]] virtual std::size_t size() const = 0;
     [[nodiscard]] virtual std::size_t max_size() const = 0;
-    
 
     std::mutex lock;
 };

@@ -7,7 +7,10 @@
 #include "Executor.h"
 #include "TransmissionAnalyser.h"
 
-using namespace df::base;
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
+using namespace dataflow::executors;
+using namespace dataflow::tools;
 
 inline TransmissionAnalyser moveThrough(TransmissionAnalyser&& ta) noexcept { return std::move(ta); }
 

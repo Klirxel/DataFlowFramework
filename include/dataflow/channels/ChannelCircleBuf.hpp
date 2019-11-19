@@ -2,7 +2,7 @@
 
 #include "ChannelCircleBuf.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <typename ValueType, std::size_t Size>
 std::optional<ValueType> ChannelCircleBufContainer<ValueType, Size>::pop()

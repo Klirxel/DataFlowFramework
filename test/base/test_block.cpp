@@ -8,7 +8,9 @@
 #include "Channel.h"
 #include "Executor.h"
 
-using namespace df::base;
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
+using namespace dataflow::executors;
 
 constexpr int add(int input1, int input2) noexcept { return input1 + input2; }
 
@@ -82,7 +84,7 @@ BOOST_AUTO_TEST_CASE(BlockOutputPredicateTwoChannel)
     input1.push(1);
     input1.push(2);
     input1.push(3);
-    
+
     input2.push(1);
     input2.push(2);
     input2.push(3);

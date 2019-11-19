@@ -5,7 +5,7 @@
 #include "ChannelCircleBuf.h"
 #include "ChannelThreadSafetyDecorator.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <typename T>
 using ChannelThreadSafe = ChannelThreadSafetyDecorator<Channel<T>>;

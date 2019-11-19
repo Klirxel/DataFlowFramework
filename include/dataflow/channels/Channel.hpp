@@ -2,7 +2,7 @@
 
 #include "Channel.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <typename T>
 std::optional<T> ChannelDataContainer<T>::pop()

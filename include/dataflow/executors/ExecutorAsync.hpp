@@ -5,7 +5,7 @@
 
 using namespace std::literals::chrono_literals;
 
-namespace df::base {
+namespace dataflow::executors {
 
 inline ExecutorAsync::ExecutorAsync(std::launch policy) noexcept
     : policy_(policy)

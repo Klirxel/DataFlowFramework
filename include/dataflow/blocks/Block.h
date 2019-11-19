@@ -1,11 +1,15 @@
 #pragma once
 
+#include <array>
 #include <type_traits>
 
-#include "ChannelBundle.h"
-#include "ExecutorAsync.h"
+#include "../channels/ChannelBundle.h"
+#include "../executors/ExecutorAsync.h"
 
-namespace df::base {
+using namespace dataflow::channels;
+using namespace dataflow::executors;
+
+namespace dataflow::blocks {
 
 struct OutputAll {
     template <typename... T>
@@ -25,7 +29,7 @@ template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPU
 class Block<
     ChannelBundle<T_IN...>,
     OPERATOR,
-    ChannelBundle<T_OUT...>,
+    channels::ChannelBundle<T_OUT...>,
     OUTPUT_PREDICATE> : public BlockIf {
 
 public:
@@ -33,7 +37,7 @@ public:
         OPERATOR& op,
         ChannelBundle<T_OUT...> outputChannels,
         ExecutorIf& executor,
-        OUTPUT_PREDICATE outputPredicate = OutputAll{});
+        OUTPUT_PREDICATE outputPredicate = OutputAll {});
 
     [[nodiscard]] bool readyForExecution() const override;
 
@@ -46,7 +50,7 @@ private:
     [[nodiscard]] std::size_t sinkCapacity() const;
 
     template <size_t... Is>
-    std::array<bool, sizeof...(T_OUT)> outputPredicateImpl(const std::tuple<T_OUT...>& output, std::index_sequence<Is...> /*unused*/);                                                    
+    std::array<bool, sizeof...(T_OUT)> outputPredicateImpl(const std::tuple<T_OUT...>& output, std::index_sequence<Is...> /*unused*/);
     ChannelBundle<T_IN...> inputChannels_;
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;

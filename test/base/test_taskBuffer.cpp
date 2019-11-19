@@ -5,7 +5,7 @@
 
 #include "TaskBuffer.h"
 
-using namespace df::base;
+using namespace dataflow::executors;
 
 BOOST_AUTO_TEST_CASE(DefaultCtor)
 {

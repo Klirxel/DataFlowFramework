@@ -6,7 +6,9 @@
 #include "Channels.h"
 #include "Executor.h"
 
-using namespace df::base;
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
+using namespace dataflow::executors;
 
 struct OutputOnlyEven {
 
@@ -34,7 +36,7 @@ BOOST_AUTO_TEST_CASE(BasicOutputPredicate)
         passThrough,
         ChannelBundle { chanOut },
         executor,
-        OutputOnlyEven{}
+        OutputOnlyEven {}
     };
 
     const size_t cycles = 101;

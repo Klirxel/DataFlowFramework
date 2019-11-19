@@ -1,6 +1,6 @@
 #include "SinkBlock.h"
 
-namespace df::base {
+namespace dataflow::blocks {
 
 template <typename... T_IN, typename OPERATOR>
 SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::SinkBlock(ChannelBundle<T_IN...> inputChannels, OPERATOR& op, ExecutorIf& executor)

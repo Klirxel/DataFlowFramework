@@ -1,6 +1,6 @@
 #include "ChannelThreadSafetyDecorator.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <class CHANNEL>
 void ChannelThreadSafetyDecorator<CHANNEL>::attachSinkBlock(BlockIf* block)

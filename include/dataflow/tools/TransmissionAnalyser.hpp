@@ -1,6 +1,6 @@
 #include "TransmissionAnalyser.h"
 
-namespace df::base {
+namespace dataflow::tools {
 
 inline TransmissionAnalyser::TransmissionAnalyser(const TransmissionAnalyser& other) noexcept
     : calls(other.calls)

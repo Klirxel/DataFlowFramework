@@ -4,13 +4,15 @@
 #include <chrono>
 #include <future>
 
+#include "../channels/ChannelBundle.h"
+#include "../executors/ExecutorIf.h"
 #include "BlockIf.h"
-#include "ChannelBundle.h"
-#include "ExecutorIf.h"
 
 using namespace std::literals::chrono_literals;
+using namespace dataflow::channels;
+using namespace dataflow::executors;
 
-namespace df::base {
+namespace dataflow::blocks {
 
 constexpr size_t inf = 0;
 

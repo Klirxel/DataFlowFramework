@@ -5,7 +5,7 @@
 #include "Channel.h"
 #include "ChannelBundle.h"
 
-using namespace df::base;
+using namespace dataflow::blocks;
 
 BOOST_AUTO_TEST_CASE(Test_size)
 {

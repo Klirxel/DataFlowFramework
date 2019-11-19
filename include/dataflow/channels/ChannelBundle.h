@@ -2,10 +2,13 @@
 
 #include <tuple>
 
-#include "BlockIf.h"
-#include "ChannelIf.h"
+#include "../blocks/BlockIf.h"
+#include "../channels/ChannelIf.h"
 
-namespace df::base {
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
+
+namespace dataflow::channels {
 
 template <size_t SIZE>
 struct AllTrue {

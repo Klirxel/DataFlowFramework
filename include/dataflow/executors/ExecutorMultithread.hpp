@@ -1,6 +1,6 @@
 #include "ExecutorMultithread.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 inline ExecutorMultithread::ExecutorMultithread(size_t threads)
 {

@@ -5,7 +5,7 @@
 #include <mutex>
 #include <thread>
 
-namespace df::base {
+namespace dataflow::executors {
 
 struct TaskWithLock {
     std::function<void(void)> task;

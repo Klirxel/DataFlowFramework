@@ -1,6 +1,6 @@
 #pragma once
 
-namespace df::base {
+namespace dataflow::blocks {
 
 class BlockIf {
 public:

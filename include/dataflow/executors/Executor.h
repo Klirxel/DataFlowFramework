@@ -2,7 +2,7 @@
 
 #include "ExecutorIf.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 class Executor : public ExecutorIf {
 

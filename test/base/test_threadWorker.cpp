@@ -7,8 +7,8 @@
 
 #include "ThreadWorker.h"
 
-using namespace df::base;
 using namespace std::literals::chrono_literals;
+using namespace dataflow::executors;
 
 struct ExampleTask {
     void operator()() noexcept

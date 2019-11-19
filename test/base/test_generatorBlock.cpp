@@ -7,7 +7,8 @@
 #include "Channel.h"
 #include "GeneratorBlock.h"
 
-using namespace df::base;
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
 
 constexpr int kernel() noexcept
 {

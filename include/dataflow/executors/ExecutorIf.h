@@ -2,15 +2,17 @@
 
 #include <functional>
 
-#include "BlockIf.h"
+#include "../blocks/BlockIf.h"
 #include "mutex"
 
-namespace df::base {
+using namespace dataflow::blocks;
+
+namespace dataflow::executors {
 
 struct ExecutorIf {
 
 public:
-    virtual void execute(std::function<void(void)> &&task, std::mutex& taskLock) = 0;
+    virtual void execute(std::function<void(void)>&& task, std::mutex& taskLock) = 0;
 };
 
 } //ns

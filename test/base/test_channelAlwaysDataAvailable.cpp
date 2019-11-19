@@ -8,7 +8,9 @@
 #include "Channels.h"
 #include "Executor.h"
 
-using namespace df::base;
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
+using namespace dataflow::executors;
 
 constexpr int
 operatorAdd(int input1, int input2) noexcept

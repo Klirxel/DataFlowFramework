@@ -4,7 +4,7 @@
 
 #include "ChannelBase.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <typename ValueType>
 class ChannelDataContainer : public ChannelDataContainerIf<ValueType> {

@@ -1,6 +1,6 @@
 #include "Block.h"
 
-namespace df::base {
+namespace dataflow::blocks {
 
 template <typename... T>
 constexpr std::array<bool, sizeof...(T)> OutputAll::operator()([[maybe_unused]] const T&... /*unused*/) const
@@ -87,4 +87,4 @@ std::array<bool, sizeof...(T_OUT)> Block<ChannelBundle<T_IN...>,
     return outputPredicate_(std::get<Is>(output)...);
 }
 
-} // namespace df
+} // namespace 

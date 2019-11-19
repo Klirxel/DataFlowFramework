@@ -7,7 +7,7 @@
 
 #include "TaskBuffer.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 class ThreadWorker {
 

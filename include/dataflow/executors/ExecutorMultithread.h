@@ -5,7 +5,7 @@
 #include "ExecutorIf.h"
 #include "ThreadWorker.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 class ExecutorMultithread : public ExecutorIf {
 

@@ -2,7 +2,7 @@
 
 #include "ChannelAlwaysDataAvailableDecorator.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <class CHANNEL>
 void ChannelAlwaysDataAvailableDecorator<CHANNEL>::attachSinkBlock(BlockIf* block)

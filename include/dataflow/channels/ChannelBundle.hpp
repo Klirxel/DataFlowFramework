@@ -2,7 +2,7 @@
 
 #include "ChannelBundle.h"
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <typename... T>
 constexpr ChannelBundle<T...>::ChannelBundle(

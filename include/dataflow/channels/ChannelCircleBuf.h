@@ -3,7 +3,7 @@
 #include "ChannelBase.h"
 #include <boost/circular_buffer.hpp>
 
-namespace df::base {
+namespace dataflow::channels {
 
 template <typename ValueType, std::size_t Size>
 class ChannelCircleBufContainer : public ChannelDataContainerIf<ValueType> {

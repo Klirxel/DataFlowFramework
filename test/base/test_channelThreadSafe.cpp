@@ -6,12 +6,13 @@
 
 #include "Block.h"
 #include "Channels.h"
+#include "ExecutorAsync.h"
 #include "GeneratorBlock.h"
 #include "SinkBlock.h"
 
-#include "ExecutorAsync.h"
-
-using namespace df::base;
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
+using namespace dataflow::executors;
 
 struct Counter {
 

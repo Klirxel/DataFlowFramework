@@ -1,6 +1,6 @@
 #include "ThreadWorker.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 inline ThreadWorker::ThreadWorker(bool enable) noexcept
     : enabled_ { enable }

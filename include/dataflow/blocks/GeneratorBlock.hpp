@@ -2,7 +2,7 @@
 
 #include "GeneratorBlock.h"
 
-namespace df::base {
+namespace dataflow::blocks {
 
 template <typename OPERATOR, typename... T_OUT>
 GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::GeneratorBlock(OPERATOR& op, ChannelBundle<T_OUT...> outputChannels)

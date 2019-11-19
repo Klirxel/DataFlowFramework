@@ -1,6 +1,6 @@
 #include "TaskBuffer.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 inline void TaskBuffer::addTask(std::function<void(void)>&& task, std::mutex* task_lock)
 {

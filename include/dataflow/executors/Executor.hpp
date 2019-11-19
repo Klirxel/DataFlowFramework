@@ -1,6 +1,6 @@
 #include "Executor.h"
 
-namespace df::base {
+namespace dataflow::executors {
 
 inline void Executor::execute(std::function<void()> &&task, std::mutex &taskLock)
 {
