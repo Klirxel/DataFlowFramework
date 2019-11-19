@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#include "Channel.h"
-#include "GeneratorBlock.h"
+#include "blocks/GeneratorBlock.h"
+#include "channels/Channel.h"
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;

@@ -5,7 +5,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "ThreadWorker.h"
+#include "executors/ThreadWorker.h"
 
 using namespace std::literals::chrono_literals;
 using namespace dataflow::executors;

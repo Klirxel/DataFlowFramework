@@ -5,9 +5,9 @@
 #include <iostream>
 #include <vector>
 
-#include "Channel.h"
-#include "Executor.h"
-#include "SinkBlock.h"
+#include "blocks/SinkBlock.h"
+#include "channels/Channel.h"
+#include "executors/Executor.h"
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;

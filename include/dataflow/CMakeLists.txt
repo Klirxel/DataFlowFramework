@@ -11,20 +11,13 @@ add_library(
   INTERFACE  
 ) 
 
-set(header_paths
-  ${CMAKE_SOURCE_DIR}/include/dataflow/blocks
-  ${CMAKE_SOURCE_DIR}/include/dataflow/channels
-  ${CMAKE_SOURCE_DIR}/include/dataflow/executors
-  ${CMAKE_SOURCE_DIR}/include/dataflow/tools
-)
+set(include_root ${CMAKE_CURRENT_LIST_DIR})
 
-foreach(header_path ${header_paths})
-  target_include_directories(
+target_include_directories(
   dataflow
   INTERFACE
-  $<BUILD_INTERFACE:${header_path}>
-  )
-endforeach()
+  $<BUILD_INTERFACE:${include_root}>
+)
 
 target_link_libraries(
   dataflow
@@ -44,13 +37,8 @@ install(
   INCLUDES DESTINATION ${install_path_header} 
   )
 
-list(
-  TRANSFORM header_paths
-  APPEND "/"
-  )
-
 install(
-  DIRECTORY  ${header_paths}
+  DIRECTORY ${include_root}/ 
   DESTINATION ${install_path_header}
   FILES_MATCHING
   PATTERN "*.h"

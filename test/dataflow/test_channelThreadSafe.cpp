@@ -4,11 +4,11 @@
 
 #include <vector>
 
-#include "Block.h"
-#include "Channels.h"
-#include "ExecutorAsync.h"
-#include "GeneratorBlock.h"
-#include "SinkBlock.h"
+#include "blocks/Block.h"
+#include "blocks/GeneratorBlock.h"
+#include "blocks/SinkBlock.h"
+#include "channels/Channels.h"
+#include "executors/ExecutorAsync.h"
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;

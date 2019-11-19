@@ -2,10 +2,10 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
-#include "Block.h"
-#include "Channel.h"
-#include "Executor.h"
-#include "TransmissionAnalyser.h"
+#include "blocks/Block.h"
+#include "channels/Channel.h"
+#include "executors/Executor.h"
+#include "tools/TransmissionAnalyser.h"
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
