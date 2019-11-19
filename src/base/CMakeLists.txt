@@ -12,10 +12,10 @@ add_library(
 ) 
 
 set(headers_path_public
-  ${CMAKE_SOURCE_DIR}/include/base/blocks
-  ${CMAKE_SOURCE_DIR}/include/base/channels
-  ${CMAKE_SOURCE_DIR}/include/base/executors
-  ${CMAKE_SOURCE_DIR}/include/base/tools
+  ${CMAKE_SOURCE_DIR}/include/dataflow/blocks
+  ${CMAKE_SOURCE_DIR}/include/dataflow/channels
+  ${CMAKE_SOURCE_DIR}/include/dataflow/executors
+  ${CMAKE_SOURCE_DIR}/include/dataflow/tools
 )
 
 set(headers_path_private
