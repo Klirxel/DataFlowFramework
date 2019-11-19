@@ -5,11 +5,11 @@
 #include <chrono>
 #include <set>
 
-#include "blocks/Block.h"
-#include "blocks/GeneratorBlock.h"
-#include "blocks/SinkBlock.h"
-#include "channels/Channels.h"
-#include "executors/ExecutorMultithread.h"
+#include <dataflow/blocks/Block.h>
+#include <dataflow/blocks/GeneratorBlock.h>
+#include <dataflow/blocks/SinkBlock.h>
+#include <dataflow/channels/Channels.h>
+#include <dataflow/executors/ExecutorMultithread.h>
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;

@@ -3,7 +3,7 @@
 
 #include <boost/test/unit_test.hpp>
 
-#include "executors/TaskBuffer.h"
+#include <dataflow/executors/TaskBuffer.h>
 
 using namespace dataflow::executors;
 

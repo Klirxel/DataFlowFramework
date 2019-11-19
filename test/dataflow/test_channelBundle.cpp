@@ -2,8 +2,8 @@
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
-#include "channels/Channel.h"
-#include "channels/ChannelBundle.h"
+#include <dataflow/channels/Channel.h>
+#include <dataflow/channels/ChannelBundle.h>
 
 using namespace dataflow::blocks;
 

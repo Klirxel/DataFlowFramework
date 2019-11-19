@@ -11,12 +11,12 @@ add_library(
   INTERFACE  
 ) 
 
-set(include_root ${CMAKE_CURRENT_LIST_DIR})
+set(include_dir ${CMAKE_SOURCE_DIR}/include)
 
 target_include_directories(
   dataflow
   INTERFACE
-  $<BUILD_INTERFACE:${include_root}>
+  $<BUILD_INTERFACE:${include_dir}>
 )
 
 target_link_libraries(

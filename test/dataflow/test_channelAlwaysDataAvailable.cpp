@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include "blocks/Block.h"
-#include "channels/Channels.h"
-#include "executors/Executor.h"
+#include <dataflow/blocks/Block.h>
+#include <dataflow/channels/Channels.h>
+#include <dataflow/executors/Executor.h>
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
