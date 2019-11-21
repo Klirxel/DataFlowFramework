@@ -14,20 +14,29 @@ GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::GeneratorBlock(OPERATOR& op, 
 
 template <typename OPERATOR, typename... T_OUT>
 void GeneratorBlock<
-    OPERATOR, ChannelBundle<T_OUT...>>::executionStep()
+    OPERATOR, ChannelBundle<T_OUT...>>::execute()
 {
     std::tuple<T_OUT...> output = op_();
     outputChannels_.push(std::move(output));
 }
 
 template <typename OPERATOR, typename... T_OUT>
-void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::executionLoop(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t count)
+bool GeneratorBlock<
+    OPERATOR, ChannelBundle<T_OUT...>>::readyForExecution() const
 {
-    std::this_thread::sleep_for(offset);
-    size_t curCount = 0;
+    return execute_ && (maxExecutions_ == inf or executions_ < maxExecutions_);
+}
 
-    while (execute_ && (count == inf or curCount++ < count)) {
-        executionStep();
+template <typename OPERATOR, typename... T_OUT>
+void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::executionLoop(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t maxExecutions)
+{
+    maxExecutions_ = maxExecutions;
+
+    std::this_thread::sleep_for(offset);
+
+    while (readyForExecution()) {
+        execute();
+        ++executions_;
         std::this_thread::sleep_for(period);
     };
 }

@@ -24,7 +24,7 @@ public:
 
 template <typename OPERATOR, typename... T_OUT>
 class GeneratorBlock<
-    OPERATOR, ChannelBundle<T_OUT...>> {
+    OPERATOR, ChannelBundle<T_OUT...>> : public BlockIf {
 
 public:
     GeneratorBlock(OPERATOR& op, ChannelBundle<T_OUT...> outputChannels);
@@ -33,12 +33,17 @@ public:
     void stop();
     void wait();
 
+    void execute() override;
+    bool readyForExecution() const override;
+
 private:
-    void executionStep();
-    void executionLoop(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t count);
+    void executionLoop(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t maxExecutions);
 
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;
+
+    size_t executions_ { 0 };
+    size_t maxExecutions_ { 0 };
 
     std::future<void> executionHandle_;
     std::atomic_bool execute_;
