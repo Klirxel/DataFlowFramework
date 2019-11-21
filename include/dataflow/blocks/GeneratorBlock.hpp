@@ -28,7 +28,11 @@ bool GeneratorBlock<
 }
 
 template <typename OPERATOR, typename... T_OUT>
-void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::executionLoop(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t maxExecutions)
+template <class REP, class PERIOD>
+void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::executionLoop(
+    std::chrono::duration<REP, PERIOD> period,
+    std::chrono::duration<REP, PERIOD> offset,
+    size_t maxExecutions)
 {
     maxExecutions_ = maxExecutions;
 
@@ -42,9 +46,12 @@ void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::executionLoop(std::chron
 }
 
 template <typename OPERATOR, typename... T_OUT>
-void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::start(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t count)
+template <class REP, class PERIOD>
+void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>>::start(
+    std::chrono::duration<REP, PERIOD> period,
+    std::chrono::duration<REP, PERIOD> offset,
+    size_t count)
 {
-
     execute_ = true;
 
     auto execLoopAsyncWrapper = [&](auto period, auto offset, auto count) {

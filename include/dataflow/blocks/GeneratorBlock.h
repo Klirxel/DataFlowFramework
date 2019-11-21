@@ -29,7 +29,12 @@ class GeneratorBlock<
 public:
     GeneratorBlock(OPERATOR& op, ChannelBundle<T_OUT...> outputChannels);
 
-    void start(std::chrono::milliseconds period = 1000ms, std::chrono::milliseconds offset = 0ms, size_t count = inf);
+    template <class REP, class PERIOD>
+    void start(
+        std::chrono::duration<REP, PERIOD> period = 1000ms,
+        std::chrono::duration<REP, PERIOD> offset = 0ms,
+        size_t count = inf);
+
     void stop();
     void wait();
 
@@ -37,7 +42,11 @@ public:
     bool readyForExecution() const override;
 
 private:
-    void executionLoop(std::chrono::milliseconds period, std::chrono::milliseconds offset, size_t maxExecutions);
+    template <class REP, class PERIOD>
+    void executionLoop(
+        std::chrono::duration<REP, PERIOD> period = 1000ms,
+        std::chrono::duration<REP, PERIOD> offset = 0ms,
+        size_t maxExecutions = inf);
 
     OPERATOR& op_;
     ChannelBundle<T_OUT...> outputChannels_;
