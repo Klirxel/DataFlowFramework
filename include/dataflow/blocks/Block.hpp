@@ -2,14 +2,6 @@
 
 namespace dataflow::blocks {
 
-template <typename... T>
-constexpr std::array<bool, sizeof...(T)> OutputAll::operator()([[maybe_unused]] const T&... /*unused*/) const
-{
-    auto array = std::array<bool, sizeof...(T)> {};
-    array.fill(true);
-    return array;
-}
-
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op,
     ChannelBundle<T_OUT...> outputChannels, ExecutorIf& executor, OUTPUT_PREDICATE outputPredicate)
@@ -87,4 +79,4 @@ std::array<bool, sizeof...(T_OUT)> Block<ChannelBundle<T_IN...>,
     return outputPredicate_(std::get<Is>(output)...);
 }
 
-} // namespace 
+} // namespace

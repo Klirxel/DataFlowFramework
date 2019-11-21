@@ -5,16 +5,12 @@
 
 #include "../channels/ChannelBundle.h"
 #include "../executors/ExecutorAsync.h"
+#include "OutputPredicates.h"
 
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 
 namespace dataflow::blocks {
-
-struct OutputAll {
-    template <typename... T>
-    [[nodiscard]] constexpr std::array<bool, sizeof...(T)> operator()([[maybe_unused]] const T&... /*unused*/) const;
-};
 
 template <typename CHAN_BUNDLE_IN, typename OPERATOR, typename CHAN_BUNDLE_OUT,
     typename OUTPUT_PREDICATE = OutputAll>
