@@ -60,4 +60,4 @@ private:
 
 } //ns
 
-#include "GeneratorBlock.hpp"
+#include "impl/GeneratorBlock.hpp"

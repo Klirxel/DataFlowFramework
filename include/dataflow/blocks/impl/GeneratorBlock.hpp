@@ -1,6 +1,6 @@
 #include <future>
 
-#include "GeneratorBlock.h"
+#include "../GeneratorBlock.h"
 
 namespace dataflow::blocks {
 

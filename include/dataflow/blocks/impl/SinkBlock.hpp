@@ -1,4 +1,4 @@
-#include "SinkBlock.h"
+#include "../SinkBlock.h"
 
 namespace dataflow::blocks {
 

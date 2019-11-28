@@ -38,7 +38,7 @@ install(
   )
 
 install(
-  DIRECTORY ${include_root}/ 
+  DIRECTORY ${include_dir}/ 
   DESTINATION ${install_path_header}
   FILES_MATCHING
   PATTERN "*.h"
