@@ -39,7 +39,7 @@ public:
     void wait();
 
     void execute() override;
-    bool readyForExecution() const override;
+    [[nodiscard]] bool readyForExecution() const override;
 
 private:
     template <class REP, class PERIOD>

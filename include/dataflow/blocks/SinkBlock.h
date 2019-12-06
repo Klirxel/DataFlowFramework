@@ -24,7 +24,7 @@ class SinkBlock<ChannelBundle<T_IN...>,
 public:
     SinkBlock(ChannelBundle<T_IN...> inputChannels, OPERATOR& op, ExecutorIf& executor);
 
-    bool readyForExecution() const override;
+    [[nodiscard]] bool readyForExecution() const override;
 
     void execute() override;
 

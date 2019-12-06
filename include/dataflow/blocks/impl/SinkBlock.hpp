@@ -39,8 +39,7 @@ void SinkBlock<ChannelBundle<T_IN...>,
 template <typename... T_IN, typename OPERATOR>
 [[nodiscard]] bool SinkBlock<ChannelBundle<T_IN...>, OPERATOR>::freeSourceCapacity() const
 {
-    const bool freeSourceCapacity = sourceCapacity() > 0 ? true : false;
-    return freeSourceCapacity;
+    return sourceCapacity() > 0;
 }
 
 template <typename... T_IN, typename OPERATOR>

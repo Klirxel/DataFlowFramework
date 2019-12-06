@@ -21,7 +21,7 @@ namespace dataflow::blocks {
  */
 class BlockIf {
 public:
-    virtual bool readyForExecution() const = 0;
+    [[nodiscard]] virtual bool readyForExecution() const = 0;
     virtual void execute() = 0;
 };
 
