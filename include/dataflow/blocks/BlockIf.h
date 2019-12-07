@@ -3,11 +3,12 @@
 namespace dataflow::blocks {
 
 /**
- * @brief Block interface class.
+ * @brief Generic interface for blocks.
  *
  * @details
  * - Blocks are the functional objects in an dataflow
- *   network. A block can be attached to input- and
+ *   network.
+ * - A block can be attached to input- and
  *   output-channels and an invocable object the 
  *   block operator. 
  * - There are mainly three types of blocks, 
@@ -18,6 +19,9 @@ namespace dataflow::blocks {
  *   GeneratorBlocks only have output channels
  *   and generate only data. SinkBlocks have only
  *   input channels and only consume data.
+ *
+ *  @remark
+ * - Should be used as a generic interface to address blocks.
  */
 class BlockIf {
 public:
