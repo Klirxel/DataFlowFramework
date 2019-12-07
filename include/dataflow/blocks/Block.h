@@ -45,7 +45,8 @@ public:
  * @tparam OPERATOR  Function kernel of the block
  * @tparam T_OUT...  Value types of the output data channels.
  * @tparam OUTPUT_PREDICATE Predicate to control output on the channels.
- *                          More information see @ref OutputPredicates.h.
+ *                          More information see
+ *                          @ref dataflow::blocks::outputPredicates.
  *
  */
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
