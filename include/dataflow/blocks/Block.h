@@ -52,6 +52,12 @@ class Block<
     channels::ChannelBundle<T_OUT...>,
     OUTPUT_PREDICATE> : public BlockIf {
 
+    static_assert(std::is_invocable_r_v<std::tuple<T_OUT...>, OPERATOR, T_IN&&...>,
+        "Operator is not consistent with the input or/and output parameters!");
+
+    static_assert(std::is_invocable_r_v<std::array<bool, sizeof...(T_OUT)>, OUTPUT_PREDICATE, const T_OUT&...>,
+        "Output predicate is not consistent with the output parameters!");
+
 public:
     Block(ChannelBundle<T_IN...> inputChannels,
         OPERATOR& op,
