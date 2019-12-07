@@ -1,6 +1,6 @@
-#include "../OutputPredicates.h"
+#include "../outputPredicates/OutputAll.h"
 
-namespace dataflow::blocks {
+namespace dataflow::blocks::outputPredicates {
 
 template <typename... T>
 constexpr std::array<bool, sizeof...(T)> OutputAll::operator()([[maybe_unused]] const T&... /*unused*/) const
@@ -10,4 +10,4 @@ constexpr std::array<bool, sizeof...(T)> OutputAll::operator()([[maybe_unused]] 
     return array;
 }
 
-}
+} // namespace dataflow::blocks::outputPredicates

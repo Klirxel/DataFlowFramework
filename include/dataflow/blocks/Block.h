@@ -5,8 +5,9 @@
 
 #include "../channels/ChannelBundle.h"
 #include "../executors/ExecutorAsync.h"
-#include "OutputPredicates.h"
+#include "outputPredicates/OutputAll.h"
 
+using namespace outputPredicates;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 

@@ -7,9 +7,10 @@
 #include "../channels/ChannelBundle.h"
 #include "../executors/ExecutorIf.h"
 #include "BlockIf.h"
-#include "OutputPredicates.h"
+#include "outputPredicates/OutputAll.h"
 
 using namespace std::literals::chrono_literals;
+using namespace outputPredicates;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 
