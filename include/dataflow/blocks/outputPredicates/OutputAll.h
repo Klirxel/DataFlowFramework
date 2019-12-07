@@ -4,7 +4,7 @@
 
 /** @namespace dataflow::blocks::outputPredicates
  *  
- *  @brief Contains standard output predicates for Output-Blocks. 
+ *  @brief Output predicates for Output-Blocks. 
  *         
  *  @details
  *  - Output predicates for Output-Blocks give you fine granular control
