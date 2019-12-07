@@ -12,6 +12,16 @@ using namespace dataflow::executors;
 
 namespace dataflow::blocks {
 
+/**
+ * @note
+ * - Primary template for block.
+ * - Technical helper functions.
+ * - Has no implementation.
+ * - Implementation only by partial specialisations.
+ * - The reason using a partial specialization for
+ *   implementation is that only one template parameter pack is
+ *   allowed to be used for primary templates. 
+ */
 template <typename CHAN_BUNDLE_IN, typename OPERATOR, typename CHAN_BUNDLE_OUT,
     typename OUTPUT_PREDICATE = OutputAll>
 class Block {
@@ -21,6 +31,20 @@ public:
     Block(CHAN_BUNDLE_IN /*unused*/, OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/, ExecutorIf&, OUTPUT_PREDICATE);
 };
 
+/**
+ * @brief (Input/Output-)Block
+ *
+ * @details
+ * - Default implementation of an input/output block.
+ * - More general information about Blocks see @ref BlockIf.
+ *
+ * @tparam T_IN...   Value types of the input data channels.
+ * @tparam OPERATOR  Function kernel of the block
+ * @tparam T_OUT...  Value types of the output data channels.
+ * @tparam OUTPUT_PREDICATE Predicate to control output on the channels.
+ *                          More information see @ref OutputPredicates.h.
+ *
+ */
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 class Block<
     ChannelBundle<T_IN...>,
