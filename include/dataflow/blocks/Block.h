@@ -35,11 +35,12 @@ public:
 ///@endcond internal
 
 /**
- * @brief (Input/Output-)Block
+ * @brief (Input-/Output-)Block
  *
  * @details
- * - Default implementation of an input/output block.
- * - More general information about Blocks see @ref BlockIf.
+ * - Default implementation of an (Input-/Output-) block.
+ * - More general information about Blocks see
+ *   @ref dataflow::blocks.
  *
  * @tparam T_IN...   Value types of the input data channels.
  * @tparam OPERATOR  Function kernel of the block

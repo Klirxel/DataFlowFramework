@@ -10,18 +10,13 @@
  * - A block can be attached to input- and/or
  *   output-channels and an invocable object the 
  *   block operator. 
- * - There are mainly three types of blocks, 
- *   dataflow::blocks::Block, dataflow::blocks::GeneratorBlock,
- *   dataflow::blocks::SinkBlock.
- *   (Standard) blocks have input- and ouput-channels and
- *   are processing the input data to generate output data.
- *   GeneratorBlocks only have output channels
- *   and generate only data. SinkBlocks have only
- *   input channels and only consume data.
- *
+ * - There are mainly three types of blocks, (Input-)Blocks,
+ *   (Output-)Blocks and (Input-/Output-)Blocks.
+ * - (Input-)Blocks only consume data, (Output-)Blocks only 
+ *   generate data and (Input-/Output-)blocks are both consuming
+ *   and generating data.
  */
 namespace dataflow::blocks {
-
 
 /**
  * @brief Generic interface for blocks.
