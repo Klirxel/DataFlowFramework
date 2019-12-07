@@ -12,6 +12,7 @@ using namespace dataflow::executors;
 
 namespace dataflow::blocks {
 
+///@cond internal
 /**
  * @note
  * - Primary template for block.
@@ -30,6 +31,7 @@ public:
 
     Block(CHAN_BUNDLE_IN /*unused*/, OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/, ExecutorIf&, OUTPUT_PREDICATE);
 };
+///@endcond internal
 
 /**
  * @brief (Input/Output-)Block

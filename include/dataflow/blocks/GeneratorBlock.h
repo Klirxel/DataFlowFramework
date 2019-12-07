@@ -17,6 +17,7 @@ namespace dataflow::blocks {
 
 constexpr size_t inf = 0;
 
+///@cond internal
 /**
  * @note
  * - Primary template for GeneratorBlock.
@@ -33,6 +34,7 @@ public:
     GeneratorBlock(OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/);
     GeneratorBlock(OPERATOR& /*unused*/, CHAN_BUNDLE_OUT /*unused*/, OUTPUT_PREDICATE /*unused*/);
 };
+/// @endcond internal
 
 /**
  * @brief (Output-)Block

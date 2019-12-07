@@ -11,6 +11,7 @@ using namespace dataflow::executors;
 
 namespace dataflow::blocks {
 
+///@cond internal
 /**
  * @note
  * - Primary template for the Sinkblock.
@@ -26,6 +27,7 @@ class SinkBlock {
 public:
     SinkBlock(CHAN_BUNDLE_IN /*unused*/, OPERATOR& /*unused*/, ExecutorIf&);
 };
+///@endcond internal
 
 /**
  * @brief (Input-)Block
