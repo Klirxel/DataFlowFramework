@@ -13,8 +13,11 @@
  *  - Decision is done by value analysis. 
  *  - One example is to hinder outputting data on  an channel when 
  *    the output data object is empty.
- *  - dataflow::blocks::outputPredicates::OutputAll is the reference output predicate that does
- *    output on every channel. 
+ *  - dataflow::blocks::outputPredicates::OutputAll is the reference output
+ *    predicate that does output on every channel. 
+ *  - Usage examples can be found in test_block.cpp,
+ *    test_block_output_predicate.cpp
+ *    and test_generatorBlock.cpp.  
  */
 namespace dataflow::blocks::outputPredicates {
 
