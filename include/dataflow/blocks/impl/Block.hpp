@@ -1,14 +1,6 @@
-#include "Block.h"
+#include "../Block.h"
 
 namespace dataflow::blocks {
-
-template <typename... T>
-constexpr std::array<bool, sizeof...(T)> OutputAll::operator()([[maybe_unused]] const T&... /*unused*/) const
-{
-    auto array = std::array<bool, sizeof...(T)> {};
-    array.fill(true);
-    return array;
-}
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::Block(ChannelBundle<T_IN...> inputChannels, OPERATOR& op,
@@ -32,15 +24,13 @@ template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPU
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 [[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::freeSourceCapacity() const
 {
-    const bool freeSourceCapacity = sourceCapacity() > 0 ? true : false;
-    return freeSourceCapacity;
+    return sourceCapacity() > 0;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 [[nodiscard]] bool Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::freeSinkCapacity() const
 {
-    const bool freeSinkCapacity = sinkCapacity() > 0 ? true : false;
-    return freeSinkCapacity;
+    return sinkCapacity() > 0;
 }
 
 template <typename... T_IN, typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
@@ -87,4 +77,4 @@ std::array<bool, sizeof...(T_OUT)> Block<ChannelBundle<T_IN...>,
     return outputPredicate_(std::get<Is>(output)...);
 }
 
-} // namespace 
+} // namespace
