@@ -89,7 +89,7 @@ private:
     OUTPUT_PREDICATE outputPredicate_;
 
     template <size_t... Is>
-    std::array<bool, sizeof...(T_OUT)> evalOutputPredicate(const std::tuple<T_OUT...>& output,
+    [[nodiscard]] std::array<bool, sizeof...(T_OUT)> evalOutputPredicate(const std::tuple<T_OUT...>& output,
         std::index_sequence<Is...> /*unused*/) const;
 
     size_t executions_ { 0 };

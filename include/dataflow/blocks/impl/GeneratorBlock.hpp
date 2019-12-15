@@ -83,7 +83,7 @@ void GeneratorBlock<OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::wait()
 
 template <typename OPERATOR, typename... T_OUT, typename OUTPUT_PREDICATE>
 template <size_t... Is>
-std::array<bool, sizeof...(T_OUT)> GeneratorBlock<
+[[nodiscard]] std::array<bool, sizeof...(T_OUT)> GeneratorBlock<
     OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICATE>::evalOutputPredicate(const std::tuple<T_OUT...>& output,
     std::index_sequence<Is...> /*unused*/) const
 {
