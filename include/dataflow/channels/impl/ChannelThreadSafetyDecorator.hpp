@@ -1,4 +1,4 @@
-#include "ChannelThreadSafetyDecorator.h"
+#include "../ChannelThreadSafetyDecorator.h"
 
 namespace dataflow::channels {
 

@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "ChannelCircleBuf.h"
+#include "../ChannelCircleBuf.h"
 
 namespace dataflow::channels {
 

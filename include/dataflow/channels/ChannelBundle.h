@@ -78,4 +78,4 @@ private:
 
 } // namespace df
 
-#include "ChannelBundle.hpp"
+#include "impl/ChannelBundle.hpp"

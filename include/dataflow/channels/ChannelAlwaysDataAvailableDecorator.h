@@ -35,4 +35,4 @@ private:
 
 } // namespace df
 
-#include "ChannelAlwaysDataAvailableDecorator.hpp"
+#include "impl/ChannelAlwaysDataAvailableDecorator.hpp"

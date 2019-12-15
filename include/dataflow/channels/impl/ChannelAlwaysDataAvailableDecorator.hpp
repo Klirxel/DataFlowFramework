@@ -1,6 +1,6 @@
 #include <limits>
 
-#include "ChannelAlwaysDataAvailableDecorator.h"
+#include "../ChannelAlwaysDataAvailableDecorator.h"
 
 namespace dataflow::channels {
 

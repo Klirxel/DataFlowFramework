@@ -36,4 +36,4 @@ private:
 
 } // namespace df
 
-#include "ChannelThreadSafetyDecorator.hpp"
+#include "impl/ChannelThreadSafetyDecorator.hpp"

@@ -1,6 +1,6 @@
 #include <utility>
 
-#include "ChannelBundle.h"
+#include "../ChannelBundle.h"
 
 namespace dataflow::channels {
 

@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "Channel.h"
+#include "../Channel.h"
 
 namespace dataflow::channels {
 

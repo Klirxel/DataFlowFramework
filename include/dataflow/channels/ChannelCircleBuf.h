@@ -23,4 +23,4 @@ using ChannelCircleBuf = ChannelBase<ChannelCircleBufContainer<ValueType, Size>>
 
 } // namespace df
 
-#include "ChannelCircleBuf.hpp"
+#include "impl/ChannelCircleBuf.hpp"

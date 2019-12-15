@@ -27,4 +27,4 @@ using Channel = ChannelBase<ChannelDataContainer<ValueType>, triggerPolicyPop, t
 
 } // namespace df
 
-#include "Channel.hpp"
+#include "impl/Channel.hpp"

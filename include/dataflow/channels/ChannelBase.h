@@ -81,4 +81,4 @@ private:
 
 } // namespace df
 
-#include "ChannelBase.hpp"
+#include "impl/ChannelBase.hpp"
