@@ -6,7 +6,7 @@
 namespace dataflow::channels {
 
 template <typename ValueType, std::size_t Size>
-class ChannelCircleBufContainer : public ChannelDataContainerIf<ValueType> {
+class ChannelCircleBufContainer : public dataContainers::ChannelDataContainerIf<ValueType> {
 
 public:
     std::optional<ValueType> pop() override;

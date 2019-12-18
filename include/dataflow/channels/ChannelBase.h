@@ -6,22 +6,12 @@
 
 #include "../blocks/BlockIf.h"
 #include "../channels/ChannelIf.h"
+#include "dataContainers/ChannelDataContainerIf.h"
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
 
 namespace dataflow::channels {
-
-template <typename ValueType_>
-struct ChannelDataContainerIf {
-
-    using ValueType = ValueType_;
-
-    virtual std::optional<ValueType> pop() = 0;
-    virtual void push(ValueType&& /*data*/) = 0;
-    [[nodiscard]] virtual std::size_t size() const = 0;
-    [[nodiscard]] virtual std::size_t max_size() const = 0;
-};
 
 enum class TriggerPolicy {
     triggerSink,
@@ -54,7 +44,7 @@ template <class ChannelDataContainer,
     typename IgnorePredicate = IgnoreNothing<typename ChannelDataContainer::ValueType>>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
-    static_assert(std::is_base_of_v<ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
+    static_assert(std::is_base_of_v<dataContainers::ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
         "ChannelDataContainer has to be derived form ChannelDataContainerIf");
 
 public:
