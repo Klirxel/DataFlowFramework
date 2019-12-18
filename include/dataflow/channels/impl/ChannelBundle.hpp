@@ -58,9 +58,9 @@ std::optional<std::tuple<T...>> ChannelBundle<T...>::popImpl(std::index_sequence
 }
 
 template <typename... T>
-void ChannelBundle<T...>::push(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputPredicate)
+void ChannelBundle<T...>::push(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputToChan)
 {
-    pushImpl(std::move(data), outputPredicate, std::index_sequence_for<T...>());
+    pushImpl(std::move(data), outputToChan, std::index_sequence_for<T...>());
 }
 
 template <typename... T>
@@ -89,9 +89,9 @@ template <typename... T>
 
 template <typename... T>
 template <size_t... Is>
-void ChannelBundle<T...>::pushImpl(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputPredicate, std::index_sequence<Is...> /*unused*/)
+void ChannelBundle<T...>::pushImpl(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputToChan, std::index_sequence<Is...> /*unused*/)
 {
-    ((outputPredicate.at(Is) && (std::get<Is>(channels_).push(std::move(std::get<Is>(data))), true)), ...);
+    ((outputToChan.at(Is) && (std::get<Is>(channels_).push(std::move(std::get<Is>(data))), true)), ...);
 }
 
 template <typename... T>
