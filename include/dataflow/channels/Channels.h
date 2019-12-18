@@ -2,8 +2,8 @@
 
 #include "Channel.h"
 #include "ChannelCircleBuf.h"
-#include "ChannelThreadSafetyDecorator.h"
 #include "decorators/ChannelAlwaysDataAvailableDecorator.h"
+#include "decorators/ChannelThreadSafetyDecorator.h"
 
 /** @namespace dataflow::channels
  *
@@ -12,7 +12,7 @@
  * @details
  * - Channels are responsible for transporting data between the
  *   dataflow::blocks.   
- * - ChannelIf is the interface that has to be used for implementing
+* - ChannelIf is the interface that has to be used for implementing
  *   a channel.
  * - There are different kind of channels. For an overview have an
  *   look on ChannelIf.
@@ -34,13 +34,13 @@
 namespace dataflow::channels {
 
 template <typename T>
-using ChannelThreadSafe = ChannelThreadSafetyDecorator<Channel<T>>;
+using ChannelThreadSafe = decorators::ChannelThreadSafetyDecorator<Channel<T>>;
 
 template <typename T>
-using ChannelThreadSafeNoTrigger = ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
+using ChannelThreadSafeNoTrigger = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
 
 template <typename T>
-using ChannelThreadSafeIgnoreDefaults = ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, IgnoreDefaults<T>>>;
+using ChannelThreadSafeIgnoreDefaults = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, IgnoreDefaults<T>>>;
 
 template <typename T>
 using ChannelAlwaysDataAvailable = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T>>;
@@ -49,9 +49,9 @@ template <typename T>
 using ChannelAlwaysDataAvailableNoTrigger = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
 
 template <typename T>
-using ChannelAdTs = ChannelThreadSafetyDecorator<ChannelAlwaysDataAvailable<T>>;
+using ChannelAdTs = decorators::ChannelThreadSafetyDecorator<ChannelAlwaysDataAvailable<T>>;
 
 template <typename T, std::size_t Size>
-using ChannelCircleBufThreadSafe = ChannelThreadSafetyDecorator<ChannelCircleBuf<T, Size>>;
+using ChannelCircleBufThreadSafe = decorators::ChannelThreadSafetyDecorator<ChannelCircleBuf<T, Size>>;
 
 } // namespace df

@@ -1,6 +1,6 @@
-#include "../ChannelThreadSafetyDecorator.h"
+#include "../decorators/ChannelThreadSafetyDecorator.h"
 
-namespace dataflow::channels {
+namespace dataflow::channels::decorators {
 
 template <class CHANNEL>
 void ChannelThreadSafetyDecorator<CHANNEL>::attachSinkBlock(BlockIf* block)
@@ -56,4 +56,4 @@ std::size_t ChannelThreadSafetyDecorator<CHANNEL>::max_size() const
     return chan_.max_size();
 }
 
-} // namespace df
+} // namespace dataflow::channel::decorators
