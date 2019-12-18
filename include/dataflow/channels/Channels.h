@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Channel.h"
-#include "ChannelAlwaysDataAvailableDecorator.h"
 #include "ChannelCircleBuf.h"
 #include "ChannelThreadSafetyDecorator.h"
+#include "decorators/ChannelAlwaysDataAvailableDecorator.h"
 
 /** @namespace dataflow::channels
  *
@@ -43,10 +43,10 @@ template <typename T>
 using ChannelThreadSafeIgnoreDefaults = ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, IgnoreDefaults<T>>>;
 
 template <typename T>
-using ChannelAlwaysDataAvailable = ChannelAlwaysDataAvailableDecorator<Channel<T>>;
+using ChannelAlwaysDataAvailable = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T>>;
 
 template <typename T>
-using ChannelAlwaysDataAvailableNoTrigger = ChannelAlwaysDataAvailableDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
+using ChannelAlwaysDataAvailableNoTrigger = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
 
 template <typename T>
 using ChannelAdTs = ChannelThreadSafetyDecorator<ChannelAlwaysDataAvailable<T>>;
