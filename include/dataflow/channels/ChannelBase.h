@@ -7,6 +7,7 @@
 #include "../blocks/BlockIf.h"
 #include "../channels/ChannelIf.h"
 #include "dataContainers/ChannelDataContainerIf.h"
+#include "ignorePredicates/IgnoreNothing.h"
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
@@ -21,15 +22,6 @@ enum class TriggerPolicy {
 };
 
 template <typename ValueType>
-struct IgnoreNothing {
-
-    [[nodiscard]] constexpr bool operator()([[maybe_unused]] const ValueType& val) const noexcept
-    {
-        return false;
-    };
-};
-
-template <typename ValueType>
 struct IgnoreDefaults {
 
     [[nodiscard]] constexpr bool operator()(const ValueType& val) const
@@ -41,7 +33,7 @@ struct IgnoreDefaults {
 template <class ChannelDataContainer,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
-    typename IgnorePredicate = IgnoreNothing<typename ChannelDataContainer::ValueType>>
+    typename IgnorePredicate = ignorePredicates::IgnoreNothing<typename ChannelDataContainer::ValueType>>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
     static_assert(std::is_base_of_v<dataContainers::ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
