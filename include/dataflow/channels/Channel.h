@@ -22,7 +22,7 @@ private:
 template <typename ValueType,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerNone,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
-    typename IgnorePredicate = ignorePredicates::IgnoreNothing<ValueType>>
+    typename IgnorePredicate = ignorePredicates::IgnoreNothing>
 using Channel = ChannelBase<ChannelDataContainer<ValueType>, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>;
 
 } // namespace df

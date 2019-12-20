@@ -3,7 +3,7 @@
 namespace dataflow::channels::ignorePredicates {
 
 template <typename ValueType>
-[[nodiscard]] constexpr bool IgnoreNothing<ValueType>::operator()([[maybe_unused]] const ValueType& val) const noexcept
+[[nodiscard]] constexpr bool IgnoreNothing::operator()([[maybe_unused]] const ValueType& val) const noexcept
 {
     return false;
 }

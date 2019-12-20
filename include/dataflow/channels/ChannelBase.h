@@ -33,7 +33,7 @@ struct IgnoreDefaults {
 template <class ChannelDataContainer,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
-    typename IgnorePredicate = ignorePredicates::IgnoreNothing<typename ChannelDataContainer::ValueType>>
+    typename IgnorePredicate = ignorePredicates::IgnoreNothing>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
     static_assert(std::is_base_of_v<dataContainers::ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,

@@ -2,9 +2,9 @@
 
 namespace dataflow::channels::ignorePredicates {
 
-template <typename ValueType>
 struct IgnoreNothing {
 
+    template <typename ValueType>
     [[nodiscard]] constexpr bool operator()([[maybe_unused]] const ValueType& val) const noexcept;
 };
 
