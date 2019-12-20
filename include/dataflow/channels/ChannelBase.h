@@ -21,15 +21,6 @@ enum class TriggerPolicy {
     triggerNone
 };
 
-template <typename ValueType>
-struct IgnoreDefaults {
-
-    [[nodiscard]] constexpr bool operator()(const ValueType& val) const
-    {
-        return val == ValueType {};
-    };
-};
-
 template <class ChannelDataContainer,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,

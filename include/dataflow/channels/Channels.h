@@ -4,6 +4,7 @@
 #include "ChannelCircleBuf.h"
 #include "decorators/ChannelAlwaysDataAvailableDecorator.h"
 #include "decorators/ChannelThreadSafetyDecorator.h"
+#include "ignorePredicates/IgnoreDefaults.h"
 
 /** @namespace dataflow::channels
  *
@@ -40,7 +41,7 @@ template <typename T>
 using ChannelThreadSafeNoTrigger = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
 
 template <typename T>
-using ChannelThreadSafeIgnoreDefaults = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, IgnoreDefaults<T>>>;
+using ChannelThreadSafeIgnoreDefaults = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, ignorePredicates::IgnoreDefaults<T>>>;
 
 template <typename T>
 using ChannelAlwaysDataAvailable = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T>>;
