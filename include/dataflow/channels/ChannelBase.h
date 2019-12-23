@@ -43,6 +43,10 @@ class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
                       ChannelDataContainer>,
         "ChannelDataContainer has to be derived form ChannelDataContainerIf");
 
+    static_assert(std::is_invocable_r_v<bool, IgnorePredicate,
+                      typename ChannelDataContainer::ValueType&>,
+        "Ignore predicate is not valid.");
+
 public:
     using ValueType = typename ChannelDataContainer::ValueType;
 
