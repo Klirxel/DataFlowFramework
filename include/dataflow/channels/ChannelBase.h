@@ -6,6 +6,7 @@
 
 #include "../blocks/BlockIf.h"
 #include "../channels/ChannelIf.h"
+#include "TriggerPolicy.h"
 #include "dataContainers/ChannelDataContainerIf.h"
 #include "ignorePredicates/IgnoreNothing.h"
 
@@ -13,13 +14,6 @@ using namespace dataflow::blocks;
 using namespace dataflow::channels;
 
 namespace dataflow::channels {
-
-enum class TriggerPolicy {
-    triggerSink,
-    triggerSource,
-    triggerAll,
-    triggerNone
-};
 
 template <class ChannelDataContainer,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
