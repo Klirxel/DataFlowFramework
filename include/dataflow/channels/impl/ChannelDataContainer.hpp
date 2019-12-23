@@ -1,8 +1,6 @@
-#include <algorithm>
+#include "../dataContainers/ChannelDataContainer.h"
 
-#include "../Channel.h"
-
-namespace dataflow::channels {
+namespace dataflow::channels::dataContainers {
 
 template <typename T>
 std::optional<T> ChannelDataContainer<T>::pop()
@@ -35,4 +33,4 @@ std::size_t ChannelDataContainer<T>::max_size() const
     return std::numeric_limits<size_t>::max();
 }
 
-} // namespace df
+} // namespace dataflow::channels:dataContainers
