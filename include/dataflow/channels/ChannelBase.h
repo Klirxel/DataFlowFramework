@@ -12,16 +12,34 @@
 
 using dataflow::blocks::BlockIf;
 using dataflow::channels::ChannelIf;
+using dataflow::channels::dataContainers::ChannelDataContainerIf;
 
 namespace dataflow::channels {
 
+/**
+ * @brief Basic channel implementation
+ *
+ * @tparam ChannelDataContainer Buffer type used to store channel data input.
+ *                              See \ref dataContainers for options.
+ * @tparam triggerPolicyPop     Control if source- or sink-blocks should be triggerd
+ *                              in case data is popped from the channel.
+ *                              See \ref TriggerPolicy for options.
+ * @tparam triggerPolicyPush    Control if source- or sink-blocks should be triggerd
+ *                              in case data is pushed form the channel.
+ *                              See \ref TriggerPolicy for options.
+ * @tparam IgnorePredicate      Configure which type of data should be ignored when
+ *                              pushed to a channel.
+ *                              See \ref ignorePredicates
+ *                              for options.
+ */
 template <class ChannelDataContainer,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
     typename IgnorePredicate = ignorePredicates::IgnoreNothing>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
-    static_assert(std::is_base_of_v<dataContainers::ChannelDataContainerIf<typename ChannelDataContainer::ValueType>,
+    static_assert(std::is_base_of_v<
+                      ChannelDataContainerIf<typename ChannelDataContainer::ValueType>,
                       ChannelDataContainer>,
         "ChannelDataContainer has to be derived form ChannelDataContainerIf");
 
