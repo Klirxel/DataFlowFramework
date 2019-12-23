@@ -10,8 +10,8 @@
 #include "dataContainers/ChannelDataContainerIf.h"
 #include "ignorePredicates/IgnoreNothing.h"
 
-using namespace dataflow::blocks;
-using namespace dataflow::channels;
+using dataflow::blocks::BlockIf;
+using dataflow::channels::ChannelIf;
 
 namespace dataflow::channels {
 
@@ -21,16 +21,17 @@ template <class ChannelDataContainer,
     typename IgnorePredicate = ignorePredicates::IgnoreNothing>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
-    static_assert(std::is_base_of_v<dataContainers::ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
+    static_assert(std::is_base_of_v<dataContainers::ChannelDataContainerIf<typename ChannelDataContainer::ValueType>,
+                      ChannelDataContainer>,
         "ChannelDataContainer has to be derived form ChannelDataContainerIf");
 
 public:
     using ValueType = typename ChannelDataContainer::ValueType;
 
-    constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
-    constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
+    constexpr void attachSinkBlock(BlockIf* block) noexcept override;
+    constexpr void attachSourceBlock(BlockIf* block) noexcept override;
     std::optional<ValueType> pop() override;
-    void push(ValueType&& /*data*/) override;
+    void push(ValueType&& data) override;
     [[nodiscard]] bool dataAvailable() const override;
     [[nodiscard]] bool dataAssignable() const override;
     [[nodiscard]] std::size_t size() const override;
@@ -46,6 +47,6 @@ private:
     ChannelDataContainer dataContainer_;
 };
 
-} // namespace df
+} // namespace dataflow::channels
 
 #include "impl/ChannelBase.hpp"
