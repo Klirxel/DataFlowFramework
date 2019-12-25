@@ -7,7 +7,7 @@
 #include <dataflow/blocks/Block.h>
 #include <dataflow/blocks/GeneratorBlock.h>
 #include <dataflow/blocks/SinkBlock.h>
-#include <dataflow/channels/Channels.h>
+#include <dataflow/channels/ChannelThreadSave.h>
 #include <dataflow/executors/ExecutorAsync.h>
 
 using namespace dataflow::blocks;

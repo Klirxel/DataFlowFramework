@@ -5,7 +5,8 @@
 #include <vector>
 
 #include <dataflow/blocks/Block.h>
-#include <dataflow/channels/Channels.h>
+#include <dataflow/channels/ChannelAdTs.h>
+#include <dataflow/channels/ChannelAlwaysDataAvailable.h>
 #include <dataflow/executors/Executor.h>
 
 using namespace dataflow::blocks;

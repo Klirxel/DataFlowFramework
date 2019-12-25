@@ -3,7 +3,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <dataflow/blocks/Block.h>
-#include <dataflow/channels/Channels.h>
+#include <dataflow/channels/Channel.h>
 #include <dataflow/executors/Executor.h>
 
 using namespace dataflow::blocks;
