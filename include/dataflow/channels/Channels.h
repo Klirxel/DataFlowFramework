@@ -6,14 +6,12 @@
 #include "decorators/ChannelThreadSafetyDecorator.h"
 #include "ignorePredicates/IgnoreDefaults.h"
 
+#include "ChannelAlwaysDataAvailable.h"
+#include "ChannelThreadSafeIgnoreDefaults.h"
 #include "ChannelThreadSafeNoTrigger.h"
 #include "ChannelThreadSave.h"
-#include "ChannelThreadSafeIgnoreDefaults.h"
 
 namespace dataflow::channels {
-
-template <typename T>
-using ChannelAlwaysDataAvailable = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T>>;
 
 template <typename T>
 using ChannelAlwaysDataAvailableNoTrigger = decorators::ChannelAlwaysDataAvailableDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
