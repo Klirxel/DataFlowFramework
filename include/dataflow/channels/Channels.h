@@ -7,6 +7,7 @@
 #include "ignorePredicates/IgnoreDefaults.h"
 
 #include "ChannelAlwaysDataAvailable.h"
+#include "ChannelCircleBufThreadSafe.h"
 #include "ChannelDataAvailableNoTrigger.h"
 #include "ChannelThreadSafeIgnoreDefaults.h"
 #include "ChannelThreadSafeNoTrigger.h"
@@ -16,8 +17,5 @@ namespace dataflow::channels {
 
 template <typename T>
 using ChannelAdTs = decorators::ChannelThreadSafetyDecorator<ChannelAlwaysDataAvailable<T>>;
-
-template <typename T, std::size_t Size>
-using ChannelCircleBufThreadSafe = decorators::ChannelThreadSafetyDecorator<ChannelCircleBuf<T, Size>>;
 
 } // namespace dataflow::channels
