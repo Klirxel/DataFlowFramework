@@ -6,12 +6,10 @@
 #include "decorators/ChannelThreadSafetyDecorator.h"
 #include "ignorePredicates/IgnoreDefaults.h"
 
+#include "ChannelThreadSafeNoTrigger.h"
 #include "ChannelThreadSave.h"
 
 namespace dataflow::channels {
-
-template <typename T>
-using ChannelThreadSafeNoTrigger = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;
 
 template <typename T>
 using ChannelThreadSafeIgnoreDefaults = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerAll, TriggerPolicy::triggerSink, ignorePredicates::IgnoreDefaults>>;
@@ -28,4 +26,4 @@ using ChannelAdTs = decorators::ChannelThreadSafetyDecorator<ChannelAlwaysDataAv
 template <typename T, std::size_t Size>
 using ChannelCircleBufThreadSafe = decorators::ChannelThreadSafetyDecorator<ChannelCircleBuf<T, Size>>;
 
-} // namespace df
+} // namespace dataflow::channels
