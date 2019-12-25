@@ -6,10 +6,9 @@
 #include "decorators/ChannelThreadSafetyDecorator.h"
 #include "ignorePredicates/IgnoreDefaults.h"
 
-namespace dataflow::channels {
+#include "ChannelThreadSave.h"
 
-template <typename T>
-using ChannelThreadSafe = decorators::ChannelThreadSafetyDecorator<Channel<T>>;
+namespace dataflow::channels {
 
 template <typename T>
 using ChannelThreadSafeNoTrigger = decorators::ChannelThreadSafetyDecorator<Channel<T, TriggerPolicy::triggerNone, TriggerPolicy::triggerNone>>;

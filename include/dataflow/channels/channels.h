@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Channels.h"
+#include "ChannelThreadSave.h"
 
 /** @namespace dataflow::channels
  *
