@@ -1,9 +1,9 @@
-#include "../dataContainers/ChannelDataContainer.h"
+#include "../dataContainers/ChannelUnlimitedDataContainer.h"
 
 namespace dataflow::channels::dataContainers {
 
 template <typename T>
-std::optional<T> ChannelDataContainer<T>::pop()
+std::optional<T> ChannelUnlimitedDataContainer<T>::pop()
 {
     std::optional<T> data;
 
@@ -16,19 +16,19 @@ std::optional<T> ChannelDataContainer<T>::pop()
 }
 
 template <typename T>
-void ChannelDataContainer<T>::push(T&& data)
+void ChannelUnlimitedDataContainer<T>::push(T&& data)
 {
     data_.push(std::forward<T>(data));
 }
 
 template <typename T>
-std::size_t ChannelDataContainer<T>::size() const
+std::size_t ChannelUnlimitedDataContainer<T>::size() const
 {
     return data_.size();
 }
 
 template <typename T>
-std::size_t ChannelDataContainer<T>::max_size() const
+std::size_t ChannelUnlimitedDataContainer<T>::max_size() const
 {
     return std::numeric_limits<size_t>::max();
 }
