@@ -6,6 +6,9 @@
 
 namespace dataflow::channels::dataContainers {
 
+/**
+ * @brief Unlimited data container.
+ */
 template <typename ValueType>
 class ChannelDataContainer : public dataContainers::ChannelDataContainerIf<ValueType> {
 
