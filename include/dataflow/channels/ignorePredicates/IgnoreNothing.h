@@ -2,6 +2,9 @@
 
 namespace dataflow::channels::ignorePredicates {
 
+/**
+ * @brief Accept every value 
+ */
 struct IgnoreNothing {
 
     template <typename ValueType>
