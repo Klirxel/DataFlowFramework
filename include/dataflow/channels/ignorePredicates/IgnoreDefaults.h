@@ -4,6 +4,9 @@
 
 namespace dataflow::channels::ignorePredicates {
 
+/**
+ * @brief Ignore default constructed values.
+ */
 struct IgnoreDefaults {
 
     template <typename ValueType,
