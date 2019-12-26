@@ -10,6 +10,15 @@ using namespace dataflow::blocks;
 
 namespace dataflow::channels::decorators {
 
+/**
+ * @brief ChannelDecorator 
+ *
+ * @details
+ * - can be used to decorate a channel to be 
+ *   thread save.
+ * - internally delays the operation of member function
+ *   until it is not used in another thread context.
+ */
 template <class CHANNEL>
 class ChannelThreadSafetyDecorator : public ChannelIf<typename CHANNEL::ValueType> {
 
@@ -34,6 +43,6 @@ private:
     CHANNEL chan_;
 };
 
-} // namespace dataflow::channels::decorators 
+} // namespace dataflow::channels::decorators
 
 #include "../impl/ChannelThreadSafetyDecorator.hpp"
