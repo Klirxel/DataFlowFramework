@@ -6,6 +6,9 @@
 
 namespace dataflow::channels::dataContainers {
 
+/**
+ * @brief Circular buffer container 
+ */
 template <typename ValueType, std::size_t Size>
 class ChannelCircleBufContainer : public dataContainers::ChannelDataContainerIf<ValueType> {
 
