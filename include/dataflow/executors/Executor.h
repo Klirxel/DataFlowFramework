@@ -7,9 +7,9 @@ namespace dataflow::executors {
 class Executor : public ExecutorIf {
 
 public:
-    inline void execute(std::function<void(void)> &&task, std::mutex& taskLock) override;
+    inline void execute(std::function<void(void)>&& task, std::mutex& taskLock) override;
 };
 
 } //ns
 
-#include "Executor.hpp"
+#include "impl/Executor.hpp"

@@ -34,4 +34,4 @@ private:
 
 } //ns
 
-#include "ThreadWorker.hpp"
+#include "impl/ThreadWorker.hpp"
