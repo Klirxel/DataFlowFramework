@@ -2,11 +2,11 @@
 
 /** @namespace dataflow::channels::dataContainers
  *
- * @brief Channel buffer types. 
+ * @brief Channel data containers. 
  *
  * @details
- * - Buffer types used by the implementations of
- *   ChannelIf. 
+ * - Data containers that can be assigned to 
+ *   \ref ChannelBase. 
  */
 namespace dataflow::channels::dataContainers {
 
