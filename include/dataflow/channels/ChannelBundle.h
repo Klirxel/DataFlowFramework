@@ -10,17 +10,12 @@ using namespace dataflow::channels;
 
 namespace dataflow::channels {
 
-template <size_t SIZE>
-struct AllTrue {
-
-    [[nodiscard]] constexpr operator std::array<bool, SIZE>() const noexcept
-    {
-        auto array = std::array<bool, SIZE> {};
-        array.fill(true);
-        return array;
-    };
-};
-
+/**
+ * @brief Collection of channels.
+ *
+ * @details
+ * - Necessary for attaching multiple channels to a block.
+ */
 template <typename... T>
 class ChannelBundle {
 
@@ -31,8 +26,8 @@ public:
     template <size_t I>
     using ChannelType = ChannelIf<ChannelValueType<I>>;
     constexpr ChannelBundle(ChannelIf<T>&... channels) noexcept;
-    constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept;
-    constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept;
+    constexpr void attachSinkBlock(BlockIf* block) noexcept;
+    constexpr void attachSourceBlock(BlockIf* block) noexcept;
 
     template <size_t I>
     constexpr ChannelType<I>& at() noexcept;
@@ -41,7 +36,7 @@ public:
     constexpr const ChannelType<I>& at() const noexcept;
 
     std::optional<std::tuple<T...>> pop();
-    void push(std::tuple<T...>&& /*data*/, const std::array<bool, sizeof...(T)>& outputPredicate = AllTrue<sizeof...(T)> {});
+    void push(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputToChan = std::array<bool, sizeof...(T)> {}.fill(true));
 
     [[nodiscard]] bool dataAvailable() const;
     [[nodiscard]] bool dataAssignable() const;
@@ -59,7 +54,7 @@ private:
     std::optional<std::tuple<T...>> popImpl(std::index_sequence<Is...> /*unused*/);
 
     template <size_t... Is>
-    void pushImpl(std::tuple<T...>&& /*data*/, const std::array<bool, sizeof...(T)>& /*outputCtlr*/, std::index_sequence<Is...> /*unused*/);
+    void pushImpl(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputToChan, std::index_sequence<Is...> /*unused*/);
 
     template <size_t... Is>
     [[nodiscard]] bool dataAvailableImpl(std::index_sequence<Is...> /*unused*/) const;
@@ -78,4 +73,4 @@ private:
 
 } // namespace df
 
-#include "ChannelBundle.hpp"
+#include "impl/ChannelBundle.hpp"

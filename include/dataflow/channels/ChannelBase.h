@@ -6,64 +6,54 @@
 
 #include "../blocks/BlockIf.h"
 #include "../channels/ChannelIf.h"
+#include "TriggerPolicy.h"
+#include "dataContainers/ChannelDataContainerIf.h"
+#include "ignorePredicates/IgnoreNothing.h"
 
-using namespace dataflow::blocks;
-using namespace dataflow::channels;
+using dataflow::blocks::BlockIf;
+using dataflow::channels::ChannelIf;
+using dataflow::channels::dataContainers::ChannelDataContainerIf;
 
 namespace dataflow::channels {
 
-template <typename ValueType_>
-struct ChannelDataContainerIf {
-
-    using ValueType = ValueType_;
-
-    virtual std::optional<ValueType> pop() = 0;
-    virtual void push(ValueType&& /*data*/) = 0;
-    [[nodiscard]] virtual std::size_t size() const = 0;
-    [[nodiscard]] virtual std::size_t max_size() const = 0;
-};
-
-enum class TriggerPolicy {
-    triggerSink,
-    triggerSource,
-    triggerAll,
-    triggerNone
-};
-
-template <typename ValueType>
-struct IgnoreNothing {
-
-    [[nodiscard]] constexpr bool operator()([[maybe_unused]] const ValueType& val) const noexcept
-    {
-        return false;
-    };
-};
-
-template <typename ValueType>
-struct IgnoreDefaults {
-
-    [[nodiscard]] constexpr bool operator()(const ValueType& val) const
-    {
-        return val == ValueType {};
-    };
-};
-
+/**
+ * @brief Basic channel implementation
+ *
+ * @tparam ChannelDataContainer Buffer type used to store channel data input.
+ *                              See \ref dataContainers for options.
+ * @tparam triggerPolicyPop     Control if source- or sink-blocks should be triggerd
+ *                              in case data is popped from the channel.
+ *                              See \ref TriggerPolicy for options.
+ * @tparam triggerPolicyPush    Control if source- or sink-blocks should be triggerd
+ *                              in case data is pushed form the channel.
+ *                              See \ref TriggerPolicy for options.
+ * @tparam IgnorePredicate      Configure which type of data should be ignored when
+ *                              pushed to a channel.
+ *                              See \ref ignorePredicates
+ *                              for options.
+ */
 template <class ChannelDataContainer,
     TriggerPolicy triggerPolicyPop = TriggerPolicy::triggerAll,
     TriggerPolicy triggerPolicyPush = TriggerPolicy::triggerSink,
-    typename IgnorePredicate = IgnoreNothing<typename ChannelDataContainer::ValueType>>
+    typename IgnorePredicate = ignorePredicates::IgnoreNothing>
 class ChannelBase : public ChannelIf<typename ChannelDataContainer::ValueType> {
 
-    static_assert(std::is_base_of_v<ChannelDataContainerIf<typename ChannelDataContainer::ValueType>, ChannelDataContainer>,
+    static_assert(std::is_base_of_v<
+                      ChannelDataContainerIf<typename ChannelDataContainer::ValueType>,
+                      ChannelDataContainer>,
         "ChannelDataContainer has to be derived form ChannelDataContainerIf");
+
+    static_assert(std::is_invocable_r_v<bool, IgnorePredicate,
+                      typename ChannelDataContainer::ValueType&>,
+        "Ignore predicate is not valid.");
 
 public:
     using ValueType = typename ChannelDataContainer::ValueType;
 
-    constexpr void attachSinkBlock(BlockIf* /*block*/) noexcept override;
-    constexpr void attachSourceBlock(BlockIf* /*block*/) noexcept override;
+    constexpr void attachSinkBlock(BlockIf* block) noexcept override;
+    constexpr void attachSourceBlock(BlockIf* block) noexcept override;
     std::optional<ValueType> pop() override;
-    void push(ValueType&& /*data*/) override;
+    void push(ValueType&& data) override;
     [[nodiscard]] bool dataAvailable() const override;
     [[nodiscard]] bool dataAssignable() const override;
     [[nodiscard]] std::size_t size() const override;
@@ -79,6 +69,6 @@ private:
     ChannelDataContainer dataContainer_;
 };
 
-} // namespace df
+} // namespace dataflow::channels
 
-#include "ChannelBase.hpp"
+#include "impl/ChannelBase.hpp"

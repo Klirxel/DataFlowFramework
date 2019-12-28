@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "ChannelBase.h"
+#include "../ChannelBase.h"
 
 namespace dataflow::channels {
 
@@ -90,7 +90,7 @@ template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPol
 void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notify(std::vector<BlockIf*>& blockList)
 {
     auto notifyBlock = [](BlockIf* block) {
-            block->execute();
+        block->execute();
     };
 
     //note: inform all block strategy. Perhaps there is a more elegant way.

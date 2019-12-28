@@ -1,8 +1,6 @@
-#include <algorithm>
+#include "../dataContainers/ChannelCircleBufContainer.h"
 
-#include "ChannelCircleBuf.h"
-
-namespace dataflow::channels {
+namespace dataflow::channels::dataContainers {
 
 template <typename ValueType, std::size_t Size>
 std::optional<ValueType> ChannelCircleBufContainer<ValueType, Size>::pop()
@@ -35,4 +33,4 @@ std::size_t ChannelCircleBufContainer<ValueType, Size>::max_size() const
     return Size;
 }
 
-} // namespace df
+} // namespace dataflow::channels::dataContainers

@@ -2,13 +2,29 @@
 
 #include <type_traits>
 
-#include "../blocks/BlockIf.h"
-#include "ChannelIf.h"
+#include "../../blocks/BlockIf.h"
+#include "../ChannelIf.h"
 
 using namespace dataflow::blocks;
 
-namespace dataflow::channels {
+namespace dataflow::channels::decorators {
 
+/**
+ * @brief ChannelDecorator 
+ *
+ * @details
+ * - can be used to decorate a channel to have
+ *   always data available.
+ * - this means that pop() always returns an 
+ *   value and dataAvailable() is always true.
+ * - if no value is available, a value is 
+ *   default contructed.
+ * - normally used when a block has multiple 
+ *   block inputs and the channel should not
+ *   block triggering the channel when no data
+ *   is available.
+ * - Requires the ValueType to be default constructible.
+ */
 template <class CHANNEL>
 class ChannelAlwaysDataAvailableDecorator : public ChannelIf<typename CHANNEL::ValueType> {
 
@@ -33,6 +49,6 @@ private:
     CHANNEL chan_;
 };
 
-} // namespace df
+} // namespace dataflow::channels::decorators
 
-#include "ChannelAlwaysDataAvailableDecorator.hpp"
+#include "../impl/ChannelAlwaysDataAvailableDecorator.hpp"

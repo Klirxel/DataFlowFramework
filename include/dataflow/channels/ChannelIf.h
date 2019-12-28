@@ -10,6 +10,12 @@ using namespace dataflow::blocks;
 
 namespace dataflow::channels {
 
+/**
+ * @brief Generic interface for channels.
+ *
+ * @remark
+ * - Should be used as a generic interface to address channels.
+ */
 template <typename T>
 class ChannelIf {
 

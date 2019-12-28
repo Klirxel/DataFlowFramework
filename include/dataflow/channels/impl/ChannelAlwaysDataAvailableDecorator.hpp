@@ -1,8 +1,8 @@
 #include <limits>
 
-#include "ChannelAlwaysDataAvailableDecorator.h"
+#include "../decorators/ChannelAlwaysDataAvailableDecorator.h"
 
-namespace dataflow::channels {
+namespace dataflow::channels::decorators {
 
 template <class CHANNEL>
 void ChannelAlwaysDataAvailableDecorator<CHANNEL>::attachSinkBlock(BlockIf* block)
@@ -52,4 +52,4 @@ template <class CHANNEL>
     return std::numeric_limits<size_t>::max();
 }
 
-} // namespace df
+} // namespace dataflow::channels::decorators 
