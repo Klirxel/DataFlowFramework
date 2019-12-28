@@ -5,6 +5,13 @@
 
 namespace dataflow::channels::dataContainers {
 
+/**
+ * @brief Generic interface for channel data containers.
+ *
+ * @details
+ * - Generic interface for data containers set can be
+ *   assigned to a \ref ChannelBase.
+ */
 template <typename ValueType_>
 struct ChannelDataContainerIf {
 
