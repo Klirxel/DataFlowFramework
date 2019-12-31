@@ -7,6 +7,15 @@
 
 namespace dataflow::executors {
 
+/**
+ * @brief Multithread executor
+ *
+ * @details
+ * - parallel execution of tasks.
+ * - thread safe channels required.
+ * - uses a customized thread pool and  
+ *   task-scheduler.
+ */
 class ExecutorMultithread : public ExecutorIf {
 
 public:
@@ -20,6 +29,6 @@ private:
     std::vector<std::thread> threadPool_;
 };
 
-} //ns
+} //namespace dataflow::executors
 
 #include "impl/ExecutorMultithread.hpp"
