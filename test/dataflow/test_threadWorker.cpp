@@ -8,7 +8,7 @@
 #include <dataflow/executors/internal/ThreadWorker.h>
 
 using namespace std::literals::chrono_literals;
-using namespace dataflow::executors;
+using namespace dataflow::executors::internal;
 
 struct ExampleTask {
     void operator()() noexcept

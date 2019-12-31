@@ -25,7 +25,7 @@ public:
     inline void stop();
 
 private:
-    ThreadWorker threadWorker_;
+    internal::ThreadWorker threadWorker_;
     std::vector<std::thread> threadPool_;
 };
 

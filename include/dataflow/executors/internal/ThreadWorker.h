@@ -7,7 +7,7 @@
 
 #include "TaskBuffer.h"
 
-namespace dataflow::executors {
+namespace dataflow::executors::internal {
 
 class ThreadWorker {
 
@@ -26,7 +26,7 @@ public:
 private:
     inline void run_();
 
-    internal::TaskBuffer taskBuffer_;
+    TaskBuffer taskBuffer_;
     std::condition_variable wakeUpCall_;
     std::mutex wakeUpMutex_;
     std::atomic_bool enabled_ { true };
