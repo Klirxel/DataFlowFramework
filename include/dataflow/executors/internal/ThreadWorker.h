@@ -9,6 +9,12 @@
 
 namespace dataflow::executors::internal {
 
+/**
+ * @details
+ * - sequential executor meant for running 
+ *   asynchronous in an separated thread.
+ * - used by ExecutorMultithread. 
+ */
 class ThreadWorker {
 
 public:
