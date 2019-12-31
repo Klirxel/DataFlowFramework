@@ -12,6 +12,11 @@ struct TaskWithLock {
     std::mutex* task_lock;
 };
 
+/**
+ * @details
+ * - container used for storing tasks.
+ * - used by ThreadWorker.
+ */
 class TaskBuffer {
 
 public:
