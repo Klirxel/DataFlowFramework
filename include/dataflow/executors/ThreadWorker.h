@@ -5,7 +5,7 @@
 #include <functional>
 #include <mutex>
 
-#include "TaskBuffer.h"
+#include "internal/TaskBuffer.h"
 
 namespace dataflow::executors {
 
@@ -32,6 +32,6 @@ private:
     std::atomic_bool enabled_ { true };
 };
 
-} //ns
+} //namespace dataflow::executors
 
 #include "impl/ThreadWorker.hpp"
