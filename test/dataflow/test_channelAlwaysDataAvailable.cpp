@@ -7,7 +7,7 @@
 #include <dataflow/blocks/Block.h>
 #include <dataflow/channels/ChannelAdTs.h>
 #include <dataflow/channels/ChannelAlwaysDataAvailable.h>
-#include <dataflow/executors/Executor.h>
+#include <dataflow/executors/ExecutorSeq.h>
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_CASE(Test_channelAlwaysDataAvailable)
     Channel<int> chan;
     Channel<int> chanRes;
 
-    Executor executor {};
+    ExecutorSeq executor {};
     Block addBlock(ChannelBundle(chanAd, chan), operatorAdd, ChannelBundle(chanRes), executor);
 
     //No data
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(Test_channelAdTs)
     Channel<int> chan;
     Channel<int> chanRes;
 
-    Executor executor {};
+    ExecutorSeq executor {};
     Block addBlock(ChannelBundle(chanAdTs, chan), operatorAdd, ChannelBundle(chanRes), executor);
 
     //No data

@@ -1,6 +1,6 @@
-#include "ThreadWorker.h"
+#include "../internal/ThreadWorker.h"
 
-namespace dataflow::executors {
+namespace dataflow::executors::internal {
 
 inline ThreadWorker::ThreadWorker(bool enable) noexcept
     : enabled_ { enable }

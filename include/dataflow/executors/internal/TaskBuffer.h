@@ -5,13 +5,18 @@
 #include <mutex>
 #include <thread>
 
-namespace dataflow::executors {
+namespace dataflow::executors::internal {
 
 struct TaskWithLock {
     std::function<void(void)> task;
     std::mutex* task_lock;
 };
 
+/**
+ * @details
+ * - container used for storing tasks.
+ * - used by ThreadWorker.
+ */
 class TaskBuffer {
 
 public:
@@ -32,4 +37,4 @@ private:
 
 } //ns
 
-#include "TaskBuffer.hpp"
+#include "../impl/TaskBuffer.hpp"

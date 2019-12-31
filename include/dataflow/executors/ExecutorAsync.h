@@ -9,6 +9,14 @@
 
 namespace dataflow::executors {
 
+/**
+ * @brief Async executor.
+ *
+ * @details
+ * - Asynchronous execution of tasks.
+ * - Does require thread safe channels.
+ * - Used std::async for implementation.
+ */
 class ExecutorAsync : public ExecutorIf {
 
 public:
@@ -19,7 +27,7 @@ public:
     inline void stop() noexcept;
 
 private:
-    void store(std::future<void>&& /*future*/);
+    void store(std::future<void>&& future);
     inline void clean();
     inline void invalidateReadyFutures();
     inline void eraseInvalidFutures();
@@ -30,6 +38,6 @@ private:
     mutable std::mutex mutex_;
 };
 
-} //ns
+} //dataflow::executors
 
-#include "ExecutorAsync.hpp"
+#include "impl/ExecutorAsync.hpp"

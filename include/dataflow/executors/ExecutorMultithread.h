@@ -3,10 +3,19 @@
 #include <thread>
 
 #include "ExecutorIf.h"
-#include "ThreadWorker.h"
+#include "internal/ThreadWorker.h"
 
 namespace dataflow::executors {
 
+/**
+ * @brief Multithread executor
+ *
+ * @details
+ * - parallel execution of tasks.
+ * - thread safe channels required.
+ * - uses a customized thread pool and  
+ *   task-scheduler.
+ */
 class ExecutorMultithread : public ExecutorIf {
 
 public:
@@ -16,10 +25,10 @@ public:
     inline void stop();
 
 private:
-    ThreadWorker threadWorker_;
+    internal::ThreadWorker threadWorker_;
     std::vector<std::thread> threadPool_;
 };
 
-} //ns
+} //namespace dataflow::executors
 
-#include "ExecutorMultithread.hpp"
+#include "impl/ExecutorMultithread.hpp"

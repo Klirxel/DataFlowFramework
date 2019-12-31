@@ -7,8 +7,14 @@
 
 #include "TaskBuffer.h"
 
-namespace dataflow::executors {
+namespace dataflow::executors::internal {
 
+/**
+ * @details
+ * - sequential executor meant for running 
+ *   asynchronous in an separated thread.
+ * - used by ExecutorMultithread. 
+ */
 class ThreadWorker {
 
 public:
@@ -32,6 +38,6 @@ private:
     std::atomic_bool enabled_ { true };
 };
 
-} //ns
+} //namespace dataflow::executors
 
-#include "ThreadWorker.hpp"
+#include "../impl/ThreadWorker.hpp"
