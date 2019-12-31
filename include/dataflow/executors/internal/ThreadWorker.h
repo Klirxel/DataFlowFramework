@@ -26,7 +26,7 @@ public:
 private:
     inline void run_();
 
-    TaskBuffer taskBuffer_;
+    internal::TaskBuffer taskBuffer_;
     std::condition_variable wakeUpCall_;
     std::mutex wakeUpMutex_;
     std::atomic_bool enabled_ { true };

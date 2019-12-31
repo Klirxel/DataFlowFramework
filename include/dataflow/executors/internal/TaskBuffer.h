@@ -5,7 +5,7 @@
 #include <mutex>
 #include <thread>
 
-namespace dataflow::executors {
+namespace dataflow::executors::internal {
 
 struct TaskWithLock {
     std::function<void(void)> task;

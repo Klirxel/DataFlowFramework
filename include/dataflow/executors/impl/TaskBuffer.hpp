@@ -1,6 +1,6 @@
 #include "../internal/TaskBuffer.h"
 
-namespace dataflow::executors {
+namespace dataflow::executors::internal {
 
 inline void TaskBuffer::addTask(std::function<void(void)>&& task, std::mutex* task_lock)
 {
