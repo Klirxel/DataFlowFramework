@@ -5,7 +5,7 @@
 #include <functional>
 #include <mutex>
 
-#include "internal/TaskBuffer.h"
+#include "TaskBuffer.h"
 
 namespace dataflow::executors {
 
@@ -34,4 +34,4 @@ private:
 
 } //namespace dataflow::executors
 
-#include "impl/ThreadWorker.hpp"
+#include "../impl/ThreadWorker.hpp"

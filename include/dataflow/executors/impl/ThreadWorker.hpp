@@ -1,4 +1,4 @@
-#include "../ThreadWorker.h"
+#include "../internal/ThreadWorker.h"
 
 namespace dataflow::executors {
 
