@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Executor.h"
 #include "ExecutorAsync.h"
 #include "ExecutorMultithread.h"
+#include "ExecutorSeq.h"
 
 /** @namespace dataflow::executors
  *

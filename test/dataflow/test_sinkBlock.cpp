@@ -7,7 +7,7 @@
 
 #include <dataflow/blocks/SinkBlock.h>
 #include <dataflow/channels/Channel.h>
-#include <dataflow/executors/Executor.h>
+#include <dataflow/executors/ExecutorSeq.h>
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Channel<int> input2;
     Adder adder;
 
-    Executor executor {};
+    ExecutorSeq executor {};
 
     SinkBlock sinkBlock(ChannelBundle(input1, input2), adder, executor);
 

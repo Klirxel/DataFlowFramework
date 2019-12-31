@@ -4,7 +4,7 @@
 
 #include <dataflow/blocks/Block.h>
 #include <dataflow/channels/Channel.h>
-#include <dataflow/executors/Executor.h>
+#include <dataflow/executors/ExecutorSeq.h>
 #include <dataflow/tools/TransmissionAnalyser.h>
 
 using namespace dataflow::blocks;
@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(AnalyseDataMoveCount)
     Channel<TransmissionAnalyser> inputChan;
     Channel<TransmissionAnalyser> outputChan;
 
-    Executor executor {};
+    ExecutorSeq executor {};
 
     Block block { ChannelBundle { inputChan }, moveThrough, ChannelBundle { outputChan }, executor };
 
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(AnalyseDataCopyCount)
     Channel<TransmissionAnalyser> inputChan;
     Channel<TransmissionAnalyser> outputChan;
 
-    Executor executor {};
+    ExecutorSeq executor {};
 
     Block block { ChannelBundle { inputChan }, copyThrough, ChannelBundle { outputChan }, executor };
 

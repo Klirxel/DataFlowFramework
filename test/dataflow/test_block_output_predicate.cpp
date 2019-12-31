@@ -4,7 +4,7 @@
 
 #include <dataflow/blocks/Block.h>
 #include <dataflow/channels/Channel.h>
-#include <dataflow/executors/Executor.h>
+#include <dataflow/executors/ExecutorSeq.h>
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE(BasicOutputPredicate)
 {
     Channel<int> chanIn, chanOut;
 
-    Executor executor;
+    ExecutorSeq executor;
 
     Block block {
         ChannelBundle { chanIn },

@@ -11,7 +11,7 @@ namespace dataflow::executors {
  * - Sequential (not parallel) execution of tasks.
  * - No thread safe channels required. 
  */
-class Executor : public ExecutorIf {
+class ExecutorSeq : public ExecutorIf {
 
 public:
     inline void execute(std::function<void(void)>&& task, std::mutex& taskLock) override;
@@ -19,4 +19,4 @@ public:
 
 } //namespace dataflow::executors
 
-#include "impl/Executor.hpp"
+#include "impl/ExecutorSeq.hpp"

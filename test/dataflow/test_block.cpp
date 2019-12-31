@@ -6,7 +6,7 @@
 
 #include <dataflow/blocks/Block.h>
 #include <dataflow/channels/Channel.h>
-#include <dataflow/executors/Executor.h>
+#include <dataflow/executors/ExecutorSeq.h>
 
 using namespace dataflow::blocks;
 using namespace dataflow::channels;
@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     Channel<int> input2;
     Channel<int> result;
 
-    Executor executor {};
+    ExecutorSeq executor {};
 
     Block block(ChannelBundle(input1, input2), add, ChannelBundle(result), executor);
 
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(BlockOutputPredicateOneChannel)
 {
     Channel<int> input;
     Channel<int> output;
-    Executor executor {};
+    ExecutorSeq executor {};
 
     Block block { ChannelBundle { input }, passThrough<int>, ChannelBundle { output }, executor, OutputOnlyEven<int> {} };
 
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(BlockOutputPredicateTwoChannel)
     Channel<int> output2;
 
     Channel<int> output;
-    Executor executor {};
+    ExecutorSeq executor {};
 
     Block block { ChannelBundle { input1, input2 }, passThrough<int, int>, ChannelBundle { output1, output2 }, executor, OutputOnlyEven<int, int> {} };
 
