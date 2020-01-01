@@ -6,7 +6,7 @@ namespace dataflow::tools {
 
 struct TransmissionAnalyser {
 
-    TransmissionAnalyser() = default;
+    constexpr TransmissionAnalyser() noexcept = default;
 
     inline TransmissionAnalyser(const TransmissionAnalyser& other) noexcept;
 
@@ -18,18 +18,17 @@ struct TransmissionAnalyser {
 
     inline ~TransmissionAnalyser() noexcept;
 
-    std::array<int, 4> calls {};
-
-    int& callsCopyCtor { calls.at(0) };
-    int& callsMoveCtor { calls.at(1) };
-    int& callsCopyAssOp { calls.at(2) };
-    int& callsMoveAssOp { calls.at(3) };
+    int callsCopyCtor { 0 };
+    int callsMoveCtor { 0 };
+    int callsCopyAssOp { 0 };
+    int callsMoveAssOp { 0 };
     inline static int callsDestructor { 0 };
 
 private:
+    constexpr void setVariables(const TransmissionAnalyser& other) noexcept;
     inline static std::mutex mutex_;
 };
 
-} //namespace df::base
+} //namespace dataflow::tools
 
 #include "impl/TransmissionAnalyser.hpp"
