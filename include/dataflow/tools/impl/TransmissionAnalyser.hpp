@@ -2,19 +2,19 @@
 
 namespace dataflow::tools {
 
-inline TransmissionAnalyser::TransmissionAnalyser(const TransmissionAnalyser& other) noexcept
+constexpr TransmissionAnalyser::TransmissionAnalyser(const TransmissionAnalyser& other) noexcept
 {
     setVariables(other);
     ++callsCopyCtor;
 }
 
-inline TransmissionAnalyser::TransmissionAnalyser(TransmissionAnalyser&& other) noexcept
+constexpr TransmissionAnalyser::TransmissionAnalyser(TransmissionAnalyser&& other) noexcept
 {
     setVariables(other);
     ++callsMoveCtor;
 }
 
-inline TransmissionAnalyser& TransmissionAnalyser::operator=(const TransmissionAnalyser& other) noexcept
+constexpr TransmissionAnalyser& TransmissionAnalyser::operator=(const TransmissionAnalyser& other) noexcept
 {
     setVariables(other);
 
@@ -22,7 +22,7 @@ inline TransmissionAnalyser& TransmissionAnalyser::operator=(const TransmissionA
     return *this;
 }
 
-inline TransmissionAnalyser& TransmissionAnalyser::operator=(TransmissionAnalyser&& other) noexcept
+constexpr TransmissionAnalyser& TransmissionAnalyser::operator=(TransmissionAnalyser&& other) noexcept
 {
     setVariables(other);
 

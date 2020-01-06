@@ -21,13 +21,13 @@ struct TransmissionAnalyser {
 
     constexpr TransmissionAnalyser() noexcept = default;
 
-    inline TransmissionAnalyser(const TransmissionAnalyser& other) noexcept;
+    constexpr TransmissionAnalyser(const TransmissionAnalyser& other) noexcept;
 
-    inline TransmissionAnalyser(TransmissionAnalyser&& other) noexcept;
+    constexpr TransmissionAnalyser(TransmissionAnalyser&& other) noexcept;
 
-    inline TransmissionAnalyser& operator=(const TransmissionAnalyser& other) noexcept;
+    constexpr TransmissionAnalyser& operator=(const TransmissionAnalyser& other) noexcept;
 
-    inline TransmissionAnalyser& operator=(TransmissionAnalyser&& other) noexcept;
+    constexpr TransmissionAnalyser& operator=(TransmissionAnalyser&& other) noexcept;
 
     inline ~TransmissionAnalyser() noexcept;
 
