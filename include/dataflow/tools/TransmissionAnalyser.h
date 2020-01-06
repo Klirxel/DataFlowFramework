@@ -4,6 +4,19 @@
 
 namespace dataflow::tools {
 
+/**
+ * @brief Inspection datatype. 
+ *
+ * @details
+ * - Datatype that can be used for
+ *   analysing the amount of
+ *   contruction, move and copy operation utilized
+ *   by the dataflow framework.
+ * - Use it as a datatype of an dataflow graph,
+ *   execute the dataflow graph and then read
+ *   out the member variables. 
+ * - Usage example see \ref ptest_transmissionAnalyses.cpp.
+ */
 struct TransmissionAnalyser {
 
     constexpr TransmissionAnalyser() noexcept = default;
