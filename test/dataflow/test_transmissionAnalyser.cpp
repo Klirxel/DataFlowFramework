@@ -21,7 +21,10 @@ BOOST_AUTO_TEST_CASE(CopyCtorCall)
 {
     TransmissionAnalyser taBase {};
     const int offset = 10;
-    taBase.calls.fill(offset);
+    taBase.callsCopyCtor = offset;
+    taBase.callsMoveCtor = offset;
+    taBase.callsCopyAssOp = offset;
+    taBase.callsMoveAssOp = offset;
     TransmissionAnalyser::callsDestructor = offset;
 
     const TransmissionAnalyser ta { taBase };
@@ -38,7 +41,10 @@ BOOST_AUTO_TEST_CASE(MoveCtorCall)
 {
     TransmissionAnalyser taBase {};
     const int offset = 10;
-    taBase.calls.fill(offset);
+    taBase.callsCopyCtor = offset;
+    taBase.callsMoveCtor = offset;
+    taBase.callsCopyAssOp = offset;
+    taBase.callsMoveAssOp = offset;
     TransmissionAnalyser::callsDestructor = offset;
 
     TransmissionAnalyser ta { std::move(taBase) };
@@ -54,7 +60,10 @@ BOOST_AUTO_TEST_CASE(CopyAssOpCall)
 {
     TransmissionAnalyser taBase {};
     const int offset = 10;
-    taBase.calls.fill(offset);
+    taBase.callsCopyCtor = offset;
+    taBase.callsMoveCtor = offset;
+    taBase.callsCopyAssOp = offset;
+    taBase.callsMoveAssOp = offset;
     TransmissionAnalyser::callsDestructor = offset;
 
     TransmissionAnalyser ta {};

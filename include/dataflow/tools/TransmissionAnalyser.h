@@ -4,32 +4,44 @@
 
 namespace dataflow::tools {
 
+/**
+ * @brief Inspection datatype. 
+ *
+ * @details
+ * - Datatype that can be used for
+ *   analysing the amount of
+ *   contruction, move and copy operation utilized
+ *   by the dataflow framework.
+ * - Use it as a datatype of an dataflow graph,
+ *   execute the dataflow graph and then read
+ *   out the member variables. 
+ * - Usage example see \ref ptest_transmissionAnalyses.cpp.
+ */
 struct TransmissionAnalyser {
 
-    TransmissionAnalyser() = default;
+    constexpr TransmissionAnalyser() noexcept = default;
 
-    inline TransmissionAnalyser(const TransmissionAnalyser& other) noexcept;
+    constexpr TransmissionAnalyser(const TransmissionAnalyser& other) noexcept;
 
-    inline TransmissionAnalyser(TransmissionAnalyser&& other) noexcept;
+    constexpr TransmissionAnalyser(TransmissionAnalyser&& other) noexcept;
 
-    inline TransmissionAnalyser& operator=(const TransmissionAnalyser& other) noexcept;
+    constexpr TransmissionAnalyser& operator=(const TransmissionAnalyser& other) noexcept;
 
-    inline TransmissionAnalyser& operator=(TransmissionAnalyser&& other) noexcept;
+    constexpr TransmissionAnalyser& operator=(TransmissionAnalyser&& other) noexcept;
 
     inline ~TransmissionAnalyser() noexcept;
 
-    std::array<int, 4> calls {};
-
-    int& callsCopyCtor { calls.at(0) };
-    int& callsMoveCtor { calls.at(1) };
-    int& callsCopyAssOp { calls.at(2) };
-    int& callsMoveAssOp { calls.at(3) };
+    int callsCopyCtor { 0 };
+    int callsMoveCtor { 0 };
+    int callsCopyAssOp { 0 };
+    int callsMoveAssOp { 0 };
     inline static int callsDestructor { 0 };
 
 private:
+    constexpr void setVariables(const TransmissionAnalyser& other) noexcept;
     inline static std::mutex mutex_;
 };
 
-} //namespace df::base
+} //namespace dataflow::tools
 
-#include "TransmissionAnalyser.hpp"
+#include "impl/TransmissionAnalyser.hpp"
