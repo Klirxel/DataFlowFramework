@@ -84,6 +84,12 @@ include(add_doxygen_target)
 add_doxygen_target()
 
 ################################################################################
+#Add deploy compile time json target 
+################################################################################
+include(add_deploy_compile_time_json_target)
+add_deploy_compile_time_json_target()
+
+################################################################################
 #Add subdirectories
 ################################################################################
 add_subdirectory(include/dataflow)
