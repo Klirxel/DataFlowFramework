@@ -98,6 +98,7 @@ add_deploy_compile_time_json_target()
 #Add subdirectories
 ################################################################################
 add_subdirectory(include/dataflow)
+add_subdirectory(examples)
 
 if(BUILD_UNIT_TESTS)
   add_subdirectory(test)
