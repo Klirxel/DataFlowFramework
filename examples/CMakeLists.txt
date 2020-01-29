@@ -1,4 +1,4 @@
 include(add_example) 
 
-add_example(singleThread)
+add_example(simpleInputOutput)
 
