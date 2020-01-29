@@ -10,6 +10,7 @@
   * Proof of concept of programming dataflow graphs with C++
 
 ## Status
+  * Still a development version
   * Basic features implemented
   * Not tested by 3rd party users
   * Only tested on Linux yet
@@ -37,7 +38,8 @@
 
 ## Documenation
   * Doxygen documentation
-  * Unit tests (see test/)
+  * Examples (examples/)
+  * Unit tests (test/)
   * Source code
 
 ## 3rd party libraries used
