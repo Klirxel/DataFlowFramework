@@ -5,7 +5,7 @@
 #bugprone-suspicious-semiclolon: warnings when using if constexpr.
 #readablity-braces-around-statements: warnings when using if constexpr.
 Checks: 'bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements,-modernize-use-trailing-return-type'
-WarningsAsErrors: '*'
+#WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false
 FormatStyle: WebKit     
