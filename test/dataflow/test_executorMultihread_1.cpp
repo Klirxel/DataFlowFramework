@@ -22,62 +22,41 @@ using namespace dataflow::blocks;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 
-struct Counter {
-
-    int operator()() noexcept
-    {
-        ////std::cout << "Counter: Input data " << count << std::endl;
-        return count++;
-    };
-
-    int count { 0 };
-};
-
-const auto multiply2Delay = 8ms;
-
-template <size_t index>
-int multiply2(int input) noexcept
-{
-    std::this_thread::sleep_for(multiply2Delay);
-
-    const int inputMul2 = 2 * input;
-    std::cout << "multiply2Unit-" << index << ": 2 * " << input << " = " << inputMul2 << '\n';
-    return inputMul2;
-}
-
-struct DataStorage {
-
-    void operator()(int value)
-    {
-        data.push_back(value);
-    };
-
-    std::vector<int> data;
-};
-
 BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 {
-    Counter counter;
-    DataStorage dataStorage;
+    using ValueType = int;
+    ChannelThreadSafe<ValueType> inputChan;
+    ChannelThreadSafe<ValueType> chanRes;
 
-    ChannelThreadSafe<int> inputChan;
-    ChannelThreadSafe<int> chanRes;
-
+    auto counter = [count = 0]() mutable {
+        return count++;
+    };
     GeneratorBlock inputGenerator { counter, ChannelBundle { inputChan } };
 
     const size_t threads = 9;
     ExecutorMultithread execMultihread { threads };
 
-    Block multiplyBlock1 { ChannelBundle { inputChan }, multiply2<1>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock2 { ChannelBundle { inputChan }, multiply2<2>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock3 { ChannelBundle { inputChan }, multiply2<3>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock4 { ChannelBundle { inputChan }, multiply2<4>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock5 { ChannelBundle { inputChan }, multiply2<5>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock6 { ChannelBundle { inputChan }, multiply2<6>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock7 { ChannelBundle { inputChan }, multiply2<7>, ChannelBundle { chanRes }, execMultihread };
-    Block multiplyBlock8 { ChannelBundle { inputChan }, multiply2<8>, ChannelBundle { chanRes }, execMultihread };
+    const auto delayMultiply2 = 8ms;
+    auto multiply2 = [&delayMultiply2](auto input) {
+        std::this_thread::sleep_for(delayMultiply2);
+        return 2 * input;
+    };
 
-    SinkBlock dataStorageBlock { ChannelBundle { chanRes }, dataStorage, execMultihread };
+    Block multiplyBlock1 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock2 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock3 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock4 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock5 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock6 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock7 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+    Block multiplyBlock8 { ChannelBundle { inputChan }, multiply2, ChannelBundle { chanRes }, execMultihread };
+
+    auto dataStorage = std::vector<ValueType> {};
+    auto storeData = [&dataStorage](ValueType&& data) {
+        dataStorage.push_back(std::forward<ValueType>(data));
+    };
+
+    SinkBlock dataStorageBlock { ChannelBundle { chanRes }, storeData, execMultihread };
 
     const auto starttime = std::chrono::system_clock::now();
     const size_t cycles = 1000;
@@ -91,8 +70,8 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     const auto processingDuration = stoptime - starttime;
 
     std::cout << "ProcessingTime: " << std::chrono::duration_cast<std::chrono::milliseconds>(processingDuration).count() << "ms \n";
-    std::cout << "ProcessingTime (singleThread): " << cycles * multiply2Delay.count() << " ms \n";
-    std::cout << "ProcessingTime (multiThread ideal): " << cycles * multiply2Delay.count() / threads << " ms \n";
+    std::cout << "ProcessingTime (singleThread): " << cycles * delayMultiply2.count() << " ms \n";
+    std::cout << "ProcessingTime (multiThread ideal): " << cycles * delayMultiply2.count() / threads << " ms \n";
 
     BOOST_CHECK_EQUAL(inputChan.dataAvailable(), false);
 
@@ -101,7 +80,7 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
         resultsUnordered.insert(2 * cycle);
     }
 
-    for (const auto& resultOfCycle : dataStorage.data) {
+    for (const auto& resultOfCycle : dataStorage) {
         BOOST_CHECK_EQUAL(resultsUnordered.count(resultOfCycle), 1);
         resultsUnordered.erase(resultOfCycle);
     }
