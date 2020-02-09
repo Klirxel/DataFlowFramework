@@ -10,7 +10,7 @@
 namespace dataflow::channels {
 
 template <typename T>
-[[nodiscard]] constexpr std::mutex& ChannelIf<T>::getLock()
+[[nodiscard]] constexpr std::mutex& ChannelIf<T>::getLock() noexcept
 {
     return lock;
 }
