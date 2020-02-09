@@ -104,7 +104,7 @@ void ChannelBundle<T...>::pushImpl(std::tuple<T...>&& data, const std::array<boo
 
 template <typename... T>
 template <size_t I>
-constexpr typename ChannelBundle<T...>::template ChannelType<I>&
+[[nodiscard]] constexpr typename ChannelBundle<T...>::template ChannelType<I>&
 ChannelBundle<T...>::at() noexcept
 {
     return std::get<I>(channels_);
@@ -112,7 +112,7 @@ ChannelBundle<T...>::at() noexcept
 
 template <typename... T>
 template <size_t I>
-constexpr const typename ChannelBundle<T...>::template ChannelType<I>&
+[[nodiscard]] constexpr const typename ChannelBundle<T...>::template ChannelType<I>&
 ChannelBundle<T...>::at() const noexcept
 {
     return std::get<I>(channels_);
@@ -139,7 +139,7 @@ template <size_t... Is>
 [[nodiscard]] size_t ChannelBundle<T...>::sizeImpl(std::index_sequence<Is...> /*unused*/) const
 {
     if constexpr (sizeof...(Is) >= 1) {
-        return std::min( { at<Is>().size()... });
+        return std::min({ at<Is>().size()... });
     }
 
     return 0;
