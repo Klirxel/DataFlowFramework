@@ -22,62 +22,55 @@ using namespace dataflow::blocks;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 
-struct Counter {
-
-    int operator()() noexcept
-    {
-        return count++;
-    };
-
-    int count { 0 };
-};
-
-int multiply(int a, int b) noexcept
-{
-    return a * b;
-}
-
-std::tuple<int, int> doubler(int a) noexcept
-{
-    return { a, a };
-}
-
-struct DataStorage {
-
-    void operator()(int value)
-    {
-        data.push_back(value);
-    };
-
-    std::vector<int> data;
-};
-
 BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 {
-    Counter counter1;
-    Counter counter2;
-    DataStorage dataStorage1;
-    DataStorage dataStorage2;
+    using ValueType = int;
 
-    ChannelThreadSafe<int> chanIn1, chanIn2;
-    ChannelThreadSafe<int> chan11, chan12;
-    ChannelThreadSafe<int> chan21, chan22;
-    ChannelThreadSafe<int> chanOut1, chanOut2;
+    ChannelThreadSafe<ValueType> chanIn1;
+    ChannelThreadSafe<ValueType> chanIn2;
+    ChannelThreadSafe<ValueType> chan11;
+    ChannelThreadSafe<ValueType> chan12;
+    ChannelThreadSafe<ValueType> chan21;
+    ChannelThreadSafe<ValueType> chan22;
+    ChannelThreadSafe<ValueType> chanOut1;
+    ChannelThreadSafe<ValueType> chanOut2;
 
+    auto counter1 = [count = 0]() mutable {
+        return count++;
+    };
     GeneratorBlock inputGenerator1 { counter1, ChannelBundle { chanIn1 } };
+
+    auto counter2 = [count = 0]() mutable {
+        return count++;
+    };
     GeneratorBlock inputGenerator2 { counter2, ChannelBundle { chanIn2 } };
 
     const size_t threads = 4;
     ExecutorMultithread execMultihread { threads };
 
+    auto doubler = [](auto&& val) {
+        return std::tuple { std::forward<decltype(val)>(val), std::forward<decltype(val)>(val) };
+    };
     Block doublerBlock1 { ChannelBundle { chanIn1 }, doubler, ChannelBundle { chan11, chan12 }, execMultihread };
     Block doublerBlock2 { ChannelBundle { chanIn2 }, doubler, ChannelBundle { chan21, chan22 }, execMultihread };
 
+    auto multiply = [](int val1, int val2) {
+        return val1 * val2;
+    };
     Block multiplyBlock1 { ChannelBundle { chan11, chan21 }, multiply, ChannelBundle { chanOut1 }, execMultihread };
     Block multiplyBlock2 { ChannelBundle { chan12, chan22 }, multiply, ChannelBundle { chanOut2 }, execMultihread };
 
-    SinkBlock dataStorageBlock1 { ChannelBundle { chanOut1 }, dataStorage1, execMultihread };
-    SinkBlock dataStorageBlock2 { ChannelBundle { chanOut2 }, dataStorage2, execMultihread };
+    std::vector<ValueType> dataStorage1;
+    auto storeData1 = [&dataStorage1](ValueType&& val) {
+        dataStorage1.push_back(std::forward<ValueType>(val));
+    };
+    SinkBlock dataStorageBlock1 { ChannelBundle { chanOut1 }, storeData1, execMultihread };
+
+    std::vector<ValueType> dataStorage2;
+    auto storeData2 = [&dataStorage2](ValueType&& val) {
+        dataStorage2.push_back(std::forward<ValueType>(val));
+    };
+    SinkBlock dataStorageBlock2 { ChannelBundle { chanOut2 }, storeData2, execMultihread };
 
     const auto starttime = std::chrono::system_clock::now();
 
@@ -100,11 +93,11 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 
     BOOST_CHECK_EQUAL(chanIn1.dataAvailable(), false);
     BOOST_CHECK_EQUAL(chanIn2.dataAvailable(), false);
-    BOOST_CHECK_EQUAL(dataStorage1.data.size(), cycles);
-    BOOST_CHECK_EQUAL(dataStorage2.data.size(), cycles);
+    BOOST_CHECK_EQUAL(dataStorage1.size(), cycles);
+    BOOST_CHECK_EQUAL(dataStorage2.size(), cycles);
 
-    const size_t elemsBoth = std::min(dataStorage1.data.size(), dataStorage2.data.size());
+    const size_t elemsBoth = std::min(dataStorage1.size(), dataStorage2.size());
     for (size_t cycle = 0; cycle < elemsBoth; ++cycle) {
-        BOOST_CHECK_EQUAL(dataStorage1.data.at(cycle), dataStorage2.data.at(cycle));
+        BOOST_CHECK_EQUAL(dataStorage1.at(cycle), dataStorage2.at(cycle));
     }
 }
