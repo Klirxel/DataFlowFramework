@@ -56,7 +56,7 @@ template <size_t... Is>
 std::optional<std::tuple<T...>> ChannelBundle<T...>::popImpl(std::index_sequence<Is...> /*unused*/)
 {
     std::array<std::lock_guard<std::mutex>, sizeof...(Is)>
-        lockAllChannels { std::lock_guard { std::get<Is>(channels_).lock }... };
+        lockAllChannels { std::lock_guard { std::get<Is>(channels_).getLock() }... };
 
     if (dataAvailable()) {
         return std::optional<std::tuple<T...>> { std::tuple<T...> { std::move(std::get<Is>(channels_).pop()).value()... } };
