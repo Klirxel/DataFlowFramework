@@ -28,13 +28,14 @@ int main()
     ExecutorSeq executor;
 
     //Definiton packageGenerator
-    auto rndPackGen = [init_seed = 324]() mutable {
-        const auto variable_package_size = std::abs(init_seed % max_package_size);
+    const auto init_seed = 324;
+    auto rndPackGen = [seed = init_seed]() mutable {
+        const auto variable_package_size = std::abs(seed % max_package_size);
         package_type package(variable_package_size);
 
-        std::seed_seq seq { init_seed };
+        std::seed_seq seq { seed };
         seq.generate(package.begin(), package.end());
-        init_seed = package.back();
+        seed = package.back();
         return package; //copy ellision
     };
 
