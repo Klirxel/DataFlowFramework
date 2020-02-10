@@ -51,5 +51,30 @@ constexpr void TransmissionAnalyser::setVariables(const TransmissionAnalyser& ot
     callsMoveAssOp = other.callsMoveAssOp;
 }
 
+[[nodiscard]] inline size_t TransmissionAnalyser::getCallsCopyCtor() const noexcept
+{
+    return callsCopyCtor;
+}
+
+[[nodiscard]] inline size_t TransmissionAnalyser::getCallsMoveCtor() const noexcept
+{
+    return callsMoveCtor;
+}
+
+[[nodiscard]] inline size_t TransmissionAnalyser::getCallsCopyAssOp() const noexcept
+{
+    return callsCopyAssOp;
+}
+
+[[nodiscard]] inline size_t TransmissionAnalyser::getCallsMoveAssOp() const noexcept
+{
+    return callsMoveAssOp;
+}
+
+inline size_t TransmissionAnalyser::getAndResetCallsDestructor() noexcept
+{
+    return std::exchange(callsDestructor, 0);
+}
+
 }
 // namespace df::base
