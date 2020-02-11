@@ -21,66 +21,56 @@ using namespace dataflow::blocks;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 
-struct Counter {
-
-    constexpr int operator()() noexcept
-    {
-        return count++;
-    };
-
-    int count { 0 };
-};
-
-struct DataStorage {
-
-    void operator()(int value)
-    {
-        data.push_back(value);
-    };
-
-    std::vector<int> data;
-};
-
-constexpr int
-add(int input1, int input2) noexcept
-{
-    return input1 + input2;
-}
-
 BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 {
-    Counter counter1, counter2;
-    DataStorage dataStorage;
+    using ValueType = int;
 
-    ChannelThreadSafe<int> chan1, chan2;
-    ChannelThreadSafe<int> chanRes;
+    ChannelThreadSafe<ValueType> chan1;
+    ChannelThreadSafe<ValueType> chan2;
+    ChannelThreadSafe<ValueType> chanRes;
 
+    //Definiton of inputGenerators
+    auto counter1 = [count = 0]() mutable { return count++; };
+    auto counter2 = [count = 0]() mutable { return count++; };
     GeneratorBlock inputGenerator1 { counter1, ChannelBundle { chan1 } };
     GeneratorBlock inputGenerator2 { counter2, ChannelBundle { chan2 } };
 
+    //Definition of addBlock
     ExecutorAsync execAsync1 { std::launch::async };
-    Block block(ChannelBundle(chan1, chan2), add, ChannelBundle(chanRes), execAsync1);
+    auto adder = [](auto&& val1, auto&& val2) { return val1 + val2; };
+    Block addBlock(ChannelBundle(chan1, chan2), adder, ChannelBundle(chanRes), execAsync1);
+
+    //Defention of dataStorageBlock
+    std::vector<ValueType> dataStorage;
+    auto storeData = [&dataStorage](ValueType&& val) {
+        dataStorage.emplace_back(std::forward<ValueType>(val));
+    };
 
     ExecutorAsync execAsync2 { std::launch::async };
-    SinkBlock dataStorageBlock { ChannelBundle { chanRes }, dataStorage, execAsync2 };
+    SinkBlock dataStorageBlock { ChannelBundle { chanRes }, storeData, execAsync2 };
 
-    inputGenerator1.start(10ms, 0ms, 6);
-    inputGenerator2.start(10ms, 0ms, 6);
+    //Start generators
+    const auto period = 10ms;
+    const auto offset = 0ms;
+    const auto elemToGen = 6;
+    inputGenerator1.start(period, offset, elemToGen);
+    inputGenerator2.start(period, offset, elemToGen);
 
     inputGenerator1.wait();
     inputGenerator2.wait();
 
+    //Check result
     BOOST_CHECK_EQUAL(chan1.dataAvailable(), false);
     BOOST_CHECK_EQUAL(chan1.size(), 0);
     BOOST_CHECK_EQUAL(chan2.dataAvailable(), false);
     BOOST_CHECK_EQUAL(chan2.size(), 0);
 
-    BOOST_CHECK_EQUAL(dataStorage.data.at(0), 0);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(1), 2);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(2), 4);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(3), 6);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(4), 8);
-    BOOST_CHECK_EQUAL(dataStorage.data.at(5), 10);
+    BOOST_CHECK_EQUAL(dataStorage.at(0), 0);
+    BOOST_CHECK_EQUAL(dataStorage.at(1), 2);
+    BOOST_CHECK_EQUAL(dataStorage.at(2), 4);
+    BOOST_CHECK_EQUAL(dataStorage.at(3), 6);
+    BOOST_CHECK_EQUAL(dataStorage.at(4), 8);
+    BOOST_CHECK_EQUAL(dataStorage.at(5), 10);
 
     BOOST_CHECK_EQUAL(chanRes.dataAvailable(), false);
 }
