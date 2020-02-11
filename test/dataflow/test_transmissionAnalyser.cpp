@@ -26,19 +26,27 @@ BOOST_AUTO_TEST_CASE(DefaultCtorCall)
 
 BOOST_AUTO_TEST_CASE(CopyCtorCall)
 {
+
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 1);
+
     TransmissionAnalyser taBase {};
     const TransmissionAnalyser ta { taBase };
 
+    BOOST_CHECK_EQUAL(taBase.getCallsCopyCtor(), 0);
     BOOST_CHECK_EQUAL(ta.getCallsCopyCtor(), 1);
     BOOST_CHECK_EQUAL(ta.getCallsMoveCtor(), 0);
     BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
     BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
     BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 0);
+    BOOST_CHECK_EQUAL(ta.getAndResetCallsDestructor(), 0);
 }
 
 BOOST_AUTO_TEST_CASE(MoveCtorCall)
 {
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
+
     TransmissionAnalyser taBase {};
 
     TransmissionAnalyser ta { std::move(taBase) };
@@ -52,6 +60,9 @@ BOOST_AUTO_TEST_CASE(MoveCtorCall)
 
 BOOST_AUTO_TEST_CASE(CopyAssOpCall)
 {
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
+
     TransmissionAnalyser taBase {};
 
     TransmissionAnalyser ta {};
@@ -66,6 +77,8 @@ BOOST_AUTO_TEST_CASE(CopyAssOpCall)
 
 BOOST_AUTO_TEST_CASE(DestructorCall)
 {
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
 
     {
         TransmissionAnalyser taBase {};
