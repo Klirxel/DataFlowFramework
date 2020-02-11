@@ -20,30 +20,28 @@ using namespace dataflow::blocks;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
 
-struct Adder {
-
-    void operator()(int input1, int input2) noexcept { resultBuf.push_back(input1 + input2); }
-
-    std::vector<int> resultBuf;
-};
-
 BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
 {
-    Channel<int> input1;
-    Channel<int> input2;
-    Adder adder;
+    using ValueType = int;
+    Channel<ValueType> input1;
+    Channel<ValueType> input2;
 
+    //Definition of addAndStoreBlock
     ExecutorSeq executor {};
+    std::vector<ValueType> dataStorage;
+    auto addAndStore = [&dataStorage](ValueType&& val1, ValueType&& val2) {
+        dataStorage.emplace_back(val1 + val2);
+    };
 
-    SinkBlock sinkBlock(ChannelBundle(input1, input2), adder, executor);
+    SinkBlock addAndStoreBlock(ChannelBundle(input1, input2), addAndStore, executor);
 
+    //Input data
     input1.push(1);
     input2.push(2);
-
-    BOOST_CHECK_EQUAL(adder.resultBuf.at(0), 3);
-
     input1.push(2);
     input2.push(2);
 
-    BOOST_CHECK_EQUAL(adder.resultBuf.at(1), 4);
+    //Check output
+    BOOST_CHECK_EQUAL(dataStorage.at(0), 3);
+    BOOST_CHECK_EQUAL(dataStorage.at(1), 4);
 }

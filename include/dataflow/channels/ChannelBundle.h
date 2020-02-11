@@ -37,10 +37,10 @@ public:
     constexpr void attachSourceBlock(BlockIf* block) noexcept;
 
     template <size_t I>
-    constexpr ChannelType<I>& at() noexcept;
+    [[nodiscard]] constexpr ChannelType<I>& at() noexcept;
 
     template <size_t I>
-    constexpr const ChannelType<I>& at() const noexcept;
+    [[nodiscard]] constexpr const ChannelType<I>& at() const noexcept;
 
     std::optional<std::tuple<T...>> pop();
     void push(std::tuple<T...>&& data, const std::array<bool, sizeof...(T)>& outputToChan = std::array<bool, sizeof...(T)> {}.fill(true));

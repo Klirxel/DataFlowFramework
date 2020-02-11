@@ -17,81 +17,72 @@ BOOST_AUTO_TEST_CASE(DefaultCtorCall)
 {
     const TransmissionAnalyser ta {};
 
-    BOOST_CHECK_EQUAL(ta.callsCopyCtor, 0);
-    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 0);
-    BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0);
-    BOOST_CHECK_EQUAL(ta.callsMoveAssOp, 0);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 0);
 }
 
 BOOST_AUTO_TEST_CASE(CopyCtorCall)
 {
-    TransmissionAnalyser taBase {};
-    const int offset = 10;
-    taBase.callsCopyCtor = offset;
-    taBase.callsMoveCtor = offset;
-    taBase.callsCopyAssOp = offset;
-    taBase.callsMoveAssOp = offset;
-    TransmissionAnalyser::callsDestructor = offset;
 
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 1);
+
+    TransmissionAnalyser taBase {};
     const TransmissionAnalyser ta { taBase };
 
-    BOOST_CHECK_EQUAL(ta.callsCopyCtor, 1 + offset);
-    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsMoveAssOp, 0 + offset);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 0 + offset);
+    BOOST_CHECK_EQUAL(taBase.getCallsCopyCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyCtor(), 1);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
+    BOOST_CHECK_EQUAL(ta.getAndResetCallsDestructor(), 0);
 }
 
 BOOST_AUTO_TEST_CASE(MoveCtorCall)
 {
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
+
     TransmissionAnalyser taBase {};
-    const int offset = 10;
-    taBase.callsCopyCtor = offset;
-    taBase.callsMoveCtor = offset;
-    taBase.callsCopyAssOp = offset;
-    taBase.callsMoveAssOp = offset;
-    TransmissionAnalyser::callsDestructor = offset;
 
     TransmissionAnalyser ta { std::move(taBase) };
 
-    BOOST_CHECK_EQUAL(ta.callsCopyCtor, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 1 + offset);
-    BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsMoveAssOp, 0 + offset);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 0 + offset);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveCtor(), 1);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 0);
 }
 
 BOOST_AUTO_TEST_CASE(CopyAssOpCall)
 {
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
+
     TransmissionAnalyser taBase {};
-    const int offset = 10;
-    taBase.callsCopyCtor = offset;
-    taBase.callsMoveCtor = offset;
-    taBase.callsCopyAssOp = offset;
-    taBase.callsMoveAssOp = offset;
-    TransmissionAnalyser::callsDestructor = offset;
 
     TransmissionAnalyser ta {};
     ta = taBase;
 
-    BOOST_CHECK_EQUAL(ta.callsCopyCtor, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsMoveCtor, 0 + offset);
-    BOOST_CHECK_EQUAL(ta.callsCopyAssOp, 1 + offset);
-    BOOST_CHECK_EQUAL(ta.callsMoveAssOp, 0 + offset);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 0 + offset);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 1);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 0);
 }
 
 BOOST_AUTO_TEST_CASE(DestructorCall)
 {
-    const int offset = 10;
-
-    TransmissionAnalyser::callsDestructor = offset;
+    //from last test
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
 
     {
         TransmissionAnalyser taBase {};
     }
 
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::callsDestructor, 1 + offset);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 1);
 }

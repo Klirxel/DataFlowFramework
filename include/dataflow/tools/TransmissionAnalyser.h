@@ -38,13 +38,19 @@ struct TransmissionAnalyser {
 
     inline ~TransmissionAnalyser() noexcept;
 
-    int callsCopyCtor { 0 };
-    int callsMoveCtor { 0 };
-    int callsCopyAssOp { 0 };
-    int callsMoveAssOp { 0 };
-    inline static int callsDestructor { 0 };
+    [[nodiscard]] inline size_t getCallsCopyCtor() const noexcept;
+    [[nodiscard]] inline size_t getCallsMoveCtor() const noexcept;
+    [[nodiscard]] inline size_t getCallsCopyAssOp() const noexcept;
+    [[nodiscard]] inline size_t getCallsMoveAssOp() const noexcept;
+    inline static size_t getAndResetCallsDestructor() noexcept;
 
 private:
+    size_t callsCopyCtor { 0 };
+    size_t callsMoveCtor { 0 };
+    size_t callsCopyAssOp { 0 };
+    size_t callsMoveAssOp { 0 };
+    inline static size_t callsDestructor { 0 };
+
     constexpr void setVariables(const TransmissionAnalyser& other) noexcept;
     inline static std::mutex mutex_;
 };

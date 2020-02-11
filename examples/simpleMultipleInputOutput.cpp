@@ -30,8 +30,10 @@ int main()
     //Definiton random Generator 1/2
     std::random_device rd1;
     std::random_device rd2;
-    std::uniform_int_distribution<int> dist1(-100000, 100000);
-    std::uniform_int_distribution<int> dist2(-100000, 100000);
+    const auto minRandVal = -10000;
+    const auto maxRandVal = 10000;
+    std::uniform_int_distribution<int> dist1(minRandVal, maxRandVal);
+    std::uniform_int_distribution<int> dist2(minRandVal, maxRandVal);
     auto randomGen1 = [&dist1, &rd1]() { return dist1(rd1); };
     auto randomGen2 = [&dist2, &rd2]() { return dist2(rd2); };
     GeneratorBlock numberGenerator1 { randomGen1, ChannelBundle { chan1 } };
