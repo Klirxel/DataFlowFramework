@@ -46,6 +46,9 @@ inline TransmissionAnalyser copyThrough(const TransmissionAnalyser& ta) noexcept
 
 BOOST_AUTO_TEST_CASE(AnalyseDataCopyCount)
 {
+    //reset from last test
+    TransmissionAnalyser::getAndResetCallsDestructor();
+
     Channel<TransmissionAnalyser> inputChan;
     Channel<TransmissionAnalyser> outputChan;
 
@@ -62,5 +65,5 @@ BOOST_AUTO_TEST_CASE(AnalyseDataCopyCount)
     BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
     BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
     BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
-    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 19);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 9);
 }
