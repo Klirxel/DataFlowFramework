@@ -1,0 +1,40 @@
+Val1 + Val2: 444
+Val1 - Val2: 2134
+Val1 * Val2: -1089205
+
+Val1 + Val2: 5739
+Val1 - Val2: -6405
+Val1 * Val2: -2021976
+
+Val1 + Val2: -2579
+Val1 - Val2: -7087
+Val1 * Val2: -10893582
+
+Val1 + Val2: 12133
+Val1 - Val2: -5103
+Val1 * Val2: 30292270
+
+Val1 + Val2: 1678
+Val1 - Val2: 14968
+Val1 * Val2: -55306335
+
+Val1 + Val2: 3365
+Val1 - Val2: 5199
+Val1 * Val2: -3926594
+
+Val1 + Val2: 7769
+Val1 - Val2: -1921
+Val1 * Val2: 14166780
+
+Val1 + Val2: -1845
+Val1 - Val2: -12191
+Val1 * Val2: -36304114
+
+Val1 + Val2: -2530
+Val1 - Val2: -6506
+Val1 * Val2: -8981784
+
+Val1 + Val2: 12808
+Val1 - Val2: 2764
+Val1 * Val2: 39101292
+
