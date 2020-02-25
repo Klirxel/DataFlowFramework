@@ -15,8 +15,6 @@ function (add_example_test_target target)
   set(path_test_executable $<TARGET_FILE_DIR:${target}>/$<TARGET_FILE_NAME:${target}>)
   set(path_cout_file $<TARGET_FILE_DIR:${target}>/$<TARGET_FILE_NAME:${target}>_cout.txt)
   set(path_reference_cout_file "${CMAKE_CURRENT_SOURCE_DIR}/referenceOutputFiles/$<TARGET_FILE_NAME:${target}>_cout.txt")
-
-  message(STATUS ${path_output_file})
   
   add_test(
     NAME ${test_name}

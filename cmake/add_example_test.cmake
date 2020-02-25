@@ -9,7 +9,7 @@ include(add_example_test_target)
 function (add_example_test target)
 
   option(EXAMPLE_TESTING
-    "Validate examples on test run. Testing time can be significantly prologned." OFF)
+    "Validate examples on test run. Testing time can be significantly prologned." ON)
 
   if(EXAMPLE_TESTING)
     add_example_test_target(${target})
