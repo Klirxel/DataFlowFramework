@@ -5,8 +5,8 @@
  *          http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <iostream>
 #include <dataflow/dataflow.h>
+#include <iostream>
 
 //Simple adder example with writer to stdout.
 //
@@ -42,8 +42,8 @@ int main()
     SinkBlock consoleWriter { ChannelBundle { chan3 }, writer, executor };
 
     //Start generators
-    const auto period = 1s;
-    const auto offset = 0s;
+    const auto period = 10ms;
+    const auto offset = 0ms;
     const auto cycles = 10;
     numberGenerator1.start(period, offset, cycles);
     numberGenerator2.start(period, offset, cycles);

@@ -58,8 +58,8 @@ int main()
     SinkBlock consoleWriter3 { ChannelBundle { chan5 }, writer3, executor };
 
     //Start generators
-    const auto period = 1s;
-    const auto offset = 0s;
+    const auto period = 10ms;
+    const auto offset = 0ms;
     const auto cycles = 10;
     numberGenerator1.start(period, offset, cycles);
     numberGenerator2.start(period, offset, cycles);
