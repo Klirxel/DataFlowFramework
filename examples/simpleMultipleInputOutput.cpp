@@ -28,8 +28,10 @@ int main()
     ExecutorSeq executor;
 
     //Definiton random Generator 1/2
-    std::random_device rd1;
-    std::random_device rd2;
+    const auto seed_1 = 5;
+    std::default_random_engine rd1 { seed_1 };
+    const auto seed_2 = 27;
+    std::default_random_engine rd2 { seed_2 };
     const auto minRandVal = -10000;
     const auto maxRandVal = 10000;
     std::uniform_int_distribution<int> dist1(minRandVal, maxRandVal);
@@ -56,8 +58,8 @@ int main()
     SinkBlock consoleWriter3 { ChannelBundle { chan5 }, writer3, executor };
 
     //Start generators
-    const auto period = 1s;
-    const auto offset = 0s;
+    const auto period = 10ms;
+    const auto offset = 0ms;
     const auto cycles = 10;
     numberGenerator1.start(period, offset, cycles);
     numberGenerator2.start(period, offset, cycles);

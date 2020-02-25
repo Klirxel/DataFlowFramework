@@ -62,8 +62,8 @@ int main()
     SinkBlock consoleWriter { ChannelBundle { chan2 }, writer, executor };
 
     //Start generators
-    const auto period = 1s;
-    const auto offset = 0s;
+    const auto period = 10ms;
+    const auto offset = 0ms;
     const auto cycles = 10;
     packageGenerator.start(period, offset, cycles);
 }
