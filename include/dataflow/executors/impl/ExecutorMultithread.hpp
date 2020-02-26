@@ -40,4 +40,9 @@ inline void ExecutorMultithread::stop()
     };
 }
 
+inline ExecutorMultithread::~ExecutorMultithread()
+{
+    stop();
+}
+
 } //namespace dataflow::executors

@@ -31,6 +31,8 @@ public:
     inline void start();
     inline void stop();
 
+    inline ~ExecutorMultithread();
+
 private:
     internal::ThreadWorker threadWorker_;
     std::vector<std::thread> threadPool_;
