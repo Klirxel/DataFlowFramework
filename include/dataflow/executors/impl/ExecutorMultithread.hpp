@@ -4,13 +4,12 @@
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
  */
-#include <iostream>
-
 #include "../ExecutorMultithread.h"
 
 namespace dataflow::executors {
 
-inline ExecutorMultithread::ExecutorMultithread(size_t threads)
+ExecutorMultithread::ExecutorMultithread(size_t threads, std::chrono::milliseconds inactivityBeforeDestruction)
+    : inactivityBeforeDestruction_(inactivityBeforeDestruction)
 {
     for (size_t i = 0; i < threads; ++i) {
         auto executionHandle = threadWorker_.getExecutionHandle();
@@ -34,7 +33,6 @@ inline void ExecutorMultithread::stop()
 
     for (auto& thread : threadPool_) {
         if (thread.joinable()) {
-            std::cout << "joined thread!" << std::endl;
             thread.join();
         }
     };
@@ -42,6 +40,10 @@ inline void ExecutorMultithread::stop()
 
 inline ExecutorMultithread::~ExecutorMultithread()
 {
+    while (inactivityBeforeDestruction_.count() != 0 && threadWorker_.tasksWaitingForExecution() != 0) {
+        std::this_thread::sleep_for(inactivityBeforeDestruction_);
+    };
+
     stop();
 }
 

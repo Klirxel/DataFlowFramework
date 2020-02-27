@@ -46,7 +46,8 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     GeneratorBlock inputGenerator2 { counter2, ChannelBundle { chanIn2 } };
 
     const size_t threads = 4;
-    ExecutorMultithread execMultihread { threads };
+    const auto inactivityBeforeDestruction = 10ms;
+    ExecutorMultithread execMultihread { threads, inactivityBeforeDestruction };
 
     auto doubler = [](auto&& val) {
         return std::tuple { std::forward<decltype(val)>(val), std::forward<decltype(val)>(val) };
@@ -82,7 +83,6 @@ BOOST_AUTO_TEST_CASE(BlockBasicAddExample)
     inputGenerator2.start(period, offset2, cycles);
     inputGenerator1.wait();
     inputGenerator2.wait();
-    std::this_thread::sleep_for(10ms); //give him some time to process the last elements.
     execMultihread.stop();
 
     const auto stoptime = std::chrono::system_clock::now();
