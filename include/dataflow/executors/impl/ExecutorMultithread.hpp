@@ -8,7 +8,7 @@
 
 namespace dataflow::executors {
 
-ExecutorMultithread::ExecutorMultithread(size_t threads, std::chrono::milliseconds inactivityBeforeDestruction)
+inline ExecutorMultithread::ExecutorMultithread(size_t threads, std::chrono::milliseconds inactivityBeforeDestruction)
     : inactivityBeforeDestruction_(inactivityBeforeDestruction)
 {
     for (size_t i = 0; i < threads; ++i) {
