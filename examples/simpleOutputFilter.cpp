@@ -7,6 +7,7 @@
 
 #include <dataflow/dataflow.h>
 #include <iostream>
+#include <utility>
 
 //Simple adder example with writer to stdout.
 //
@@ -34,14 +35,11 @@ int main()
     //Definition SeperateEvenOdd
     auto transmit = [](auto val1) { return std::tuple { val1, val1 }; };
 
-    auto outputFilter = [](const auto& val1, const auto& val2) {
-        auto isEven = [](auto number) { return number % 2 == 0; };
-        auto isOdd = [](auto number) { return number % 2 == 1; };
+    auto isEven = [](auto number) { return number % 2 == 0; };
+    auto isOdd = [](auto number) { return number % 2 == 1; };
 
-        return std::array<bool, 2> { isEven(val1), isOdd(val2) };
-    };
-
-    Block SeperateEvenOdd { ChannelBundle { chan1 }, transmit, ChannelBundle { chan2, chan3 }, executor, outputFilter };
+    Block SeperateEvenOdd { ChannelBundle { chan1 }, transmit, ChannelBundle { chan2, chan3 }, executor,
+        PredicateBundle { isEven, isOdd } };
 
     //Definition ConsoleWriterEven/OddNumber
     auto writerEven = [](auto val) { std::cout << "Output even number: " << val << '\n'; };
