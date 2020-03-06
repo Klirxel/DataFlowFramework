@@ -14,14 +14,15 @@ std::array<bool, sizeof...(Predicates)>
 PredicateBundle<Predicates...>::operator()(const PredicateInput&... predicateInput) const
 {
 
-    return eval(std::index_sequence_for<PredicateInput...> {}, predicateInput...);
+    return evalPredicates(std::index_sequence_for<PredicateInput...> {}, predicateInput...);
 }
 
 template <typename... Predicates>
 template <typename... PredicateInput, size_t... Is>
 [[nodiscard]] std::array<bool, sizeof...(Predicates)>
-PredicateBundle<Predicates...>::eval(
-    std::index_sequence<Is...> /*unused*/, const PredicateInput&... predicateInput) const
+PredicateBundle<Predicates...>::evalPredicates(
+    std::index_sequence<Is...> /*unused*/,
+    const PredicateInput&... predicateInput) const
 {
     return { (std::get<Is>(predicates_)(predicateInput))... };
 }

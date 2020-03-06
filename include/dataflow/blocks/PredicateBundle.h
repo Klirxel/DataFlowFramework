@@ -16,6 +16,9 @@ namespace dataflow::blocks {
  *
  * @details
  * - Combinig one-input predicates to a multi-input predicate.
+ * - Technical:
+ *   Pred1: T1 -> bool, Pred2: T2 -> bool ... => 
+ *   PredicateBundle(Pred1,Pred2,...): T1,T2 => std::array<bool,sizeof(Preds)>
  * - Used for creating an outputPredicate
  *   for dataflow::blocks
  *   with multiple output-channels by combing the
@@ -33,8 +36,9 @@ public:
 
 private:
     template <typename... PredicateInput, size_t... Is>
-    std::array<bool, sizeof...(Predicates)>
-    eval(std::index_sequence<Is...> /*unused*/, const PredicateInput&... predicateInput) const;
+    [[nodiscard]] std::array<bool, sizeof...(Predicates)>
+    evalPredicates(std::index_sequence<Is...> /*unused*/,
+        const PredicateInput&... predicateInput) const;
 
 private:
     std::tuple<const Predicates&...> predicates_;
