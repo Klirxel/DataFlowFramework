@@ -9,6 +9,7 @@
 
 #include "Block.h"
 #include "GeneratorBlock.h"
+#include "PredicateBundle.h"
 #include "SinkBlock.h"
 
 /** @namespace dataflow::blocks
