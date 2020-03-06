@@ -19,9 +19,9 @@ PredicateBundle<Predicates...>::operator()(const PredicateInput&... predicateInp
 
 template <typename... Predicates>
 template <typename... PredicateInput, size_t... Is>
-std::array<bool, sizeof...(Predicates)>
+[[nodiscard]] std::array<bool, sizeof...(Predicates)>
 PredicateBundle<Predicates...>::eval(
-    std::index_sequence<Is...>, const PredicateInput&... predicateInput) const
+    std::index_sequence<Is...> /*unused*/, const PredicateInput&... predicateInput) const
 {
     return { (std::get<Is>(predicates_)(predicateInput))... };
 }

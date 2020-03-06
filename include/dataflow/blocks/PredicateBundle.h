@@ -34,7 +34,7 @@ public:
 private:
     template <typename... PredicateInput, size_t... Is>
     std::array<bool, sizeof...(Predicates)>
-    eval(std::index_sequence<Is...>, const PredicateInput&... predicateInput) const;
+    eval(std::index_sequence<Is...> /*unused*/, const PredicateInput&... predicateInput) const;
 
 private:
     std::tuple<const Predicates&...> predicates_;

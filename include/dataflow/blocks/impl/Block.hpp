@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "../Block.h"
 
 namespace dataflow::blocks {
@@ -9,7 +11,7 @@ Block<ChannelBundle<T_IN...>, OPERATOR, ChannelBundle<T_OUT...>, OUTPUT_PREDICAT
     , op_(op)
     , outputChannels_(std::move(outputChannels))
     , executor_(executor)
-    , outputPredicate_(outputPredicate)
+    , outputPredicate_(std::move(outputPredicate))
 {
     inputChannels_.attachSinkBlock(this);
     outputChannels_.attachSourceBlock(this);
