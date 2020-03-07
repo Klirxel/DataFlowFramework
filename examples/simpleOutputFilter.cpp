@@ -9,14 +9,17 @@
 #include <iostream>
 #include <utility>
 
-//Simple adder example with writer to stdout.
+//Simple output filter example.
 //
 //  DataflowGraph:
 //
-//                                              ---chan2---> ConsoleWriterEvenNumbers
-//  NumberGenerator  --chan1--> SeperateEvenOdd
-//                                              ---chan3---> ConsoleWriterOddNumbers
+//                                               ---chan2---> ConsoleWriterEvenNumbers
+//  NumberGenerator  --chan1--> EvenOddSeperator
+//                                               ---chan3---> ConsoleWriterOddNumbers
 //
+//  Description:
+//  With output filter predicated it can be controlled if output from an kernel
+//  of an block should be written to an output channel.
 //
 int main()
 {
@@ -33,13 +36,13 @@ int main()
     GeneratorBlock numberGenerator { counter, ChannelBundle { chan1 } };
 
     //Definition SeperateEvenOdd
-    auto transmit = [](auto val1) { return std::tuple { val1, val1 }; };
+    auto doubler = [](auto val) { return std::tuple { val, val }; };
 
     auto isEven = [](auto number) { return number % 2 == 0; };
     auto isOdd = [](auto number) { return number % 2 == 1; };
 
-    Block SeperateEvenOdd { ChannelBundle { chan1 }, transmit, ChannelBundle { chan2, chan3 }, executor,
-        PredicateBundle { isEven, isOdd } };
+    Block EvenOddSeperator { ChannelBundle { chan1 }, doubler, ChannelBundle { chan2, chan3 },
+        executor, PredicateBundle{isEven, isOdd} };
 
     //Definition ConsoleWriterEven/OddNumber
     auto writerEven = [](auto val) { std::cout << "Output even number: " << val << '\n'; };
