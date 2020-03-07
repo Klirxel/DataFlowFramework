@@ -12,23 +12,20 @@
 namespace dataflow::blocks {
 
 /**
- * @brief Bundle of predicates
+ * @brief Generic output predicate for blocks. 
  *
  * @details
- * - Combinig one-input predicates to a multi-input predicate.
+ * - Can be uesed to create an output predicate for an block by
+ *   by specifying the output predicates for each output channel.
  * - Technical:
- *   Pred1: T1 -> bool, Pred2: T2 -> bool ... => 
- *   PredicateBundle(Pred1,Pred2,...): T1,T2 => std::array<bool,sizeof(Preds)>
- * - Used for creating an outputPredicate
- *   for dataflow::blocks
- *   with multiple output-channels by combing the
- *   outputPredicates for each of the ouput-channels.
+ *   OutPredChan1: T1 -> bool, OutPredChan2: T2 -> bool ... => 
+ *   OutputPredicate(OutPredChan1,PredChan2,...): T1,T2,... -> std::array<bool,sizeof(Preds)>
  *
  */
 template <typename... Predicates>
-class PredicateBundle {
+class OutputPredicate {
 public:
-    constexpr PredicateBundle(const Predicates&... predicates) noexcept;
+    constexpr OutputPredicate(const Predicates&... predicates) noexcept;
 
     template <typename... PredicateInput>
     std::array<bool, sizeof...(Predicates)>
@@ -46,4 +43,4 @@ private:
 
 } // namespace dataflow::blocks
 
-#include "impl/PredicateBundle.hpp"
+#include "impl/OutputPredicate.hpp"

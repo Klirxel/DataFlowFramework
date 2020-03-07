@@ -4,26 +4,25 @@
  *    (See accompanying file LICENSE_1_0.txt or copy at
  *          http://www.boost.org/LICENSE_1_0.txt)
  */
-#include <boost/test/tools/old/interface.hpp>
-#define BOOST_TEST_MODULE testPredicateBundle
+#define BOOST_TEST_MODULE testOutputPredicate
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 
-#include <dataflow/blocks/PredicateBundle.h>
+#include <dataflow/blocks/OutputPredicate.h>
 
 using namespace dataflow::blocks;
 
 constexpr bool is_zero(int val) { return val == 0; }
 constexpr bool is_not_zero(int val) { return val != 0; }
 
-BOOST_AUTO_TEST_CASE(testPredicateBundle)
+BOOST_AUTO_TEST_CASE(testOutputPredicate)
 {
     /********************************************************************************
      * Setup test environment
      ********************************************************************************/
     auto vec_of_size_two = [](const std::vector<int>& vec) { return vec.size() == 2; };
 
-    PredicateBundle predicateBundle {
+    OutputPredicate outputPredicate {
         is_zero,
         is_not_zero,
         vec_of_size_two
@@ -35,8 +34,8 @@ BOOST_AUTO_TEST_CASE(testPredicateBundle)
     /********************************************************************************
      * Test case 
      ********************************************************************************/
-    BOOST_CHECK((predicateBundle(0, 1, vec_0) == std::array<bool, 3> { true, true, false }));
-    BOOST_CHECK((predicateBundle(1, 0, vec_2) == std::array<bool, 3> { false, false, true }));
-    BOOST_CHECK((predicateBundle(0, 0, vec_0) == std::array<bool, 3> { true, false, false }));
-    BOOST_CHECK((predicateBundle(1, 1, vec_2) == std::array<bool, 3> { false, true, true }));
+    BOOST_CHECK((outputPredicate(0, 1, vec_0) == std::array<bool, 3> { true, true, false }));
+    BOOST_CHECK((outputPredicate(1, 0, vec_2) == std::array<bool, 3> { false, false, true }));
+    BOOST_CHECK((outputPredicate(0, 0, vec_0) == std::array<bool, 3> { true, false, false }));
+    BOOST_CHECK((outputPredicate(1, 1, vec_2) == std::array<bool, 3> { false, true, true }));
 }
