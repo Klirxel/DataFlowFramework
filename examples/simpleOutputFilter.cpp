@@ -18,7 +18,7 @@
 //                                               ---chan3---> ConsoleWriterOddNumbers
 //
 //  Description:
-//  With output filter predicated it can be controlled if output from an kernel
+//  With an output filter predicate it can be controlled if output from an kernel
 //  of an block should be written to an output channel.
 //
 int main()
@@ -42,7 +42,7 @@ int main()
     auto isOdd = [](auto number) { return number % 2 == 1; };
 
     Block EvenOddSeperator { ChannelBundle { chan1 }, doubler, ChannelBundle { chan2, chan3 },
-        executor, PredicateBundle{isEven, isOdd} };
+        executor, OutputPredicate{isEven, isOdd} };
 
     //Definition ConsoleWriterEven/OddNumber
     auto writerEven = [](auto val) { std::cout << "Output even number: " << val << '\n'; };

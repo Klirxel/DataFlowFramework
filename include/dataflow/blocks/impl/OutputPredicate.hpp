@@ -1,9 +1,9 @@
-#include "../PredicateBundle.h"
+#include "../OutputPredicate.h"
 
 namespace dataflow::blocks {
 
 template <typename... Predicates>
-constexpr PredicateBundle<Predicates...>::PredicateBundle(const Predicates&... predicates) noexcept
+constexpr OutputPredicate<Predicates...>::OutputPredicate(const Predicates&... predicates) noexcept
     : predicates_ { predicates... }
 {
 }
@@ -11,7 +11,7 @@ constexpr PredicateBundle<Predicates...>::PredicateBundle(const Predicates&... p
 template <typename... Predicates>
 template <typename... PredicateInput>
 std::array<bool, sizeof...(Predicates)>
-PredicateBundle<Predicates...>::operator()(const PredicateInput&... predicateInput) const
+OutputPredicate<Predicates...>::operator()(const PredicateInput&... predicateInput) const
 {
 
     return evalPredicates(std::index_sequence_for<PredicateInput...> {}, predicateInput...);
@@ -20,7 +20,7 @@ PredicateBundle<Predicates...>::operator()(const PredicateInput&... predicateInp
 template <typename... Predicates>
 template <typename... PredicateInput, size_t... Is>
 [[nodiscard]] std::array<bool, sizeof...(Predicates)>
-PredicateBundle<Predicates...>::evalPredicates(
+OutputPredicate<Predicates...>::evalPredicates(
     std::index_sequence<Is...> /*unused*/,
     const PredicateInput&... predicateInput) const
 {
