@@ -25,7 +25,7 @@ namespace dataflow::blocks {
 template <typename... Predicates>
 class OutputPredicate {
 public:
-    constexpr OutputPredicate(const Predicates&... predicates) noexcept;
+    constexpr explicit OutputPredicate(const Predicates&... predicates) noexcept;
 
     template <typename... PredicateInput>
     std::array<bool, sizeof...(Predicates)>

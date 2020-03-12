@@ -25,7 +25,7 @@ namespace dataflow::executors::internal {
 class ThreadWorker {
 
 public:
-    inline ThreadWorker(bool enable = true) noexcept;
+    inline explicit ThreadWorker(bool enable = true) noexcept;
 
     inline void addTask(std::function<void(void)>&& task, std::mutex* taskLock_);
     inline void triggerExecution() noexcept;

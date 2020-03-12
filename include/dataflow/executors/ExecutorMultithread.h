@@ -26,7 +26,7 @@ namespace dataflow::executors {
 class ExecutorMultithread : public ExecutorIf {
 
 public:
-    inline ExecutorMultithread(size_t threads = 1,
+    inline explicit ExecutorMultithread(size_t threads = 1,
         std::chrono::milliseconds inactivityBeforeDestruction = 0ms);
 
     inline void execute(std::function<void(void)>&& task, std::mutex& taskLock) override;

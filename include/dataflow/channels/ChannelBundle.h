@@ -32,7 +32,7 @@ public:
 
     template <size_t I>
     using ChannelType = ChannelIf<ChannelValueType<I>>;
-    constexpr ChannelBundle(ChannelIf<T>&... channels) noexcept;
+    constexpr explicit ChannelBundle(ChannelIf<T>&... channels) noexcept;
     constexpr void attachSinkBlock(BlockIf* block) noexcept;
     constexpr void attachSourceBlock(BlockIf* block) noexcept;
 
