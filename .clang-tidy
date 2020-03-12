@@ -24,7 +24,7 @@
 #unused-command-line-argument: warnings with --coverage option.
 #bugprone-suspicious-semiclolon: warnings when using if constexpr.
 #readablity-braces-around-statements: warnings when using if constexpr.
-Checks: '*,-cert-msc51-cpp,-cert-msc32-c,-cert-oop54-cpp,-hicpp-explicit-conversions,-hicpp-vararg,-cert-err58-cpp,-fuchsia-*,-llvm-header-guard,-llvm-namespace-comment,-google-explicit-constructor,-google-global-names-in-headers,-google-runtime-references,-google-build-using-namespace,-google-readability-namespace-comments,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
+Checks: '*,-cert-msc32-c,-cert-oop54-cpp,-hicpp-explicit-conversions,-hicpp-vararg,-cert-err58-cpp,-fuchsia-*,-llvm-header-guard,-llvm-namespace-comment,-google-explicit-constructor,-google-global-names-in-headers,-google-runtime-references,-google-build-using-namespace,-google-readability-namespace-comments,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
 #WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false

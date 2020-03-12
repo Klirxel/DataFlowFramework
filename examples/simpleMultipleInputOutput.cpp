@@ -29,9 +29,9 @@ int main()
 
     //Definiton random Generator 1/2
     const auto seed_1 = 5;
-    std::default_random_engine rd1 { seed_1 };
+    std::default_random_engine rd1 { seed_1 }; // NOLINT(cert-msc51-cpp)
     const auto seed_2 = 27;
-    std::default_random_engine rd2 { seed_2 };
+    std::default_random_engine rd2 { seed_2 }; // NOLINT(cert-msc51-cpp)
     const auto minRandVal = -10000;
     const auto maxRandVal = 10000;
     std::uniform_int_distribution<int> dist1(minRandVal, maxRandVal);
