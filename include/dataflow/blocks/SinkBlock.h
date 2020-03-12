@@ -13,10 +13,11 @@
 #include "../channels/ChannelBundle.h"
 #include "../executors/ExecutorAsync.h"
 
-using namespace dataflow::channels;
-using namespace dataflow::executors;
 
 namespace dataflow::blocks {
+
+using namespace dataflow::channels;
+using namespace dataflow::executors;
 
 ///@cond internal
 /**

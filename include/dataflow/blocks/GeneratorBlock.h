@@ -16,12 +16,13 @@
 #include "BlockIf.h"
 #include "outputPredicates/OutputAll.h"
 
+
+namespace dataflow::blocks {
+
 using namespace std::literals::chrono_literals;
 using namespace outputPredicates;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
-
-namespace dataflow::blocks {
 
 constexpr size_t inf = 0;
 

@@ -16,4 +16,9 @@
  */
 namespace dataflow {
 
+using namespace blocks; 
+using namespace channels; 
+using namespace executors; 
+using namespace tools; 
+
 } // namespace dataflow

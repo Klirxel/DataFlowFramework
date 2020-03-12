@@ -13,6 +13,7 @@
 #include <dataflow/channels/ChannelBundle.h>
 
 using namespace dataflow::blocks;
+using namespace dataflow::channels;
 
 BOOST_AUTO_TEST_CASE(Test_size)
 {

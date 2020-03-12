@@ -8,6 +8,7 @@
 #include <random>
 
 #include <dataflow/dataflow.h>
+using namespace dataflow;
 
 //Block with multiple inputs and outputs.
 //

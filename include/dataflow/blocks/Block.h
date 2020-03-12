@@ -15,11 +15,12 @@
 #include "../executors/ExecutorAsync.h"
 #include "outputPredicates/OutputAll.h"
 
+
+namespace dataflow::blocks {
+
 using namespace outputPredicates;
 using namespace dataflow::channels;
 using namespace dataflow::executors;
-
-namespace dataflow::blocks {
 
 ///@cond internal
 /**

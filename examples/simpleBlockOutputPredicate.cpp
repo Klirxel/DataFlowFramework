@@ -5,9 +5,12 @@
  *          http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <dataflow/dataflow.h>
 #include <iostream>
 #include <utility>
+
+#include <dataflow/dataflow.h>
+using namespace dataflow;
+
 
 //Simple block output predicate example.
 //

@@ -8,6 +8,8 @@
 #include <iostream>
 
 #include <dataflow/dataflow.h>
+using namespace dataflow;
+
 
 //Simple example showing multithread capability.
 //

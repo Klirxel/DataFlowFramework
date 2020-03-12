@@ -5,17 +5,15 @@
 #fuchsia-*: several warnings, not compatible with coding style.
 #llvm-header-guard: missing include guard warning in hpp files were no gurards
 # are required [incompatible with #pragma directive]
-#google-global-names-in-headers: using declarations in the global namespace in
 # headers are prohibited [think about]
 #google-runtime-references: [think about]
 #google-build-using-namespace: [think about]
-#google-global-names-in-headers: [think about]
 #cppcoreguidelines-pro-type-varar: various warnings compatible with boost::test.
 #cppcoreguidelines-macro_usage: not compatible with boost::test.
 #unused-command-line-argument: warnings with --coverage option.
 #bugprone-suspicious-semiclolon: warnings when using if constexpr.
 #readablity-braces-around-statements: warnings when using if constexpr.
-Checks: '*,-hicpp-vararg,-cert-err58-cpp,-fuchsia-*,-llvm-header-guard,-google-global-names-in-headers,-google-runtime-references,-google-build-using-namespace,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
+Checks: '*,-hicpp-vararg,-cert-err58-cpp,-fuchsia-*,-llvm-header-guard,-google-runtime-references,-google-build-using-namespace,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
 #WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false

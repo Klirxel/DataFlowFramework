@@ -13,9 +13,10 @@
 
 #include "../blocks/BlockIf.h"
 
-using namespace dataflow::blocks;
 
 namespace dataflow::channels {
+
+using namespace dataflow::blocks;
 
 /**
  * @brief Generic interface for channels.

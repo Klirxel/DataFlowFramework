@@ -12,10 +12,11 @@
 #include "../blocks/BlockIf.h"
 #include "../channels/ChannelIf.h"
 
-using namespace dataflow::blocks;
-using namespace dataflow::channels;
 
 namespace dataflow::channels {
+
+using namespace dataflow::blocks;
+using namespace dataflow::channels;
 
 /**
  * @brief Collection of channels.
