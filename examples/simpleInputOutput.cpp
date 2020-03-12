@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+
 #include <dataflow/dataflow.h>
 
 //Simple example with an numberGenerator and an writer to stdout.
