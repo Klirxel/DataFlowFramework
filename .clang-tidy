@@ -2,9 +2,11 @@
 #Disabled tests:
 #hicpp-vararg: do not call c-style vararg functions [in boost test]
 #cert-err58-cpp: static init of block, occurs in boost test [think about]
-#fuchsia: coding style of this project is not compatible with dataflow ones.
-#llvm-header-guard: missing include guard warning in hpp files were no gurards are required [think about]
-#google-global-names-in-headers: using declarations in the global namespace in headers are prohibited [think about]
+#fuchsia-*: several warnings, not compatible with coding style.
+#llvm-header-guard: missing include guard warning in hpp files were no gurards
+# are required [incompatible with #pragma directive]
+#google-global-names-in-headers: using declarations in the global namespace in
+# headers are prohibited [think about]
 #google-runtime-references: [think about]
 #google-build-using-namespace: [think about]
 #google-global-names-in-headers: [think about]
