@@ -23,6 +23,11 @@ constexpr TransmissionAnalyser::TransmissionAnalyser(TransmissionAnalyser&& othe
 
 constexpr TransmissionAnalyser& TransmissionAnalyser::operator=(const TransmissionAnalyser& other) noexcept
 {
+
+    if (this == &other) {
+        return *this;
+    };
+
     setVariables(other);
 
     ++callsCopyAssOp;
