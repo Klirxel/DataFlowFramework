@@ -63,4 +63,4 @@ std::size_t ChannelThreadSafetyDecorator<CHANNEL>::max_size() const
     return chan_.max_size();
 }
 
-} // namespace dataflow::channel::decorators
+} // namespace dataflow::channels::decorators

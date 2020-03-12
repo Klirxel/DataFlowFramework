@@ -40,4 +40,4 @@ std::size_t ChannelUnlimitedDataContainer<T>::max_size() const
     return std::numeric_limits<size_t>::max();
 }
 
-} // namespace dataflow::channels:dataContainers
+} // namespace dataflow::channels::dataContainers

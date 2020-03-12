@@ -100,6 +100,6 @@ private:
     std::mutex taskLock_;
 };
 
-} // namespace df
+} // namespace dataflow::blocks
 
 #include "impl/Block.hpp"

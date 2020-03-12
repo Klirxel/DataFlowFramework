@@ -78,6 +78,6 @@ private:
     std::tuple<ChannelIf<T>&...> channels_;
 };
 
-} // namespace df
+} // namespace dataflow::channels
 
 #include "impl/ChannelBundle.hpp"

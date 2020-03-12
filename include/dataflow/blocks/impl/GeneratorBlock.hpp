@@ -90,5 +90,5 @@ template <size_t... Is>
     return outputPredicate_(std::get<Is>(output)...);
 }
 
-}
+} // namespace dataflow::blocks
 // ns

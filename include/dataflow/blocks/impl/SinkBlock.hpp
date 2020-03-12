@@ -49,4 +49,4 @@ template <typename... T_IN, typename OPERATOR>
     return sourceCapacity;
 }
 
-} // namespace df
+} // namespace dataflow::blocks

@@ -94,4 +94,4 @@ inline void ExecutorAsync::stop() noexcept
     stop_ = true;
 }
 
-} //ns
+} // namespace dataflow::executors

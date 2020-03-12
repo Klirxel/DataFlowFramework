@@ -79,4 +79,4 @@ std::array<bool, sizeof...(T_OUT)> Block<ChannelBundle<T_IN...>,
     return outputPredicate_(std::get<Is>(output)...);
 }
 
-} // namespace
+} // namespace dataflow::blocks

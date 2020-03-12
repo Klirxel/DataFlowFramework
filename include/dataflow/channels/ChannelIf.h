@@ -47,6 +47,6 @@ private:
     mutable std::mutex lock;
 };
 
-} // namespace dataflow:channels
+} // namespace dataflow::channels
 
 #include "impl/ChannelIf.hpp"

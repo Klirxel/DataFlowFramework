@@ -45,6 +45,6 @@ private:
     mutable std::mutex mutex_;
 };
 
-} //dataflow::executors
+} // namespace dataflow::executors
 
 #include "impl/ExecutorAsync.hpp"

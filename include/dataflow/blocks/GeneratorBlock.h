@@ -106,6 +106,6 @@ private:
     std::atomic_bool execute_;
 };
 
-} //ns
+} // namespace dataflow::blocks
 
 #include "impl/GeneratorBlock.hpp"

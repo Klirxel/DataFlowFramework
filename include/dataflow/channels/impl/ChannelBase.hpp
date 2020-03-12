@@ -124,4 +124,4 @@ void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, Igno
     }
 }
 
-} // namespace df
+} // namespace dataflow::channels

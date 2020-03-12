@@ -45,6 +45,6 @@ private:
     std::atomic_bool enabled_ { true };
 };
 
-} //namespace dataflow::executors
+} // namespace dataflow::executors::internal
 
 #include "../impl/ThreadWorker.hpp"

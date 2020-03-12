@@ -81,5 +81,5 @@ inline size_t TransmissionAnalyser::getAndResetCallsDestructor() noexcept
     return std::exchange(callsDestructor, 0);
 }
 
-}
+} // namespace dataflow::tools
 // namespace df::base
