@@ -1,16 +1,17 @@
 ---
 #Disabled tests:
-#hicpp-vararg: do not call c-style vararg functions [in boost test]
-#cert-err58-cpp: static init of block, occurs in boost test [think about]
-#fuchsia-*: several warnings, not compatible with coding style.
+#hicpp-vararg: do not call c-style vararg functions [ncompat boost::test]
+#cert-err58-cpp: static init of block, occurs in boost test [ncompat boost::test]
+#fuchsia-*: several warnings [ncompat coding-style] 
 #llvm-header-guard: missing include guard warning in hpp files were no gurards
-# are required [incompatible with #pragma directive]
-# headers are prohibited [think about]
-#google-runtime-references: [think about]
+# are required [ncompat #pragma directive]
+#google-runtime-references: non-const reference parameter, make it const or use
+#  a pointer [think about, but currently non const references are used.]
 #google-build-using-namespace: [think about]
-#cppcoreguidelines-pro-type-varar: various warnings compatible with boost::test.
-#cppcoreguidelines-macro_usage: not compatible with boost::test.
-#unused-command-line-argument: warnings with --coverage option.
+#cppcoreguidelines-pro-type-varar: [ncompat boost::test]
+#unused-command-line-argument: [ncompat --coverage option]
+#modernize-use-trailing-return-type: [ncompat coding style]
+#cppcoreguidelines-macro_usag: [ncompat boost::test]
 Checks: '*,-hicpp-vararg,-cert-err58-cpp,-fuchsia-*,-llvm-header-guard,-google-runtime-references,-google-build-using-namespace,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
 #WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
