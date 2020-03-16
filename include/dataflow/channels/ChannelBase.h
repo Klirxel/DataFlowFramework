@@ -67,7 +67,7 @@ public:
     [[nodiscard]] std::size_t max_size() const override;
 
 private:
-    void notify(std::vector<BlockIf*>& blockList);
+    void notify(const std::vector<BlockIf*>& blockList);
     void notifySourceBlockList();
     void notifySinkBlockList();
 
