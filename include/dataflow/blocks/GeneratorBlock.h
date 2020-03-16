@@ -20,9 +20,9 @@
 namespace dataflow::blocks {
 
 using namespace std::literals::chrono_literals;
-using namespace outputPredicates;
-using namespace dataflow::channels;
-using namespace dataflow::executors;
+using outputPredicates::OutputAll;
+using dataflow::channels::ChannelBundle;
+using dataflow::executors::ExecutorIf;
 
 constexpr size_t inf = 0;
 

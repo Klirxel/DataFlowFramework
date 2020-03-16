@@ -7,7 +7,7 @@
 # are required [ncompat #pragma directive]
 #google-runtime-references: non-const reference parameter, make it const or use
 #  a pointer [think about, but currently non const references are used.]
-#google-build-using-namespace: [think about]
+#google-build-using-namespace: [currently used, think about]
 #cppcoreguidelines-pro-type-varar: [ncompat boost::test]
 #unused-command-line-argument: [ncompat --coverage option]
 #modernize-use-trailing-return-type: [ncompat coding style]

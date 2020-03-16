@@ -15,8 +15,8 @@
 
 namespace dataflow::channels {
 
-using namespace dataflow::blocks;
-using namespace dataflow::channels;
+using dataflow::blocks::BlockIf;
+using dataflow::channels::ChannelIf;
 
 /**
  * @brief Collection of channels.

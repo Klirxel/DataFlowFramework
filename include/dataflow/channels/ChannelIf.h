@@ -16,7 +16,7 @@
 
 namespace dataflow::channels {
 
-using namespace dataflow::blocks;
+using dataflow::blocks::BlockIf;
 
 /**
  * @brief Generic interface for channels.
