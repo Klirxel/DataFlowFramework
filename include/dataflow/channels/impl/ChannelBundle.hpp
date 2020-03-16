@@ -156,4 +156,4 @@ template <size_t... Is>
     return 0;
 }
 
-} // namespace df
+} // namespace dataflow::channels

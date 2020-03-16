@@ -11,6 +11,7 @@
 #include <vector>
 
 #include <dataflow/dataflow.h>
+using namespace dataflow;
 
 //Example of tranmission of large data packages.
 //

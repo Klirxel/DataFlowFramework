@@ -5,8 +5,10 @@
  *          http://www.boost.org/LICENSE_1_0.txt)
  */
 
-#include <dataflow/dataflow.h>
 #include <iostream>
+
+#include <dataflow/dataflow.h>
+using namespace dataflow;
 
 //Simple adder example with writer to stdout.
 //

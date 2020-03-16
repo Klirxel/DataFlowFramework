@@ -13,9 +13,9 @@
 #include "../../blocks/BlockIf.h"
 #include "../ChannelIf.h"
 
-using namespace dataflow::blocks;
-
 namespace dataflow::channels::decorators {
+
+using dataflow::blocks::BlockIf;
 
 /**
  * @brief ChannelDecorator 

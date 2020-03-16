@@ -42,6 +42,6 @@ private:
     std::mutex mutex_;
 };
 
-} //ns
+} // namespace dataflow::executors::internal
 
 #include "../impl/TaskBuffer.hpp"

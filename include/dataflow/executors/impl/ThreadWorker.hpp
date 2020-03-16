@@ -69,4 +69,4 @@ inline void ThreadWorker::startExecution() noexcept
     return taskBuffer_.size();
 }
 
-} //ns
+} //namespace dataflow::executors::internal

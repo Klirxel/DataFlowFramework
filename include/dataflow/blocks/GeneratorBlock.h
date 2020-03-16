@@ -16,12 +16,13 @@
 #include "BlockIf.h"
 #include "outputPredicates/OutputAll.h"
 
-using namespace std::literals::chrono_literals;
-using namespace outputPredicates;
-using namespace dataflow::channels;
-using namespace dataflow::executors;
 
 namespace dataflow::blocks {
+
+using namespace std::literals::chrono_literals;
+using outputPredicates::OutputAll;
+using dataflow::channels::ChannelBundle;
+using dataflow::executors::ExecutorIf;
 
 constexpr size_t inf = 0;
 
@@ -106,6 +107,6 @@ private:
     std::atomic_bool execute_;
 };
 
-} //ns
+} // namespace dataflow::blocks
 
 #include "impl/GeneratorBlock.hpp"

@@ -94,7 +94,7 @@ std::size_t ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPus
 }
 
 template <class ChannelDataContainer, TriggerPolicy triggerPolicyPop, TriggerPolicy triggerPolicyPush, typename IgnorePredicate>
-void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notify(std::vector<BlockIf*>& blockList)
+void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, IgnorePredicate>::notify(const std::vector<BlockIf*>& blockList)
 {
     auto notifyBlock = [](BlockIf* block) {
         block->execute();
@@ -124,4 +124,4 @@ void ChannelBase<ChannelDataContainer, triggerPolicyPop, triggerPolicyPush, Igno
     }
 }
 
-} // namespace df
+} // namespace dataflow::channels

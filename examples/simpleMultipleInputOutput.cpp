@@ -8,6 +8,7 @@
 #include <random>
 
 #include <dataflow/dataflow.h>
+using namespace dataflow;
 
 //Block with multiple inputs and outputs.
 //
@@ -29,9 +30,11 @@ int main()
 
     //Definiton random Generator 1/2
     const auto seed_1 = 5;
-    std::default_random_engine rd1 { seed_1 };
-    const auto seed_2 = 27;
-    std::default_random_engine rd2 { seed_2 };
+
+    // NOLINTNEXTLINE(cert-msc51-cpp,cert-msc32-c)
+    std::default_random_engine rd1 { seed_1 };     const auto seed_2 = 27;
+    // NOLINTNEXTLINE(cert-msc51-cpp,cert-msc32-c)
+    std::default_random_engine rd2 { seed_2 }; 
     const auto minRandVal = -10000;
     const auto maxRandVal = 10000;
     std::uniform_int_distribution<int> dist1(minRandVal, maxRandVal);

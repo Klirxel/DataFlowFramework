@@ -15,11 +15,12 @@
 #include "../executors/ExecutorAsync.h"
 #include "outputPredicates/OutputAll.h"
 
-using namespace outputPredicates;
-using namespace dataflow::channels;
-using namespace dataflow::executors;
 
 namespace dataflow::blocks {
+
+using outputPredicates::OutputAll;
+using dataflow::channels::ChannelBundle;
+using dataflow::executors::ExecutorIf;
 
 ///@cond internal
 /**
@@ -100,6 +101,6 @@ private:
     std::mutex taskLock_;
 };
 
-} // namespace df
+} // namespace dataflow::blocks
 
 #include "impl/Block.hpp"

@@ -10,9 +10,9 @@
 
 #include "../ExecutorAsync.h"
 
-using namespace std::literals::chrono_literals;
-
 namespace dataflow::executors {
+
+using namespace std::literals::chrono_literals;
 
 inline ExecutorAsync::ExecutorAsync(std::launch policy) noexcept
     : policy_(policy)
@@ -94,4 +94,4 @@ inline void ExecutorAsync::stop() noexcept
     stop_ = true;
 }
 
-} //ns
+} // namespace dataflow::executors

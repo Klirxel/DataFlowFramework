@@ -1,11 +1,27 @@
 ---
-#note:
-#cppcoreguidelines-pro-type-varar: various warnings compatible with boost::test.
-#cppcoreguidelines-macro_usage: not compatible with boost::test.
-#unused-command-line-argument: warnings with --coverage option.
-#bugprone-suspicious-semiclolon: warnings when using if constexpr.
-#readablity-braces-around-statements: warnings when using if constexpr.
-Checks: 'bugprone-*,clang-analyzer-*,cppcoreguidelines-*,misc-*,modernize-*,performance-*,portability-*,readability-*,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-bugprone-suspicious-semicolon,-readability-braces-around-statements,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
+#Disabled tests:
+#-hicpp-vararg: do not call c-style vararg functions [ncompat boost::test]
+#-cert-err58-cpp: static init of block, occurs in boost test [ncompat boost::test]
+#-fuchsia-overloaded-operator: overloading 'operator...' is disallowed
+#  [ncompat arch - think about removing overloads]
+#-fuchsia-statically-constructed-objects: static objects are disallowed;
+#  if possible, use a constexpr constructor instead [ncompat boost::test]
+#-fuchsia-default-arguments-calls: calling a function that uses a default
+#  argument is disallowed [ncompat coding-style]
+#-fuchsia-trailing-return: a trailing return type is disallowed for this type
+#  of declaration [ncompat coding-style]
+#-fuchsia-default-arguments-declarations: declaring a parameter with a default
+#  argument is disallowed [ncompat coding-style]
+#-llvm-header-guard: missing include guard warning in hpp files were no gurards
+#  are required [ncompat #pragma directive]
+#-google-runtime-references: non-const reference parameter, make it const or use
+#  a pointer [think about, but currently non const references are used.]
+#-google-build-using-namespace: [currently used, think about]
+#-cppcoreguidelines-pro-type-varar: [ncompat boost::test]
+#-unused-command-line-argument: [ncompat --coverage option]
+#-modernize-use-trailing-return-type: [ncompat coding-style]
+#-cppcoreguidelines-macro_usag: [ncompat boost::test]
+Checks: '*,-hicpp-vararg,-cert-err58-cpp,-fuchsia-overloaded-operator,-fuchsia-statically-constructed-objects,-fuchsia-default-arguments-calls,-fuchsia-trailing-return,-fuchsia-default-arguments-declarations,-llvm-header-guard,-google-runtime-references,-google-build-using-namespace,-cppcoreguidelines-pro-type-vararg,-clang-diagnostic-unused-command-line-argument,-modernize-use-trailing-return-type,-cppcoreguidelines-macro-usage'
 #WarningsAsErrors: '*'
 HeaderFilterRegex: '.*'
 AnalyzeTemporaryDtors: false

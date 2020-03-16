@@ -17,11 +17,11 @@
 #include "dataContainers/ChannelDataContainerIf.h"
 #include "ignorePredicates/IgnoreNothing.h"
 
+namespace dataflow::channels {
+
 using dataflow::blocks::BlockIf;
 using dataflow::channels::ChannelIf;
 using dataflow::channels::dataContainers::ChannelDataContainerIf;
-
-namespace dataflow::channels {
 
 /**
  * @brief Basic channel implementation
@@ -67,7 +67,7 @@ public:
     [[nodiscard]] std::size_t max_size() const override;
 
 private:
-    void notify(std::vector<BlockIf*>& blockList);
+    void notify(const std::vector<BlockIf*>& blockList);
     void notifySourceBlockList();
     void notifySinkBlockList();
 

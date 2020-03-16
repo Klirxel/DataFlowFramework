@@ -75,10 +75,24 @@ BOOST_AUTO_TEST_CASE(CopyAssOpCall)
     BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 0);
 }
 
-BOOST_AUTO_TEST_CASE(DestructorCall)
+BOOST_AUTO_TEST_CASE(CopyAssOpCallSelfAssingProtection)
 {
     //from last test
     BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 2);
+
+    TransmissionAnalyser ta {};
+    ta = *&ta;
+
+    BOOST_CHECK_EQUAL(ta.getCallsCopyCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveCtor(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsCopyAssOp(), 0);
+    BOOST_CHECK_EQUAL(ta.getCallsMoveAssOp(), 0);
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(DestructorCall)
+{
+    BOOST_CHECK_EQUAL(TransmissionAnalyser::getAndResetCallsDestructor(), 1);
 
     {
         TransmissionAnalyser taBase {};

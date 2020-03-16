@@ -87,4 +87,4 @@ bool TaskBuffer::executeNextReadyTask()
     return tasks_.size();
 }
 
-} //ns
+} // namespace dataflow::executors::internal

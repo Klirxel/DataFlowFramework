@@ -12,11 +12,13 @@
 
 #include "../channels/ChannelBundle.h"
 #include "../executors/ExecutorAsync.h"
+#include "dataflow/executors/ExecutorIf.h"
 
-using namespace dataflow::channels;
-using namespace dataflow::executors;
 
 namespace dataflow::blocks {
+
+using dataflow::channels::ChannelBundle;
+using dataflow::executors::ExecutorIf;
 
 ///@cond internal
 /**
@@ -69,6 +71,6 @@ private:
     std::mutex taskLock_;
 };
 
-} // namespace df
+} // namespace dataflow::blocks
 
 #include "impl/SinkBlock.hpp"

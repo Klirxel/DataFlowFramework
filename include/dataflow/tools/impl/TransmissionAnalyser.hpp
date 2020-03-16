@@ -23,6 +23,11 @@ constexpr TransmissionAnalyser::TransmissionAnalyser(TransmissionAnalyser&& othe
 
 constexpr TransmissionAnalyser& TransmissionAnalyser::operator=(const TransmissionAnalyser& other) noexcept
 {
+
+    if (this == &other) {
+        return *this;
+    };
+
     setVariables(other);
 
     ++callsCopyAssOp;
@@ -76,5 +81,5 @@ inline size_t TransmissionAnalyser::getAndResetCallsDestructor() noexcept
     return std::exchange(callsDestructor, 0);
 }
 
-}
+} // namespace dataflow::tools
 // namespace df::base

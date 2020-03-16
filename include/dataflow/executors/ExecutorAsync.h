@@ -27,7 +27,7 @@ namespace dataflow::executors {
 class ExecutorAsync : public ExecutorIf {
 
 public:
-    inline ExecutorAsync(std::launch policy = std::launch::deferred) noexcept;
+    inline explicit ExecutorAsync(std::launch policy = std::launch::deferred) noexcept;
 
     inline void execute(std::function<void(void)>&& task, std::mutex& taskLock) override;
     inline void wait();
@@ -45,6 +45,6 @@ private:
     mutable std::mutex mutex_;
 };
 
-} //dataflow::executors
+} // namespace dataflow::executors
 
 #include "impl/ExecutorAsync.hpp"

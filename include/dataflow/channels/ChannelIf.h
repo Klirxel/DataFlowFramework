@@ -13,9 +13,10 @@
 
 #include "../blocks/BlockIf.h"
 
-using namespace dataflow::blocks;
 
 namespace dataflow::channels {
+
+using dataflow::blocks::BlockIf;
 
 /**
  * @brief Generic interface for channels.
@@ -47,6 +48,6 @@ private:
     mutable std::mutex lock;
 };
 
-} // namespace dataflow:channels
+} // namespace dataflow::channels
 
 #include "impl/ChannelIf.hpp"

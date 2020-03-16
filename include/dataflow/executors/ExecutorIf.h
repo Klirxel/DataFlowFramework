@@ -25,4 +25,4 @@ public:
     virtual void execute(std::function<void(void)>&& task, std::mutex& taskLock) = 0;
 };
 
-} //namespace dataflow::blocks
+} // namespace dataflow::executors

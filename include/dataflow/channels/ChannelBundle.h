@@ -12,10 +12,11 @@
 #include "../blocks/BlockIf.h"
 #include "../channels/ChannelIf.h"
 
-using namespace dataflow::blocks;
-using namespace dataflow::channels;
 
 namespace dataflow::channels {
+
+using dataflow::blocks::BlockIf;
+using dataflow::channels::ChannelIf;
 
 /**
  * @brief Collection of channels.
@@ -32,7 +33,7 @@ public:
 
     template <size_t I>
     using ChannelType = ChannelIf<ChannelValueType<I>>;
-    constexpr ChannelBundle(ChannelIf<T>&... channels) noexcept;
+    constexpr explicit ChannelBundle(ChannelIf<T>&... channels) noexcept;
     constexpr void attachSinkBlock(BlockIf* block) noexcept;
     constexpr void attachSourceBlock(BlockIf* block) noexcept;
 
@@ -78,6 +79,6 @@ private:
     std::tuple<ChannelIf<T>&...> channels_;
 };
 
-} // namespace df
+} // namespace dataflow::channels
 
 #include "impl/ChannelBundle.hpp"
